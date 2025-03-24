@@ -11,8 +11,13 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+<<<<<<< HEAD
   config.omniauth :github, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], scope: 'user:email'
   # ==> ORM configuration GITHUB_CLIENT_SECRET
+=======
+
+  # ==> ORM configuration
+>>>>>>> d0c9501 (deviseを導入した)
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
@@ -84,7 +89,11 @@ Devise.setup do |config|
   # should add them to the navigational_formats array.
   #
   # The "*/*" below is required to match Internet Explorer requests.
+<<<<<<< HEAD
   config.navigational_formats = ['*/*', :html, :turbo_stream]
+=======
+  # config.navigational_formats = ['*/*', :html]
+>>>>>>> d0c9501 (deviseを導入した)
 
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
