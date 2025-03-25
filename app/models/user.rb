@@ -5,4 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable, :trackable,
          :omniauthable, omniauth_providers: %i[github google_oauth2]
+
+  validates :phone_number, presence: true, uniqueness: true
+  validates :birthdate, presence: true
 end

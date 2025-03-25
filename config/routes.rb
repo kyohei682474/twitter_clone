@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     confirmations: 'users/confirmations',
     unlocks: 'users/unlocks'
   }
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+
   resources :tasks
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

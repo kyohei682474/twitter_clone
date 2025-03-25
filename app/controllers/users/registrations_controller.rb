@@ -6,10 +6,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   private
 
+  # サインアップ時のパラメーターを設定
   def sign_up_params
     params.require(:user).permit(:email, :phone_number, :birthdate, :password, :password_confirmation)
   end
 
+  # 更新時に必要なパラメーターを設定
   def account_update_params
     params.require(:user).permit(:email, :phone_number, :birthdate, :password, :password_confirmation,
                                  :current_password)
