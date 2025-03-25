@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     unlocks: 'users/unlocks',
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 

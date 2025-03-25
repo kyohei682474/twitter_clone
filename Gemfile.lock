@@ -451,6 +451,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   jsbundling-rails
+  letter_opener_web
   omniauth (~> 2.0)
   omniauth-oauth2 (~> 1.7)
   letter_opener_web
