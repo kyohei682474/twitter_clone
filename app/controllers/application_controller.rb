@@ -13,11 +13,11 @@ class ApplicationController < ActionController::Base
   # rubocop:enable Hc/RailsSpecificActionName
 
   def after_sign_in_path_for(_resource)
-    root_path  # トップページにリダイレクト
+    root_path # ログイン後にリダイレクトするパス
   end
 
   def after_sign_up_path_for(_resource)
-    root_path
+    root_path # サインアップ後にリダイレクトするパス
   end
 
   protected
