@@ -130,6 +130,10 @@ GEM
     htmlbeautifier (1.4.2)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
+    importmap-rails (2.1.0)
+      actionpack (>= 6.0.0)
+      activesupport (>= 6.0.0)
+      railties (>= 6.0.0)
     io-console (0.6.0)
     irb (1.7.4)
       reline (>= 0.3.6)
@@ -365,6 +369,7 @@ DEPENDENCIES
   devise
   factory_bot_rails
   htmlbeautifier
+  importmap-rails
   jbuilder
   jsbundling-rails
   letter_opener_web

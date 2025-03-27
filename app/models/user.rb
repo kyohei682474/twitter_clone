@@ -3,8 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :confirmable, :lockable, :timeoutable, :trackable,
-         :omniauthable, omniauth_providers: %i[github google_oauth2]
+         #  :confirmable,
+         :omniauthable, :lockable, :timeoutable, :trackable, omniauth_providers: %i[github google_oauth2]
 
   validates :phone_number, presence: true, uniqueness: true
   validates :birthdate, presence: true
