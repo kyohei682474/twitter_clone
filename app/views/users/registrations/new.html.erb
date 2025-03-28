@@ -149,48 +149,50 @@
 
     
 <main class="form-signin w-100 m-auto">
-  <form>
+ <p>フォーム側 object_id: <%= resource.object_id %></p>
+  <%= render "users/shared/error_messages", resource: resource %> 
+  <%= form_with model: resource,
+                as: resource_name,
+                url: registration_path(resource_name),
+                local: true,
+                html: { data: { turbo: false } } do |f| %>
     <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
-   <%= form_for(resource,
-             as: resource_name,
-             url: registration_path(resource_name),
-             html: { method: :post, data: { turbo: false } }) do |f| %>
-       <%= render "users/shared/error_messages", resource: resource %>
-      <div class="mb-3">
-        <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
-      </div>
 
-      <div class="mb-3">
-        <%= f.label :phone_number %>
-        <%= f.telephone_field :phone_number, class:"form-control" %>
-      </div>
+    <div class="mb-3">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
+    </div>
 
-      <div class="mb-4">
-        <%= f.label :birthdate %><br>
-        <%= f.date_select :birthdate, start_year: 1900, end_year: Date.today.year, class:"form-control" %>
-      </div>
+    <div class="mb-3">
+      <%= f.label :phone_number %>
+      <%= f.telephone_field :phone_number, class:"form-control" %>
+    </div>
 
-      <div class="mb-3">
-        <%= f.label :password %>
-        <% if @minimum_password_length %>
+    <div class="mb-4">
+      <%= f.label :birthdate %><br>
+      <%= f.date_select :birthdate, start_year: 1900, end_year: Date.today.year, class:"form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :password %>
+      <% if @minimum_password_length %>
         <em>(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %><br />
-        <%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
-      </div>
+      <% end %><br />
+      <%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
+    </div>
 
-      <div class="mb-3">
-        <%= f.label :password_confirmation %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "current-password", class:"form-control" %>
-      </div>
-      <div class="actions">
-        <%= f.submit "Sign up", class:"btn btn-primary w-100 py-2" %>
-      </div>
-    <% end %>
-    <%= render "users/shared/links" %>
+    <div class="mb-3">
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation, autocomplete: "current-password", class:"form-control" %>
+    </div>
 
-    <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
-  </form>
+    <div class="actions">
+      <%= f.submit "Sign up", class:"btn btn-primary w-100 py-2" %>
+    </div>
+  <% end %>
+
+  <%= render "users/shared/links" %>
+  <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
 </main>
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
