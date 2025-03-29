@@ -149,14 +149,13 @@
 
     
 <main class="form-signin w-100 m-auto">
- <p>フォーム側 object_id: <%= resource.object_id %></p>
   <%= render "users/shared/error_messages", resource: resource %> 
   <%= form_with model: resource,
                 as: resource_name,
                 url: registration_path(resource_name),
                 local: true,
                 html: { data: { turbo: false } } do |f| %>
-    <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+    <h1 class="h3 mb-3 fw-normal">新規登録</h1>
 
     <div class="mb-3">
       <%= f.label :email %><br />
@@ -176,7 +175,7 @@
     <div class="mb-3">
       <%= f.label :password %>
       <% if @minimum_password_length %>
-        <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <em>(<%= t('devise.passwords.too_short', count: @minimum_password_length) %>)</em>
       <% end %><br />
       <%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
     </div>
