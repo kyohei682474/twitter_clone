@@ -5,5 +5,5 @@
   = link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }
 - else
   = link_to "ログイン", new_user_session_path
-  | \
-  | \#{link_to "サインアップ", new_user_registration_path}
+  | |
+  = link_to "サインアップ", new_user_registration_path
