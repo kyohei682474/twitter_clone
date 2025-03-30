@@ -1,8 +1,8 @@
-<<<<<<< HEAD
+
 # frozen_string_literal: true
 
-=======
->>>>>>> d0c9501 (deviseを導入した)
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do

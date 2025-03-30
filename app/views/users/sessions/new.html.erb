@@ -147,27 +147,37 @@
       </ul>
     </div>
 
-    
-<main class="form-signin w-100 m-auto">
 
-    <%= render "users/shared/error_messages", resource: resource %>
-    <h1 class="h3 mb-3 fw-normal">ログイン</h1>
-    <%= form_with model: resource,
+<main class="form-signin w-100 m-auto">
+  
+ <h1 class="h3 mb-3 fw-normal ">ログイン</h1>
+ <div class="mb-3">
+   <%= render "users/shared/error_messages", resource: resource %>
+ </div>
+  <%= form_with model: resource,
                 as: resource_name,
                 url: session_path(resource_name),
                 local: true,
                 method: :post,
-                html: { data: { turbo: false } } do |f| %>
-                
-      <div class="form-floating">
-        <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email",  class: "form-control" %>
-      </div>
-      <div class="form-floating">
-        <%= f.label :password %><br />
-        <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
-      </div>
-
+                html: { data: { turbo: false } } do |f| %> 
+      <div class="mb-3">
+  <%= f.label :email, "メールアドレス" %>
+  <%= f.email_field :email, class: "form-control #{'is-invalid' if resource.errors[:email].any?}" %>
+  <% if resource.errors[:email].any? %>
+    <div class="invalid-feedback d-block">
+      <%= resource.errors.full_messages_for(:email).join(", ") %>
+    </div>
+  <% end %>
+</div>
+     <div class="mb-3">
+  <%= f.label :password, "パスワード" %>
+  <%= f.password_field :password, class: "form-control #{'is-invalid' if resource.errors[:password].any?}" %>
+  <% if resource.errors[:password].any? %>
+    <div class="invalid-feedback d-block">
+      <%= resource.errors.full_messages_for(:password).join(", ") %>
+    </div>
+  <% end %>
+</div>
         <% if devise_mapping.rememberable? %>
           <div class="form-check text-start my-3">
             <%= f.check_box :remember_me %>
