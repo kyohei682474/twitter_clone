@@ -7,7 +7,8 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
     passwords: 'users/passwords',
     confirmations: 'users/confirmations',
-    unlocks: 'users/unlocks'
+    unlocks: 'users/unlocks',
+    omniauth_callbacks: 'users/omniauth_callbacks'
   }
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?

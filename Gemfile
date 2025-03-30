@@ -60,9 +60,9 @@ gem 'importmap-rails'
 gem 'omniauth', '~> 2.0'
 gem 'omniauth-oauth2', '~> 1.7'
 gem 'rails-i18n', '~> 7.0.0'
+gem 'slim-rails'
 gem 'turbo-rails' # rubocop:disable Bundler/DuplicatedGem
 gem 'uglifier'
-
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -72,6 +72,7 @@ end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem 'html2slim'
   gem 'htmlbeautifier'
   gem 'letter_opener_web'
   gem 'rails_best_practices'

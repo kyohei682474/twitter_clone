@@ -1,27 +1,119 @@
-h2 Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = render "users/shared/error_messages", resource: resource
-  .field
-    = f.label :email
-    br/
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :phone_number
-    = f.text_file :phone_number
-  div clas: "field" 
-    = f.label :birthdate
-    = f.date_select :birthdate, start_year: 1900, end_year: Date.today.year
-  .field
-    = f.label :password
-    - if @minimum_password_length
-      em
-        | (#{@minimum_password_length} characters minimum)
-    br/
-    = f.password_field :password, autocomplete: "new-password"
-  .field
-    = f.label :password_confirmation
-    br/
-    = f.password_field :password_confirmation, autocomplete: "new-password"
-  .actions
-    = f.submit "Sign up"
-= render "users/shared/links"
+doctype html
+html lang="en" data-bs-theme="auto"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="description" content=""
+    meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
+    meta name="generator" content="Hugo 0.112.5"
+    title Signin Template · Bootstrap v5.3
+    link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/"
+    link rel="stylesheet" href="../assets/dist/css/bootstrap.min.css"
+    link rel="stylesheet" href="sign-in.css"
+    script src="../assets/js/color-modes.js"
+    style
+      | .bd-placeholder-img {
+      |   font-size: 1.125rem;
+      |   text-anchor: middle;
+      |   -webkit-user-select: none;
+      |   -moz-user-select: none;
+      |   user-select: none;
+      | }
+      | @media (min-width: 768px) {
+      |   .bd-placeholder-img-lg {
+      |     font-size: 3.5rem;
+      |   }
+      | }
+      | .b-example-divider {
+      |   width: 100%;
+      |   height: 3rem;
+      |   background-color: rgba(0, 0, 0, .1);
+      |   border: solid rgba(0, 0, 0, .15);
+      |   border-width: 1px 0;
+      |   box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      | }
+      | .b-example-vr {
+      |   flex-shrink: 0;
+      |   width: 1.5rem;
+      |   height: 100vh;
+      | }
+      | .bi {
+      |   vertical-align: -.125em;
+      |   fill: currentColor;
+      | }
+      | .nav-scroller {
+      |   position: relative;
+      |   z-index: 2;
+      |   height: 2.75rem;
+      |   overflow-y: hidden;
+      | }
+      | .nav-scroller .nav {
+      |   display: flex;
+      |   flex-wrap: nowrap;
+      |   padding-bottom: 1rem;
+      |   margin-top: -1px;
+      |   overflow-x: auto;
+      |   text-align: center;
+      |   white-space: nowrap;
+      |   -webkit-overflow-scrolling: touch;
+      | }
+      | .btn-bd-primary {
+      |   --bd-violet-bg: #712cf9;
+      |   --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+      |   --bs-btn-font-weight: 600;
+      |   --bs-btn-color: var(--bs-white);
+      |   --bs-btn-bg: var(--bd-violet-bg);
+      |   --bs-btn-border-color: var(--bd-violet-bg);
+      |   --bs-btn-hover-color: var(--bs-white);
+      |   --bs-btn-hover-bg: #6528e0;
+      |   --bs-btn-hover-border-color: #6528e0;
+      |   --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+      |   --bs-btn-active-color: var(--bs-btn-hover-color);
+      |   --bs-btn-active-bg: #5a23c8;
+      |   --bs-btn-active-border-color: #5a23c8;
+      | }
+      | .bd-mode-toggle {
+      |   z-index: 1500;
+      | }
+
+  body.d-flex.align-items-center.py-4.bg-body-tertiary
+    main.container.mt-5
+      .row.justify-content-center
+        .col-md-6.col-lg-5
+          = render "users/shared/error_messages", resource: resource
+          = form_with model: resource,
+                      as: resource_name,
+                      url: registration_path(resource_name),
+                      local: true,
+                      html: { data: { turbo: false } } do |f|
+            h1.h3.mb-3.fw-normal.text-center 新規登録
+
+            .mb-3
+              = f.label :email, "メールアドレス"
+              = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+
+            .mb-3
+              = f.label :phone_number, "電話番号"
+              = f.telephone_field :phone_number, class: "form-control"
+
+            .mb-4
+              = f.label :birthdate, "生年月日"
+              = f.date_select :birthdate, start_year: 1900, end_year: Date.today.year, class: "form-control"
+
+            .mb-3
+              = f.label :password, "パスワード"
+              - if @minimum_password_length
+                em= "(#{t('devise.passwords.too_short', count: @minimum_password_length)})"
+              = f.password_field :password, autocomplete: "new-password", class: "form-control"
+
+            .mb-3
+              = f.label :password_confirmation, "パスワード確認"
+              = f.password_field :password_confirmation, autocomplete: "current-password", class: "form-control"
+
+            .actions
+              = f.submit "Sign up", class: "btn btn-primary w-100 py-2"
+
+          = render "users/shared/links"
+          p.mt-5.mb-3.text-muted.text-center © 2017–2023
+
+    script src="../assets/dist/js/bootstrap.bundle.min.js"
