@@ -59,7 +59,6 @@ gem 'importmap-rails'
 gem 'omniauth', '~> 2.0'
 gem 'omniauth-oauth2', '~> 1.7'
 gem 'rails-i18n', '~> 7.0.0'
-gem 'stimulus-rails'
 gem 'turbo-rails' # rubocop:disable Bundler/DuplicatedGem
 
 group :development, :test do

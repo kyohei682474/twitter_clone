@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -13,9 +15,9 @@ class User < ApplicationRecord
   private
 
   def birthdate_cannot_be_in_the_future
-    return unless birthdate.present? && birthdate > Date.today
+    return unless birthdate.present? && birthdate > Time.zone.today
 
-    puts I18n.t('activerecord.errors.models.user.attributes.birthdate.in_the_future', default: 'デフォルト')
+    Rails.logger.debug I18n.t('activerecord.errors.models.user.attributes.birthdate.in_the_future', default: 'デフォルト')
     errors.add(:birthdate, :in_the_future)
   end
 end

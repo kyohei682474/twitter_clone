@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
-
+  # rubocop:disable Hc/RailsSpecificActionName
   def after_sign_in_path_for(_resource)
     root_path # ログイン後にリダイレクトするパス
   end
@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   def after_sign_up_path_for(_resource)
     root_path # サインアップ後にリダイレクトするパス
   end
+  # rubocop:enable Hc/RailsSpecificActionName
 
   protected
 
