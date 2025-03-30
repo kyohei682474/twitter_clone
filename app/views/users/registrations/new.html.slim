@@ -1,27 +1,159 @@
-h2 Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = render "users/shared/error_messages", resource: resource
-  .field
-    = f.label :email
-    br/
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :phone_number
-    = f.text_file :phone_number
-  div clas: "field" 
-    = f.label :birthdate
-    = f.date_select :birthdate, start_year: 1900, end_year: Date.today.year
-  .field
-    = f.label :password
-    - if @minimum_password_length
-      em
-        | (#{@minimum_password_length} characters minimum)
-    br/
-    = f.password_field :password, autocomplete: "new-password"
-  .field
-    = f.label :password_confirmation
-    br/
-    = f.password_field :password_confirmation, autocomplete: "new-password"
-  .actions
-    = f.submit "Sign up"
-= render "users/shared/links"
+doctype html
+html data-bs-theme="auto", lang: "en" 
+  head
+    meta content: "text/html; charset=UTF-8" http-equiv="Content-Type" /
+    script src: "../assets/js/color-modes.js" 
+    meta charset: "utf-8" /
+    meta content: "width=device-width, initial-scale=1", name: "viewport" /
+    meta content: "", name: "description" /
+    meta content: "Mark Otto, Jacob Thornton, and Bootstrap contributors", name: "author" /
+    meta content: "Hugo 0.112.5", name: "generator" /
+    title Signin Template · Bootstrap v5.3
+    link href: "https://getbootstrap.com/docs/5.3/examples/sign-in/", rel: "canonical" /
+    link href: "../assets/dist/css/bootstrap.min.css", rel: "stylesheet" /
+    css:
+      .bd-placeholder-img {
+        | font-size: 1.125rem;
+        | text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        | user-select: none;
+      | }
+
+      | @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          | font-size: 3.5rem;
+        | }
+      | }
+
+      .b-example-divider {
+        | width: 100%;
+        | height: 3rem;
+        | background-color: rgba(0, 0, 0, .1);
+        | border: solid rgba(0, 0, 0, .15);
+        | border-width: 1px 0;
+        | box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      | }
+
+      .b-example-vr {
+        | flex-shrink: 0;
+        | width: 1.5rem;
+        | height: 100vh;
+      | }
+
+      .bi {
+        | vertical-align: -.125em;
+        | fill: currentColor;
+      | }
+
+      .nav-scroller {
+        | position: relative;
+        | z-index: 2;
+        | height: 2.75rem;
+        | overflow-y: hidden;
+      | }
+
+      .nav-scroller .nav {
+        | display: flex;
+        | flex-wrap: nowrap;
+        | padding-bottom: 1rem;
+        | margin-top: -1px;
+        | overflow-x: auto;
+        | text-align: center;
+        | white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      | }
+
+      .btn-bd-primary {
+        --bd-violet-bg: #712cf9;
+        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+        --bs-btn-font-weight: 600;
+        --bs-btn-color: var(--bs-white);
+        --bs-btn-bg: var(--bd-violet-bg);
+        --bs-btn-border-color: var(--bd-violet-bg);
+        --bs-btn-hover-color: var(--bs-white);
+        --bs-btn-hover-bg: #6528e0;
+        --bs-btn-hover-border-color: #6528e0;
+        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+        --bs-btn-active-color: var(--bs-btn-hover-color);
+        --bs-btn-active-bg: #5a23c8;
+        --bs-btn-active-border-color: #5a23c8;
+      | }
+      .bd-mode-toggle {
+        | z-index: 1500;
+      | }
+    /! Custom styles for this template
+    link href: "sign-in.css", rel: "stylesheet" /
+  body.d-flex.align-items-center.py-4.bg-body-tertiary
+    svg style: "display: none;", xmlns: "http://www.w3.org/2000/svg" 
+      symbol#check2 viewbox: "0 0 16 16" 
+        path d: "M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" 
+      symbol#circle-half viewbox: "0 0 16 16" 
+        path d: "M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" 
+      symbol#moon-stars-fill viewbox: "0 0 16 16" 
+        path d: "M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" 
+        path d: "M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z" 
+      symbol#sun-fill viewbox: "0 0 16 16" 
+        path d: "M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" 
+    .dropdown.position-fixed.bottom-0.end-0.mb-3.me-3.bd-mode-toggle
+      button#bd-theme.btn.btn-bd-primary.py-2.dropdown-toggle.d-flex.align-items-center aria-expanded="false" aria-label=("Toggle theme (auto)") data-bs-toggle="dropdown", type: "button" 
+        svg.bi.my-1.theme-icon-active height: "1em", width: "1em" 
+          use href: "#circle-half" 
+        span#bd-theme-text.visually-hidden Toggle theme
+      ul.dropdown-menu.dropdown-menu-end.shadow aria-labelledby="bd-theme-text" 
+        li
+          button.dropdown-item.d-flex.align-items-center aria-pressed="false" data-bs-theme-value="light", type: "button" 
+            svg.bi.me-2.opacity-50.theme-icon height: "1em", width: "1em" 
+              use href: "#sun-fill" 
+            | Light
+            svg.bi.ms-auto.d-none height: "1em", width: "1em" 
+              use href: "#check2" 
+        li
+          button.dropdown-item.d-flex.align-items-center aria-pressed="false" data-bs-theme-value="dark", type: "button" 
+            svg.bi.me-2.opacity-50.theme-icon height: "1em", width: "1em" 
+              use href: "#moon-stars-fill" 
+            | Dark
+            svg.bi.ms-auto.d-none height: "1em", width: "1em" 
+              use href: "#check2" 
+        li
+          button.dropdown-item.d-flex.align-items-center.active aria-pressed="true" data-bs-theme-value="auto", type: "button" 
+            svg.bi.me-2.opacity-50.theme-icon height: "1em", width: "1em" 
+              use href: "#circle-half" 
+            | Auto
+            svg.bi.ms-auto.d-none height: "1em", width: "1em" 
+              use href: "#check2" 
+    main.container.mt-5
+      .row.justify-content-center
+        .col-md-6.col-lg-5
+          = render "users/shared/error_messages", resource: resource
+          = form_with model: resource,              \
+            as: resource_name,                      \
+            url: registration_path(resource_name),  \
+            local: true,                            \
+            html: { data: { turbo: false } } do |f| \
+            h1.h3.mb-3.fw-normal.text-center 新規登録
+            .mb-3
+              = f.label :email, "メールアドレス"
+              = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+            .mb-3
+              = f.label :phone_number, "電話番号"
+              = f.telephone_field :phone_number, class: "form-control"
+            .mb-4
+              = f.label :birthdate, "生年月日"
+              br/
+              = f.date_select :birthdate, start_year: 1900, end_year: Date.today.year, class: "form-control"
+            .mb-3
+              = f.label :password, "パスワード"
+              - if @minimum_password_length
+                em
+                  | (#{t('devise.passwords.too_short', count: @minimum_password_length)})
+              = f.password_field :password, autocomplete: "new-password", class: "form-control"
+            .mb-3
+              = f.label :password_confirmation, "パスワード確認"
+              = f.password_field :password_confirmation, autocomplete: "current-password", class: "form-control"
+            .actions
+              = f.submit "Sign up", class: "btn btn-primary w-100 py-2"
+          = render "users/shared/links"
+          p.mt-5.mb-3.text-muted.text-center © 2017–2023
+    script src: "../assets/dist/js/bootstrap.bundle.min.js" 
