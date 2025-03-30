@@ -1,20 +1,22 @@
 doctype html
 html
   head
-    meta content: "text/html; charset=UTF-8" http-equiv="Content-Type" /
+    meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /
     title Myapp
-    meta content: "width=device-width, initial-scale=1", name: "viewport" /
+    meta content="width=device-width, initial-scale=1" name="viewport" /
     = csrf_meta_tags
     = csp_meta_tag
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
-    link crossorigin: "anonymous", href: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css", integrity: "sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC", rel: "stylesheet" /
+    link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" /
     = stylesheet_link_tag "application", "data-turbo-track": "reload", media: "all"
+
   body
-    main.container.mt-6
-      .row.justify-content-center
-        .col-md-5
-          - flash.each do |key, message|
-            div class: "alert alert-#{key == 'alert' ? 'danger' : 'success'} alert-dismissible fade show", role: "alert" 
-              = message
-              button.btn-close aria-label="Close" data-bss-dismiss="alert", type: "button" 
-      = yield
+    .container.mt-3
+      - flash.each do |key, message| 
+        .alert class="alert alert-#{key == 'alert' ? 'danger' : 'success'} alert-dismissible fade show" role="alert"
+          = message
+          button.btn-close type="button" data-bs-dismiss="alert" aria-label="Close"
+
+    = yield
+
+    script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-lpyRIU18r30f4FbiCUpkArRA1vPgjX2nqK5x5XKmfAzK4I9zK3VRdYcbUDhPp1h7" crossorigin="anonymous"
