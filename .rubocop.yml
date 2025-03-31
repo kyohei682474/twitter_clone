@@ -23,3 +23,6 @@ Layout/LineLength:
 Hc/RailsSpecificActionName:
   Exclude:
     - app/controllers/users/omniauth_callbacks_controller.rb
+Rails/OutputSafety:
+  Exclude:
+    - 'config/initializers/field_error_proc.rb'
