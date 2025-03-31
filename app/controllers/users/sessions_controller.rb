@@ -5,7 +5,7 @@ module Users
     before_action :configure_sign_in_params, if: :devise_controller?
 
     def create
-      supere
+      super
     end
 
     # GET /resource/sign_in
