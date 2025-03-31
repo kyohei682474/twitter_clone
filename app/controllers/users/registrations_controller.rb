@@ -68,7 +68,7 @@ module Users
     def configure_account_update_params
       devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
     end
-
+    # rubocop:enable Hc/RailsSpecificActionName
     # The path used after sign up.
 
   # If you have extra params to permit, append them to the sanitizer.
