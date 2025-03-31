@@ -30,7 +30,7 @@ module Users
     # def cancel
     #   super
     # end
-
+    # rubocop:disable Hc/RailsSpecificActionName
     # If you have extra params to permit, append them to the sanitizer.
     def configure_sign_up_params
       devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
@@ -40,7 +40,7 @@ module Users
     def configure_account_update_params
       devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
     end
-
+    # rubocop:enable Hc/RailsSpecificActionName
     # The path used after sign up.
 
     # The path used after sign up for inactive accounts.

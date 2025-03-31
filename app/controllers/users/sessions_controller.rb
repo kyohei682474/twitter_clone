@@ -2,11 +2,7 @@
 
 module Users
   class SessionsController < Devise::SessionsController
-    before_action :configure_sign_in_params, only: [:create]
-
-    def create
-      super
-    end
+    before_action :configure_sign_in_params, if: :devise_controller?
 
     # GET /resource/sign_in
 
