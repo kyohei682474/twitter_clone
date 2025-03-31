@@ -4,6 +4,10 @@ module Users
   class SessionsController < Devise::SessionsController
     before_action :configure_sign_in_params, if: :devise_controller?
 
+    def create
+      supere
+    end
+
     # GET /resource/sign_in
 
     # POST /resource/sign_in
