@@ -5,7 +5,7 @@ module Users
     before_action :configure_sign_in_params, only: [:create]
 
     def create
-      supere
+      super
     end
 
     # GET /resource/sign_in
