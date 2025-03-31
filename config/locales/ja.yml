@@ -10,6 +10,7 @@ ja:
       signed_in: 'ログインしました。'
       signed_out: 'ログアウトしました。'
     registrations:
+      signed_up_but_unconfirmed: "登録が完了しました。確認用のメールをご確認ください。"
       signed_up: 'アカウント登録が完了しました。'
       updated: 'アカウント情報を変更しました。'
     failure:

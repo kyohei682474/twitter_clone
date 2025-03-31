@@ -1,3 +1,7 @@
-Rails.application.config.action_view.field_error_proc = proc do |html_tag, _instance|
-  html_tag.html_safe
+# frozen_string_literal: true
+
+# config/initializers/field_error_proc.rb
+
+ActionView::Base.field_error_proc = proc do |html_tag, _instance|
+  "<div class=\"field_with_errors\">#{html_tag}</div>".html_safe
 end

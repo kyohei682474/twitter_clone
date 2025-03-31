@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
-class AddPhoneNumberAndBirthdateToUsers < ActiveRecord::Migration[7.0]
+class AddPhoneNumberToUsers < ActiveRecord::Migration[7.0]
   def change
-    add_column :users, :phone_number, :string, null: false
-    add_column :users, :birthdate, :date, null: false
+    change_table :users, bulk: true do |t|
+      t.string :phone_number, null: false, default: ''
+      # rubocop:disable Rails/NotNullColumn
+      t.date :birthdate, null: false
+      # rubocop:enable Rails/NotNullColumn
+    end
 
     add_index :users, :phone_number, unique: true
   end
