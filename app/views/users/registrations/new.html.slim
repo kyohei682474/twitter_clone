@@ -60,7 +60,8 @@ html lang="ja" data-bs-theme="auto"
 
             .actions
               = f.submit "Sign up", class: "btn btn-primary w-100 py-2"
-
+          .mb-3.mt-3  
+            = link_to "GitHubで新規登録", user_github_omniauth_authorize_path, class: "btn btn-dark"
           = render "users/shared/links"
 
           p.mt-5.mb-3.text-muted.text-center © 2017–2023

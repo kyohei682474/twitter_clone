@@ -49,9 +49,9 @@ html lang="ja" data-bs-theme="auto"
               = f.label :remember_me, class: "form-check-label"
 
           = f.submit "ログイン", class: "btn btn-primary w-100 py-2"
-
-        .mt-3
-          = render "users/shared/links"
+        .mt-3.mb-3
+          = link_to "GitHubでログイン", user_github_omniauth_authorize_path, class: "btn btn-dark"
+        = render "users/shared/links"
 
         p.mt-4.mb-0.text-muted.text-center © 2017–2023
 
