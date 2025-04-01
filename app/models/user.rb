@@ -13,6 +13,7 @@ class User < ApplicationRecord
   validate :birthdate_cannot_be_in_the_future
 
   # Githubユーザー情報をもとに既存のユーザーを検索または新規作成を行う。以前にもGitHubを使用して認証したことがあるか、初めてログインした人かを判別
+  # あくまでGitHubを使用して認証した場合の処理なのでbirthdateやphone_numberは記述しない
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email || "#{auth.uid}github.com" # GitHubがメールアドレスを提供しない場合は,uidを使用する
