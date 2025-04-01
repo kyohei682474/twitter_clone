@@ -8,8 +8,8 @@ class User < ApplicationRecord
          :omniauthable, :lockable, :confirmable,
          :timeoutable, :trackable, omniauth_providers: %i[github google_oauth2]
 
-  validates :phone_number, presence: true, uniqueness: true
-  validates :birthdate, presence: true
+  validates :phone_number, presence: true, uniqueness: true, unless: :github_login?
+  validates :birthdate, presence: true, unless: :github_login?
   validate :birthdate_cannot_be_in_the_future
 
   # Githubユーザー情報をもとに既存のユーザーを検索または新規作成を行う。以前にもGitHubを使用して認証したことがあるか、初めてログインした人かを判別
@@ -19,6 +19,11 @@ class User < ApplicationRecord
       user.email = auth.info.email || "#{auth.uid}github.com" # GitHubがメールアドレスを提供しない場合は,uidを使用する
       user.password = Devise.friendly_token[0, 20]
     end
+  end
+
+  # Gitjubでログインしたときのみバリデーションをスキップ
+  def github_login?
+    provider == 'github'
   end
 
   private
