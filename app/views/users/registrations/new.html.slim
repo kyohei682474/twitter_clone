@@ -16,6 +16,7 @@ html lang="ja" data-bs-theme="auto"
     main.container.mt-5
       .row.justify-content-center
         .col-md-6.col-lg-4
+          = render "users/shared/flash"
           h1.h3.mb-3.fw-normal.text-center 新規登録
 
           = render "users/shared/error_messages", resource: resource

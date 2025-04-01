@@ -17,6 +17,7 @@ html lang="ja" data-bs-theme="auto"
       .card.shadow.p-4(style="width: 100%; max-width: 400px;")
         .text-center.mb-4
           h1.h3.fw-normal ログイン
+          = render "users/shared/error_messages", resource: resource
 
         - if resource.errors.any?
           .alert.alert-danger.text-center.small
