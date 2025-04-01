@@ -18,6 +18,9 @@ html lang="ja" data-bs-theme="auto"
         .text-center.mb-4
           h1.h3.fw-normal ログイン
           = render "users/shared/error_messages", resource: resource
+        - if flash[:alert]
+          .alert.alert-danger.text-center.small
+            = flash[:alert]
 
         - if resource.errors.any?
           .alert.alert-danger.text-center.small
