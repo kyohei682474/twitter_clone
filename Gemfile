@@ -58,6 +58,7 @@ gem 'concurrent-ruby', '1.3.4'
 gem 'devise'
 gem 'importmap-rails'
 gem 'omniauth', '~> 2.0'
+gem 'omniauth-github'
 gem 'omniauth-oauth2', '~> 1.7'
 
 gem 'bootstrap', '~> 5.3.0'
@@ -82,7 +83,9 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'html2slim'
+  gem 'html2slim'
   gem 'htmlbeautifier'
+  gem 'letter_opener_web'
   gem 'letter_opener_web'
   gem 'rails_best_practices'
   gem 'rubocop', require: false
