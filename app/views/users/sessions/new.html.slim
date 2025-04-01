@@ -42,7 +42,7 @@ html lang="ja" data-bs-theme="auto"
             - if resource.errors[:password].any?
               .invalid-feedback.d-block.small
                 = resource.errors.full_messages_for(:password).join(", ")
-
+          
           - if devise_mapping.rememberable?
             .form-check.text-start.my-3
               = f.check_box :remember_me, class: "form-check-input"
