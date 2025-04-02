@@ -16,6 +16,9 @@ ja:
     failure:
       invalid: 'メールアドレスまたはパスワードが正しくありません。'
       not_found_in_database: 'メールアドレスまたはパスワードが正しくありません。'
+      user:
+        unconfirmed: "アカウントの確認が完了していません。メールの指示に従って確認を完了してください。"
+      unconfirmed: "アカウントの確認が完了していません。"
     passwords:
       send_instructions: "パスワードの再設定について数分以内にメールでご連絡いたします。"
       updated: "パスワードが正しく変更されました。"
