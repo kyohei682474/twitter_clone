@@ -20,6 +20,15 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
   config.action_mailer.default_url_options = { host: 'https://twitter-clone1-2d9be42a2a8a.herokuapp.com/', protocol: 'https' }
   config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.mailgun.org',
+    port: 587,
+    domain: 'sandboxe0a8b94f9d0e4071886f4e8c46377961.mailgun.org',
+    user_name: ENV['MAILGUN_SMTP_LOGIN'], #  ここを変更！
+    password: ENV['MAILGUN_SMTP_PASSWORD'], # このユーザーのSMTPパスワードを設定！
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
