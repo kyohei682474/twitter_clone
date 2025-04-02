@@ -1,0 +1,6 @@
+# pack-refs with: peeled fully-peeled sorted 
+b57c9229a98918060d84f46756c93239ce093734 refs/heads/fix-from-that-point
+0dd709699db40a75cd14a84fb589875ca533e172 refs/heads/github_login
+6da48bb5199051fb2e9d828169d35b9dc6e18b42 refs/heads/main
+b94583899acda85fcca814132974a5cc454f68b6 refs/heads/singup_login_function
+b94583899acda85fcca814132974a5cc454f68b6 refs/pull/1/head

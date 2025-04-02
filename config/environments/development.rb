@@ -20,16 +20,9 @@ Rails.application.configure do
   config.server_timing = true
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: 'smtp.mailgun.org',
-    port: 587,
-    domain: 'sandboxe0a8b94f9d0e4071886f4e8c46377961.mailgun.org',
-    user_name: '18kyohei@sandboxe0a8b94f9d0e4071886f4e8c46377961.mailgun.org',
-    password: ENV['MAILGUN_SMTP_PASSWORD'],
-    authentication: 'plain',
-    enable_starttls_auto: true
-  }
+  config.action_mailer.delivery_method = :letter_opener_web
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp/caching-dev.txt').exist?
