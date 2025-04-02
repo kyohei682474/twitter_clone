@@ -18,7 +18,10 @@ Rails.application.configure do
   # 本来はfalseだがレビューのしやすさを考慮してtrueにしている
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
-
+  config.action_mailer.default_url_options = { host: 'https://twitter-clone1-2d9be42a2a8a.herokuapp.com/', protocol: 'https' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
