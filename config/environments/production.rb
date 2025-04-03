@@ -50,9 +50,7 @@ Rails.application.configure do
     # user_name: ENV.fetch('MAILGUN_SMTP_LOGIN'),
     # password: ENV.fetch('MAILGUN_SMTP_PASSWORD'),
     authentication: 'plain',
-    enable_starttls_auto: true,
-    ssl: true, # ←追加（効かない場合もあるが試す価値あり）
-    tls: true
+    enable_starttls_auto: true
   }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
