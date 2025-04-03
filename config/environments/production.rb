@@ -29,6 +29,15 @@ Rails.application.configure do
   #   authentication: 'plain',
   #   enable_starttls_auto: true
   # }
+  # config.action_mailer.smtp_settings = {
+  #   address: ENV.fetch('MAILGUN_SMTP_SERVER', 'smtp.mailgun.org'),
+  #   port: ENV.fetch('MAILGUN_SMTP_PORT', 587).to_i,
+  #   domain: ENV.fetch('MAILGUN_DOMAIN'),
+  #   user_name: ENV.fetch('MAILGUN_SMTP_LOGIN'),
+  #   password: ENV.fetch('MAILGUN_SMTP_PASSWORD'),
+  #   authentication: 'plain',
+  #   enable_starttls_auto: true
+  # }
   config.action_mailer.smtp_settings = {
     address: ENV['SMTP_SERVER'],
     port: ENV.fetch('SMTP_PORT', 587).to_i,
