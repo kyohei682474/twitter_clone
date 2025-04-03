@@ -20,14 +20,25 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
   config.action_mailer.default_url_options = { host: 'https://twitter-clone1-2d9be42a2a8a.herokuapp.com/', protocol: 'https' }
   config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   address: ENV.fetch('MAILGUN_SMTP_SERVER', 'smtp.mailgun.org'),
+  #   port: ENV.fetch('MAILGUN_SMTP_PORT', 587).to_i,
+  #   domain: ENV.fetch('MAILGUN_DOMAIN'),
+  #   user_name: ENV.fetch('MAILGUN_SMTP_LOGIN'),
+  #   password: ENV.fetch('MAILGUN_SMTP_PASSWORD'),
+  #   authentication: 'plain',
+  #   enable_starttls_auto: true
+  # }
   config.action_mailer.smtp_settings = {
-    address: ENV.fetch('MAILGUN_SMTP_SERVER', 'smtp.mailgun.org'),
-    port: ENV.fetch('MAILGUN_SMTP_PORT', 587).to_i,
-    domain: ENV.fetch('MAILGUN_DOMAIN'),
-    user_name: ENV.fetch('MAILGUN_SMTP_LOGIN'),
-    password: ENV.fetch('MAILGUN_SMTP_PASSWORD'),
+    address: ENV['SMTP_SERVER'],
+    port: ENV.fetch('SMTP_PORT', 587).to_i,
+    domain: 'mlsender.net',
+    user_name: ENV['SMTP_USERNAME'],
+    password: ENV['SMTP_PASSWORD'],
     authentication: 'plain',
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    ssl: true, # ←追加（効かない場合もあるが試す価値あり）
+    tls: true
   }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
