@@ -20,6 +20,7 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
   config.action_mailer.default_url_options = { host: 'https://twitter-clone1-2d9be42a2a8a.herokuapp.com/', protocol: 'https' }
   config.action_mailer.delivery_method = :smtp
+<<<<<<< HEAD
   # config.action_mailer.smtp_settings = {
   #   address: ENV.fetch('MAILGUN_SMTP_SERVER', 'smtp.mailgun.org'),
   #   port: ENV.fetch('MAILGUN_SMTP_PORT', 587).to_i,
@@ -30,6 +31,8 @@ Rails.application.configure do
   #   enable_starttls_auto: true
   # }
 
+=======
+>>>>>>> f397222 (コンフリクトの解消 メールアプリを変更した)
   # config.action_mailer.smtp_settings = {
   #   address: ENV['SMTP_SERVER'],
   #   port: ENV.fetch('SMTP_PORT', 587).to_i,
@@ -54,6 +57,7 @@ Rails.application.configure do
     password: ENV['BREVO_SMTP_PASSWORD'],
     authentication: :login,
     enable_starttls_auto: true
+
   }
 
   config.action_mailer.perform_deliveries = true
