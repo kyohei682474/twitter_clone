@@ -36,11 +36,6 @@ Rails.application.configure do
     domain: 'mlsender.net',
     user_name: ENV['SMTP_USERNAME'],
     password: ENV['SMTP_PASSWORD'],
-    # address: ENV.fetch('MAILGUN_SMTP_SERVER', 'smtp.mailgun.org'),
-    # port: ENV.fetch('MAILGUN_SMTP_PORT', 587).to_i,
-    # domain: ENV.fetch('MAILGUN_DOMAIN'),
-    # user_name: ENV.fetch('MAILGUN_SMTP_LOGIN'),
-    # password: ENV.fetch('MAILGUN_SMTP_PASSWORD'),
     authentication: 'plain',
     enable_starttls_auto: true
 
