@@ -46,6 +46,22 @@ Rails.application.configure do
 
   # }
 
+  # config.action_mailer.smtp_settings = {
+  #   address: ENV['SMTP_SERVER'],
+  #   port: ENV.fetch('SMTP_PORT', 587).to_i,
+  #   domain: 'mlsender.net',
+  #   user_name: ENV['SMTP_USERNAME'],
+  #   password: ENV['SMTP_PASSWORD'],
+  #   # address: ENV.fetch('MAILGUN_SMTP_SERVER', 'smtp.mailgun.org'),
+  #   # port: ENV.fetch('MAILGUN_SMTP_PORT', 587).to_i,
+  #   # domain: ENV.fetch('MAILGUN_DOMAIN'),
+  #   # user_name: ENV.fetch('MAILGUN_SMTP_LOGIN'),
+  #   # password: ENV.fetch('MAILGUN_SMTP_PASSWORD'),
+  #   authentication: 'plain',
+  #   enable_starttls_auto: true
+
+  # }
+
   config.action_mailer.smtp_settings = {
     address: 'smtp-relay.brevo.com',
     port: 587,
@@ -54,7 +70,6 @@ Rails.application.configure do
     password: ENV['BREVO_SMTP_PASSWORD'],
     authentication: :login,
     enable_starttls_auto: true
-
   }
 
   config.action_mailer.perform_deliveries = true
