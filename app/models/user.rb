@@ -27,6 +27,11 @@ class User < ApplicationRecord
 
     if user.save
       Rails.logger.info "✅ User saved successfully: #{user.inspect}"
+      # ★ save 後に confirm! を呼ぶ
+      if user.respond_to?(:confirm) && user.confirmed_at.blank?
+        user.confirm
+        Rails.logger.info '✅ User confirmed manually after save'
+      end
     else
       Rails.logger.error "❌ Failed to save user from omniauth: #{user.errors.full_messages}"
     end
