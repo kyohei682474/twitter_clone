@@ -22,7 +22,7 @@ class User < ApplicationRecord
     if user.respond_to?(:skip_confirmation?) && user.confirmed_at.blank?
       Rails.logger.info '✅ skip_confirmation! called for GitHub user'
       user.skip_confirmation!
-      user.confirm
+      user.confirm # ←これがないと confirmed_at が設定されない
     end
 
     if user.save
