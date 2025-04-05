@@ -6,15 +6,11 @@ module Users
       @user = User.from_omniauth(request.env['omniauth.auth'])
 
       if @user.persisted?
-        Rails.logger.info "✅ User valid?: #{@user.valid?}"
-        Rails.logger.info "✅ User errors: #{@user.errors.full_messages}"
-        Rails.logger.info "✅ User confirmed?: #{@user.confirmed?}" if @user.respond_to?(:confirmed?)
         ::TestMailer.send_email(@user.email).deliver_later
         sign_in_and_redirect @user, event: :authentication
         set_flash_message(:notice, :success, kind: 'GitHub') if is_navigational_format? # HTMLを使用した画面遷移の時のみフラッシュメッセージを挿入。 # rubocop:disable Layout/LineLength
 
       else
-        Rails.logger.error "❌ User NOT persisted: #{@user.inspect}"
         redirect_to new_user_registration_url, alert: 'GitHubでの認証に失敗しました。'
       end
     end
