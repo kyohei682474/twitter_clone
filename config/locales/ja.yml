@@ -14,6 +14,7 @@ ja:
       signed_up: 'アカウント登録が完了しました。'
       updated: 'アカウント情報を変更しました。'
     failure:
+      timeout: 'セッションの有効期限が切れました。'
       invalid: 'メールアドレスまたはパスワードが正しくありません。'
       not_found_in_database: 'メールアドレスまたはパスワードが正しくありません。'
       user:
