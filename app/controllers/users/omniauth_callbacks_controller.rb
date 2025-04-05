@@ -4,7 +4,6 @@ module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def github
       @user = User.from_omniauth(request.env['omniauth.auth'])
-      Rails.logger.info "認証されたユーザーのメール: #{@user.email}"
 
       if @user.persisted?
         ::TestMailer.send_email(@user.email).deliver_later
