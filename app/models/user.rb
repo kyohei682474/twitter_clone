@@ -16,10 +16,15 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     user = where(provider: auth.provider, uid: auth.uid).first_or_initialize
 
-    user.email = auth.info.email || "#{auth.uid}@github.com" # GitHubがメールアドレスを提供しない場合は,uidを使用する
+    user.email = auth.info.email.presence || "#{auth.uid}@github.com"
     user.password ||= Devise.friendly_token[0, 20]
 
-    Rails.logger.error "Failed to save user from omniauth: #{user.errors.full_messages}" unless user.save
+    if user.save
+      Rails.logger.info "✅ User saved successfully: #{user.inspect}"
+    else
+      Rails.logger.error "❌ Failed to save user from omniauth: #{user.errors.full_messages}"
+    end
+
     user
   end
 

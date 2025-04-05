@@ -40,11 +40,7 @@ html lang="ja" data-bs-theme="auto"
               = f.telephone_field :phone_number, class: "form-control #{'is-invalid' if resource.errors[:phone_number].any?}"
               - if resource.errors[:phone_number].any?
                 .invalid-feedback.d-block
-                  = resource.errors.full_messages_for(:phone_number).join(", ")
-
-            .mb-4
-              = f.label :birthdate, "生年月日"
-              = f.date_select :birthdate, start_year: 1900, end_year: Date.today.year, class: "form-select"
+                  = resource.errors.full_messages_for(:phone_number).join(", ") 
 
             .mb-3
               = f.label :email, "メールアドレス"
