@@ -7,7 +7,7 @@ module Users
       Rails.logger.info "認証されたユーザーのメール: #{@user.email}"
 
       if @user.persisted?
-        ::TestMailer.send_email(@user).deliver_later
+        ::TestMailer.send_email(@user.email).deliver_later
         sign_in_and_redirect @user, event: :authentication
         set_flash_message(:notice, :success, kind: 'GitHub') if is_navigational_format? # HTMLを使用した画面遷移の時のみフラッシュメッセージを挿入。 # rubocop:disable Layout/LineLength
 
