@@ -19,7 +19,10 @@ class User < ApplicationRecord
     user.email = auth.info.email.presence || "#{auth.uid}@github.com"
     user.password ||= Devise.friendly_token[0, 20]
 
-    user.skip_confirmation! if user.respond_to?(:skip_confirmation?) && user.new_record?
+    if user.respond_to?(:skip_confirmation?) && user.confirmed_at.blank?
+      Rails.logger.info '✅ skip_confirmation! called for GitHub user'
+      user.skip_confirmation!
+    end
 
     if user.save
       Rails.logger.info "✅ User saved successfully: #{user.inspect}"
