@@ -27,20 +27,9 @@ html lang="ja" data-bs-theme="auto"
                       local: true,
                       html: { data: { turbo: false } } do |f|
 
-
-            .mb-3
-              = f.label :email, "メールアドレス"
-              = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control #{'is-invalid' if resource.errors[:email].any?}"
-              - if resource.errors[:email].any?
-                .invalid-feedback.d-block
-                  = resource.errors.full_messages_for(:email).join(", ")
-
-            .mb-3
-              = f.label :phone_number, "電話番号"
-              = f.telephone_field :phone_number, class: "form-control #{'is-invalid' if resource.errors[:phone_number].any?}"
-              - if resource.errors[:phone_number].any?
-                .invalid-feedback.d-block
-                  = resource.errors.full_messages_for(:phone_number).join(", ") 
+            .mb-4
+              = f.label :birthdate, "生年月日"
+              = f.date_select :birthdate, start_year: 1900, end_year: Date.today.year, class: "form-select"
 
             .mb-3
               = f.label :email, "メールアドレス"
