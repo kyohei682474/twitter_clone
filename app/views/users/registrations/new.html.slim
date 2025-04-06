@@ -16,7 +16,10 @@ html lang="ja" data-bs-theme="auto"
     main.container.mt-5
       .row.justify-content-center
         .col-md-6.col-lg-4
+<<<<<<< HEAD
           = render "users/shared/flash"
+=======
+>>>>>>> origin/main
           h1.h3.mb-3.fw-normal.text-center 新規登録
 
           = render "users/shared/error_messages", resource: resource
@@ -45,7 +48,6 @@ html lang="ja" data-bs-theme="auto"
               = f.label :birthdate, "生年月日"
               = f.date_select :birthdate, start_year: 1900, end_year: Date.today.year, class: "form-select"
 
-
             .mb-3
               = f.label :password, "パスワード"
               - if @minimum_password_length
@@ -55,7 +57,6 @@ html lang="ja" data-bs-theme="auto"
               - if resource.errors[:password].any?
                 .invalid-feedback.d-block
                   = resource.errors.full_messages_for(:password).join(", ")
-
 
             .mb-3
               = f.label :password_confirmation, "パスワード確認"
