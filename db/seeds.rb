@@ -10,6 +10,17 @@
 
 require 'faker'
 
+JAPANESE_SENTENCES = [
+  '今日はとてもいい天気ですね。',
+  '最近Rubyの勉強を始めました。',
+  'このアプリはすごく使いやすいです。',
+  'おはようございます！',
+  '週末はのんびり過ごしました。',
+  '明日は友達とカフェに行きます。',
+  'Railsのマイグレーションって便利ですね。',
+  '今日は何をつぶやこうかな？'
+]
+
 User.destroy_all
 Tweet.destroy_all
 
@@ -18,12 +29,14 @@ Tweet.destroy_all
   user = User.create!(
     email: "user#{i}@example.com",
     password: 'password',
-    password_confirmation: 'password'
+    password_confirmation: 'password',
+    phone_number: Faker::PhoneNumber.cell_phone,
+    birthdate: Faker::Date.birthday(min_age: 18, max_age: 65)
   )
 
   3.times do
     user.tweets.create!(
-      body: Faker::Lorem.sentence(word_count: rand(5..15))
+      body: JAPANESE_SENTENCES.sample
     )
   end
 end
