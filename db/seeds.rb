@@ -7,3 +7,25 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+require 'faker'
+
+User.destroy_all
+Tweet.destroy_all
+
+# ユーザーの作成
+10.times do |i|
+  user = User.create!(
+    email: "user#{i}@example.com",
+    password: 'password',
+    password_confirmation: 'password'
+  )
+
+  3.times do
+    user.tweets.create!(
+      body: Faker::Lorem.sentence(word_count: rand(5..15))
+    )
+  end
+end
+
+puts ' ユーザーとツイートのデータを作成しました。'
