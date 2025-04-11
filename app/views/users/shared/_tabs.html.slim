@@ -1,0 +1,7 @@
+ul.nav.nav-tabs.mb-3
+  li.nav-item
+    = link_to "おすすめ", root_path,
+        class: "nav-link#{controller_name == 'home' && action_name == 'index' ? ' active' : ' text-secondary'}"
+  li.nav-item
+    = link_to "フォロー中", following_path,
+        class: "nav-link#{controller_name == 'home' && action_name == 'following' ? ' active' : ' text-secondary'}"

@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   root 'home#index' # トップページに遷移させる
+  get 'following', to: 'home#following'
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
