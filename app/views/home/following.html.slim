@@ -4,5 +4,7 @@
       = render "users/shared/sidebar"
     .col
       = render "users/shared/tabs"
+      = render "tweets/form"
       .container
-         h2 ここにフォローしているユーザーのツイート一覧が入る（ダミー）
+        = render "tweets/list", tweets: @tweets
+      = paginate @tweets
