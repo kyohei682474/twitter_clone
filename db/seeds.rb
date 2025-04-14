@@ -31,7 +31,8 @@ Tweet.destroy_all
     password: 'password',
     password_confirmation: 'password',
     phone_number: Faker::PhoneNumber.cell_phone,
-    birthdate: Faker::Date.birthday(min_age: 18, max_age: 65)
+    birthdate: Faker::Date.birthday(min_age: 18, max_age: 65),
+    confirmed_at: Time.current
   )
 
   3.times do
@@ -40,5 +41,12 @@ Tweet.destroy_all
     )
   end
 end
-
+# ユーザーのフォロー関係を作成
+User.all.each do |user|
+  other_users = User.where.not(id: user.id) # 自分自身をフォローしないようにする
+  followings = other_users.sample(rand(10)) # ランダムに10人をフォロー
+  followings.each do |followed_user|
+    user.active_relationships.create(followed_id: followed_user.id)
+  end
+end
 puts ' ユーザーとツイートのデータを作成しました。'

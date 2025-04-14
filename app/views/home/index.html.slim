@@ -6,4 +6,5 @@
       = render "users/shared/tabs"
       = render "tweets/form"
       .container
-         = render "users/shared/tweets"
+         = render "users/shared/tweets", tweets: @tweets
+         = paginate @tweets

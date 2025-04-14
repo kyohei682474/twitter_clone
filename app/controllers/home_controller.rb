@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
-  before_action :authenticate_user!, only: %i[following]
+  before_action :authenticate_user!, only: %i[following index]
   def index
     @tweets = Tweet.all.includes(:user).order(created_at: :desc).page(params[:page])
     @tweet = Tweet.new
