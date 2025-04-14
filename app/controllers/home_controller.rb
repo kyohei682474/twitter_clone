@@ -8,7 +8,10 @@ class HomeController < ApplicationController
   end
 
   def following
-    @tweets = Tweet.where(user_id: current_user.followings.ids).includes(:user).order(created_at: :desc).page(params[:page])
+    @tweets = Tweet.where(user_id: current_user.followings.ids)
+                   .includes(:user)
+                   .order(created_at: :desc)
+                   .page(params[:page])
   end
 
   private

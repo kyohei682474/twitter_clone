@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TweetsController < ApplicationController
   def create
     @tweet = current_user.tweets.build(tweet_params)

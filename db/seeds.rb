@@ -19,7 +19,7 @@ JAPANESE_SENTENCES = [
   '明日は友達とカフェに行きます。',
   'Railsのマイグレーションって便利ですね。',
   '今日は何をつぶやこうかな？'
-]
+].freeze
 
 User.destroy_all
 Tweet.destroy_all
@@ -42,11 +42,11 @@ Tweet.destroy_all
   end
 end
 # ユーザーのフォロー関係を作成
-User.all.each do |user|
+User.all.find_each do |user|
   other_users = User.where.not(id: user.id) # 自分自身をフォローしないようにする
   followings = other_users.sample(rand(10)) # ランダムに10人をフォロー
   followings.each do |followed_user|
     user.active_relationships.create(followed_id: followed_user.id)
   end
 end
-puts ' ユーザーとツイートのデータを作成しました。'
+Rails.logger.debug ' ユーザーとツイートのデータを作成しました。'
