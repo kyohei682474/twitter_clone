@@ -11,9 +11,9 @@ class TweetsController < ApplicationController
     end
   end
 
-  privates
+  private
 
-  def tweet_params # rubocop:disable Hc/RailsSpecificActionName
+  def tweet_params
     params.require(:tweet).permit(:body, :image)
   end
 end
