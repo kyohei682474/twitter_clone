@@ -3,13 +3,13 @@
     .card.mb-3
       .card-body
         .d-flex.align-items-start
-          = image_tag "https://dummyimage.com/40x40/000/fff", class: "rounded-circle me-3", alt: "User"
+          = image_tag "https://dummyimage.com/40x40/000/fff", class: "rounded-circle me-3", alt: "Userのプロフィール画像"
           .w-100
             h6.card-title.mb-1
               = tweet.user.email
             p.card-text.mb-1
               = tweet.body
-            - if tweet.image?
+            - if tweet.image.attached?
               .mt-2
                 = image_tag(tweet.image, class: 'img-fluid rounded')
             small.text-muted

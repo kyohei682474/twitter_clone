@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validates :phone_number, presence: true, uniqueness: true, unless: :github_login?
   validates :birthdate, presence: true, unless: :github_login?
   validate :birthdate_cannot_be_in_the_future
-
+  has_one_attached :image
   has_many :tweets, dependent: :destroy
   # フォローしている人
   has_many :active_relationships, foreign_key: :follower_id, class_name: 'Relationship', dependent: :destroy
