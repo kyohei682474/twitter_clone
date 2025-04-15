@@ -17,6 +17,10 @@ html lang="ja" data-bs-theme="auto"
       .card.shadow.p-4(style="width: 100%; max-width: 400px;")
         .text-center.mb-4
           h1.h3.fw-normal ログイン
+          = render "users/shared/error_messages", resource: resource
+        - if flash[:alert]
+          .alert.alert-danger.text-center.small
+            = flash[:alert]
 
         - if resource.errors.any?
           .alert.alert-danger.text-center.small
@@ -42,16 +46,16 @@ html lang="ja" data-bs-theme="auto"
             - if resource.errors[:password].any?
               .invalid-feedback.d-block.small
                 = resource.errors.full_messages_for(:password).join(", ")
-
+          
           - if devise_mapping.rememberable?
             .form-check.text-start.my-3
               = f.check_box :remember_me, class: "form-check-input"
               = f.label :remember_me, class: "form-check-label"
 
           = f.submit "ログイン", class: "btn btn-primary w-100 py-2"
-
-        .mt-3
-          = render "users/shared/links"
+        .mt-3.mb-3
+          = link_to "GitHubでログイン", user_github_omniauth_authorize_path, class: "btn btn-dark"
+        = render "users/shared/links"
 
         p.mt-4.mb-0.text-muted.text-center © 2017–2023
 

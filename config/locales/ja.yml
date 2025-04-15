@@ -14,8 +14,14 @@ ja:
       signed_up: 'アカウント登録が完了しました。'
       updated: 'アカウント情報を変更しました。'
     failure:
+      unauthenticated: "ログインしてください。"
+      timeout: 'セッションの有効期限が切れました。'
       invalid: 'メールアドレスまたはパスワードが正しくありません。'
       not_found_in_database: 'メールアドレスまたはパスワードが正しくありません。'
+      user:
+        unconfirmed: "アカウントの確認が完了していません。メールの指示に従って確認を完了してください。"
+        unauthenticated: "ログインしてください。" 
+      unconfirmed: "アカウントの確認が完了していません。"
     passwords:
       send_instructions: "パスワードの再設定について数分以内にメールでご連絡いたします。"
       updated: "パスワードが正しく変更されました。"

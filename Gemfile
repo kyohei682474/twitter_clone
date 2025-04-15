@@ -48,24 +48,27 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'bootsnap', require: false
 
 # Use Sass to process CSS
+gem 'faker'
 gem 'sassc-rails'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem 'image_processing', '~> 1.2'
 
 gem 'bootstrap', '~> 5.3.0'
 gem 'concurrent-ruby', '1.3.4'
 gem 'devise'
 gem 'importmap-rails'
+gem 'kaminari'
 gem 'omniauth', '~> 2.0'
+gem 'omniauth-github'
 gem 'omniauth-oauth2', '~> 1.7'
 gem 'rails-i18n', '~> 7.0.0'
 gem 'slim-rails'
-gem 'turbo-rails' # rubocop:disable Bundler/DuplicatedGem
 gem 'uglifier'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'rspec-rails'
 end
