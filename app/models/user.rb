@@ -17,7 +17,8 @@ class User < ApplicationRecord
 
   # ユーザーのツイート
   # ツイートの削除時に関連する画像も削除する
-  has_one_attached :image
+  has_one_attached :avatar_image
+  has_one_attached :profile_image
   has_many :tweets, dependent: :destroy
   # フォローしている人
   has_many :active_relationships, foreign_key: :follower_id, class_name: 'Relationship', dependent: :destroy,
