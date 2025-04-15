@@ -9,6 +9,9 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 require 'faker'
+require 'open-uri'
+AVATER_IMAGE = File.open(Rails.root.join('app/assets/images/avater.png'))
+HEADER_IMAGE = File.open(Rails.root.join('app/assets/images/header.png'))
 
 JAPANESE_SENTENCES = [
   '今日はとてもいい天気ですね。',
@@ -27,19 +30,41 @@ Tweet.destroy_all
 # ユーザーの作成
 10.times do |i|
   user = User.create!(
+    name: "ユーザー#{i}",
     email: "user#{i}@example.com",
     password: 'password',
     password_confirmation: 'password',
+    location: Faker::Address.city,
+    bio: Faker::Lorem.sentence(word_count: 10),
     phone_number: Faker::PhoneNumber.cell_phone,
     birthdate: Faker::Date.birthday(min_age: 18, max_age: 65),
     confirmed_at: Time.current
   )
 
-  3.times do
-    user.tweets.create!(
-      body: JAPANESE_SENTENCES.sample
-    )
-  end
+  # 3.times do
+  #   user.tweets.create!(
+  #     body: JAPANESE_SENTENCES.sample
+  #   )
+  # end
+
+  # ユーザーのアバター画像とヘッダー画像を添付
+  user.header_image.attach(
+    io: File.open(HEADER_IMAGE),
+    filename: "header#{i + 1}.jpg",
+    content_type: 'image/jpeg'
+  )
+  user.avatar_image.attach(
+    io: File.open(AVATER_IMAGE),
+    filename: "avatar#{i + 1}.jpg",
+    content_type: 'image/jpeg'
+  )
+
+  tweet = user.tweets.create!(
+    body: JAPANESE_SENTENCES.sample
+  )
+  tweet.comments.create!(user: user, body: JAPANESE_SENTENCES.sample)
+  tweet.likes.create!(user: user)
+  tweet.retweets.create!(user: user)
 end
 # ユーザーのフォロー関係を作成
 User.all.find_each do |user|
