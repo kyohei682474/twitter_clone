@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'users/show'
   root 'home#index' # トップページに遷移させる
   get 'following', to: 'home#following'
   resources :tweets, only: %i[new create]
-  resources :users, only: %i[show]
+
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
@@ -14,7 +13,7 @@ Rails.application.routes.draw do
     unlocks: 'users/unlocks',
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
-
+  resources :users, only: %i[show]
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
   resources :tasks

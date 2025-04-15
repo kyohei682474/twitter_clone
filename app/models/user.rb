@@ -20,6 +20,9 @@ class User < ApplicationRecord
   has_one_attached :avatar_image
   has_one_attached :header_image
   has_many :tweets, dependent: :destroy
+  has_many :comments
+  has_many :likes # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :retweets
   # フォローしている人
   has_many :active_relationships, foreign_key: :follower_id, class_name: 'Relationship', dependent: :destroy,
                                   inverse_of: :follower

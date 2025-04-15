@@ -10,8 +10,9 @@
 
 require 'faker'
 require 'open-uri'
-AVATER_IMAGE = File.open(Rails.root.join('app/assets/images/avater.png'))
-HEADER_IMAGE = File.open(Rails.root.join('app/assets/images/header.png'))
+
+AVATER_IMAGE = File.open(Rails.root.join('app/assets/images/avater_image.jpg'))
+HEADER_IMAGE = File.open(Rails.root.join('app/assets/images/header_image.jpg'))
 
 JAPANESE_SENTENCES = [
   '今日はとてもいい天気ですね。',
@@ -74,4 +75,4 @@ User.all.find_each do |user|
     user.active_relationships.create(followed_id: followed_user.id)
   end
 end
-Rails.logger.debug ' ユーザーとツイートのデータを作成しました。'
+puts ' データを作成した'
