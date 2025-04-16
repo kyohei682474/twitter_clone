@@ -1,11 +1,12 @@
 .container.mt-4
   .header-image
-    = image_tag @user.header_image.url if @user.header_image.attached?
-
+    - if @user.header_image.attached? 
+      = image_tag @user.header_image
   .d-flex.align-items-center
-    = image_tag @user.avatar_image.url, class: "rounded-circle", size: "100x100" if @user.avatar.attached?
-    .ms-3
-      h2 = @user.name
+    - if @user.avatar_image.attached?
+      = image_tag @user.avatar_image, class: "rounded-circle", size: "60x60" 
+      .ms-3
+        h2 = @user.name
 
 
   p.mt-2 = @user.bio

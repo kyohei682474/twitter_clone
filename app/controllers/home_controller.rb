@@ -3,6 +3,7 @@
 class HomeController < ApplicationController
   before_action :authenticate_user!, only: %i[following index]
   def index
+    @user = current_user
     @tweets = Tweet.all.includes(:user).order(created_at: :desc).page(params[:page])
     @tweet = Tweet.new
   end
