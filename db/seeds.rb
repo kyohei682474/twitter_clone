@@ -36,9 +36,11 @@ Tweet.destroy_all
     password: 'password',
     password_confirmation: 'password',
     location: Faker::Address.city,
-    bio: Faker::Lorem.sentence(word_count: 10),
+    # bio: Faker::Lorem.sentence(word_count: 10),
+    bio: "test#{i}test#{i}test#{i}test#{i}",
     phone_number: Faker::PhoneNumber.cell_phone,
     birthdate: Faker::Date.birthday(min_age: 18, max_age: 65),
+    website: "example#{i}.com",
     confirmed_at: Time.current
   )
 
