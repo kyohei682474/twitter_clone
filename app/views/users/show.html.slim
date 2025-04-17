@@ -16,13 +16,13 @@
 
   ul.nav.nav-tabs.mt-4
     li.nav-item
-      = link_to "ツイート", user_path(@user), class: "nav-link active"
+      = link_to "ツイート", user_path(@user), class: "nav-link#{ params[:tab].blank? ? ' active' : ' text-secondary'}"
     li.nav-item
-      = link_to "リツイート", user_path(@user, tab: "retweets"), class: "nav-link"
+      = link_to "リツイート", user_path(@user, tab: "retweets"), class: "nav-link#{ params[:tab] == "retweets" ? ' active' : ' text-secondary'}"
     li.nav-item
-      = link_to "コメント", user_path(@user, tab: "comments"), class: "nav-link"
+      = link_to "コメント", user_path(@user, tab: "comments"), class: "nav-link#{ params[:tab] == "comments" ? ' active' : ' text-secondary'}"
     li.nav-item
-      = link_to "いいね", user_path(@user, tab: "likes"), class: "nav-link"
+      = link_to "いいね", user_path(@user, tab: "likes"), class: "nav-link#{ params[:tab] == "likes" ? ' active' : ' text-secondary'}"
 
   - if params[:tab] == "likes"
     = render partial: 'tweets/list', locals: { tweets: @likes }
