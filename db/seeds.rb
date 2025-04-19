@@ -29,7 +29,7 @@ User.destroy_all
 Tweet.destroy_all
 
 # ユーザーの作成
-10.times do |i|
+10.times do |i| # rubocop:disable Metrics/BlockLength
   user = User.create!(
     name: "ユーザー#{i}",
     email: "user#{i}@example.com",
@@ -77,4 +77,4 @@ User.all.find_each do |user|
     user.active_relationships.create(followed_id: followed_user.id)
   end
 end
-puts ' データを作成した'
+Rails.logger.debug ' データを作成した'
