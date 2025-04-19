@@ -19,11 +19,14 @@ class User < ApplicationRecord
   # ツイートの削除時に関連する画像も削除する
   has_one_attached :avatar_image
   has_one_attached :header_image
+  has_one_attached :attach_image
   has_many :tweets, dependent: :destroy, inverse_of: :user
+
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :liked_tweets, through: :likes, source: :tweet
   has_many :retweets, dependent: :destroy
+  has_many :retweet_tweets, through: :retweets, source: :tweet
   # フォローしている人
   has_many :active_relationships, foreign_key: :follower_id, class_name: 'Relationship', dependent: :destroy,
                                   inverse_of: :follower

@@ -2,8 +2,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @tweets = @user.tweets
-    @likes = @user.likes
-    @retweets = @user.retweets
+    @liked_tweets = @user.liked_tweets.includes(:user)
+    @followers = @user.followers
+    @retweets = @user.retweet_tweets.includes(:user)
     @comments = @user.comments
   end
 

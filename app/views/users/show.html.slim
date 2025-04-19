@@ -25,7 +25,7 @@
       = link_to "いいね", user_path(@user, tab: "likes"), class: "nav-link#{ params[:tab] == "likes" ? ' active' : ' text-secondary'}"
 
   - if params[:tab] == "likes"
-    = render partial: 'tweets/list', locals: { tweets: @likes }
+    = render partial: 'tweets/list', locals: { tweets: @liked_tweets }
   - elsif params[:tab] == "retweets"
     = render partial: 'tweets/list', locals: { tweets: @retweets }
   - elsif params[:tab] == "comments"
