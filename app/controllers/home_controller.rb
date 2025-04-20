@@ -9,6 +9,7 @@ class HomeController < ApplicationController
   end
 
   def following
+    @user = current_user
     @tweets = Tweet.where(user_id: current_user.followings.ids)
                    .includes(:user)
                    .order(created_at: :desc)
