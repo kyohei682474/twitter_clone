@@ -11,8 +11,8 @@
 require 'faker'
 require 'open-uri'
 
-AVATAR_IMAGE_URL = 'https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/defaults/avatar.jpg'
-HEADER_IMAGE_URL = 'https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/defaults/header.jpg'
+AVATAR_IMAGE_URL = 'https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/avater_image.jpg'
+HEADER_IMAGE_URL = 'https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/header_image.jpg'
 
 JAPANESE_SENTENCES = [
   '今日はとてもいい天気ですね。',
@@ -54,14 +54,14 @@ Tweet.destroy_all
  
 
 user.header_image.attach(
-  io: URI.open(HEADER_IMAGE_URL),
-  filename: "header#{i + 1}.jpg",
-  content_type: 'image/jpeg'
-)
+    io: URI.open("https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/header_image.jpg"),
+    filename: "header_image.jpg",
+    content_type: "image/jpeg"
+  )
 user.avatar_image.attach(
-  io: URI.open(AVATAR_IMAGE_URL),
-  filename: "avatar#{i + 1}.jpg",
-  content_type: 'image/jpeg'
+  io: URI.open("https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/avater_image.jpg"),
+  filename: "avatar_image.jpg",
+  content_type: "image/jpeg"
 )
 
   tweet = user.tweets.create!(
