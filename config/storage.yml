@@ -15,7 +15,7 @@ amazon:
   bucket: <%= ENV["AWS_BUCKET_NAME"] %>
   public: true
   upload:
-    acl: null # ← これを追加！
+    acl: false 
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS
