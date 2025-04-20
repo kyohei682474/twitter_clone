@@ -1,10 +1,8 @@
 .container.mt-4
   .header-image
-    - if @user.header_image.attached? 
-      = image_tag @user.header_image
+    = image_tag @user.header_image if @user.header_image.attached?
   .d-flex.align-items-center.mt-3
-    - if @user.avatar_image.attached?
-      = image_tag @user.avatar_image, class: "rounded-circle", size: "60x60" 
+    = image_tag @user.avatar_image, class: "rounded-circle", size: "60x60" if @user.avatar_image.attached?
       .ms-3
         h3 = @user.name
 

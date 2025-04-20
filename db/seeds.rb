@@ -11,8 +11,9 @@
 require 'faker'
 require 'open-uri'
 
-AVATER_IMAGE = File.open(Rails.root.join('app/assets/images/avater_image.jpg'))
-HEADER_IMAGE = File.open(Rails.root.join('app/assets/images/header_image.jpg'))
+AVATAR_IMAGE_URL = 'https://your-bucket-name.s3.amazonaws.com/path/to/avatar_image.jpg'
+HEADER_IMAGE_URL = 'https://your-bucket-name.s3.amazonaws.com/path/to/header_image.jpg'
+
 
 JAPANESE_SENTENCES = [
   '今日はとてもいい天気ですね。',
@@ -51,16 +52,18 @@ Tweet.destroy_all
   # end
 
   # ユーザーのアバター画像とヘッダー画像を添付
+ 
+
   user.header_image.attach(
-    io: File.open(HEADER_IMAGE),
-    filename: "header#{i + 1}.jpg",
-    content_type: 'image/jpeg'
-  )
-  user.avatar_image.attach(
-    io: File.open(AVATER_IMAGE),
-    filename: "avatar#{i + 1}.jpg",
-    content_type: 'image/jpeg'
-  )
+  io: URI.open(HEADER_IMAGE_URL),
+  filename: "header#{i + 1}.jpg",
+  content_type: 'image/jpeg'
+)
+user.avatar_image.attach(
+  io: URI.open(AVATAR_IMAGE_URL),
+  filename: "avatar#{i + 1}.jpg",
+  content_type: 'image/jpeg'
+)
 
   tweet = user.tweets.create!(
     body: JAPANESE_SENTENCES.sample
