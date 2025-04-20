@@ -11,9 +11,8 @@
 require 'faker'
 require 'open-uri'
 
-AVATAR_IMAGE_URL = 'https://your-bucket-name.s3.amazonaws.com/path/to/avatar_image.jpg'
-HEADER_IMAGE_URL = 'https://your-bucket-name.s3.amazonaws.com/path/to/header_image.jpg'
-
+AVATAR_IMAGE_URL = 'https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/defaults/avatar.jpg'
+HEADER_IMAGE_URL = 'https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/defaults/header.jpg'
 
 JAPANESE_SENTENCES = [
   '今日はとてもいい天気ですね。',
@@ -54,7 +53,7 @@ Tweet.destroy_all
   # ユーザーのアバター画像とヘッダー画像を添付
  
 
-  user.header_image.attach(
+user.header_image.attach(
   io: URI.open(HEADER_IMAGE_URL),
   filename: "header#{i + 1}.jpg",
   content_type: 'image/jpeg'
