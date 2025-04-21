@@ -51,18 +51,17 @@ Tweet.destroy_all
   # end
 
   # ユーザーのアバター画像とヘッダー画像を添付
- 
 
-user.header_image.attach(
-    io: URI.open("https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/header_image.jpg"),
-    filename: "header_image.jpg",
-    content_type: "image/jpeg"
+  user.header_image.attach(
+    io: URI.open('https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/header_image.jpg'),
+    filename: 'header_image.jpg',
+    content_type: 'image/jpeg'
   )
-user.avatar_image.attach(
-  io: URI.open("https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/avater_image.jpg"),
-  filename: "avatar_image.jpg",
-  content_type: "image/jpeg"
-)
+  user.avatar_image.attach(
+    io: URI.open('https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/avater_image.jpg'),
+    filename: 'avatar_image.jpg',
+    content_type: 'image/jpeg'
+  )
 
   tweet = user.tweets.create!(
     body: JAPANESE_SENTENCES.sample

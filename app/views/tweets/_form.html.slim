@@ -7,9 +7,8 @@
     = form_with model: @tweet,local: true do |form|
       .mb-3
         = form.text_area :body, placeholder: "いまどうしてる？",class: "form-control"
-      .mb-3
+      .mb-3.d-flex.justify-content-between.align-items-center
         = form.label :image, class: "upload-icon", for: "image_input" do
           i.fas.fa-image.fa-2x
         = form.file_field :image, id: "image_input", style: "display: none;"
-      .mb-3
         = form.submit "つぶやく", class: "btn btn-primary"
