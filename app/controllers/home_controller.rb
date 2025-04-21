@@ -9,10 +9,19 @@ class HomeController < ApplicationController
   end
 
   def following
-    @tweets = Tweet.where(user_id: current_user.followings.ids)
-                   .includes(:user)
+    @user = current_user
+    @tweets = Tweet.where(user_id: current_user.following_ids)
+                   .includes(user: { avatar_image_attachment: :blob })
                    .order(created_at: :desc)
-                   .page(params[:page])
+                   .page(params[:page]).per(5)
+    # @following_users = current_user.following.includes(:tweets, avatar_image_attachment: :blob)
+    #                                .order(created_at: :desc)
+    #                                .page(params[:page])
+
+    # @tweets = Tweet.where(user_id: current_user.followings.ids)
+    #                .includes(:user)
+    #                .order(created_at: :desc)
+    #                .page(params[:page])
   end
 
   private

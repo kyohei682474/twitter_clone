@@ -23,6 +23,7 @@ class User < ApplicationRecord
   has_many :tweets, dependent: :destroy, inverse_of: :user
 
   has_many :comments, dependent: :destroy
+  has_many :commented_tweets, through: :comments, source: :tweet
   has_many :likes, dependent: :destroy
   has_many :liked_tweets, through: :likes, source: :tweet
   has_many :retweets, dependent: :destroy

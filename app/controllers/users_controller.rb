@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @liked_tweets = @user.liked_tweets.includes(:user)
     @followers = @user.followers
     @retweets = @user.retweet_tweets.includes(:user)
-    @comments = @user.comments
+    @comments = @user.commented_tweets.includes(:user)
   end
 
   private
