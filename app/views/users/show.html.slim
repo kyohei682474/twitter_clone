@@ -1,32 +1,36 @@
-.container.mt-4
-  .header-image
-    = image_tag @user.header_image if @user.header_image.attached?
-  .d-flex.align-items-center.mt-3
-    = image_tag @user.avatar_image, class: "rounded-circle", size: "60x60" if @user.avatar_image.attached?
-    .ms-3
-      h3 = @user.name
+.container
+  .row
+    .col-auto
+      = render "users/shared/sidebar"
+    .col
+      .container.mt-4
+        .header-image
+          = image_tag @user.header_image if @user.header_image.attached?
+        .d-flex.align-items-center.mt-3
+          = image_tag @user.avatar_image, class: "rounded-circle", size: "60x60" if @user.avatar_image.attached?
+          .ms-3
+            h3 = @user.name
 
+        p.mt-2 = @user.bio
+        p.text-muted = @user.location
+        p.text-muted = @user.website
+        p.text-muted = @user.birthdate.strftime('%Y年%m月%d日')
 
-  p.mt-2 = @user.bio
-  p.text-muted= @user.location
-  p.text-muted= @user.website
-  p.text-muted= @user.birthdate.strftime('%Y年%m月%d日')
+        ul.nav.nav-tabs.mt-4
+          li.nav-item
+            = link_to "ツイート", user_path(@user), class: "nav-link#{ params[:tab].blank? ? ' active' : ' text-secondary'}"
+          li.nav-item
+            = link_to "リツイート", user_path(@user, tab: "retweets"), class: "nav-link#{ params[:tab] == "retweets" ? ' active' : ' text-secondary'}"
+          li.nav-item
+            = link_to "コメント", user_path(@user, tab: "comments"), class: "nav-link#{ params[:tab] == "comments" ? ' active' : ' text-secondary'}"
+          li.nav-item
+            = link_to "いいね", user_path(@user, tab: "likes"), class: "nav-link#{ params[:tab] == "likes" ? ' active' : ' text-secondary'}"
 
-  ul.nav.nav-tabs.mt-4
-    li.nav-item
-      = link_to "ツイート", user_path(@user), class: "nav-link#{ params[:tab].blank? ? ' active' : ' text-secondary'}"
-    li.nav-item
-      = link_to "リツイート", user_path(@user, tab: "retweets"), class: "nav-link#{ params[:tab] == "retweets" ? ' active' : ' text-secondary'}"
-    li.nav-item
-      = link_to "コメント", user_path(@user, tab: "comments"), class: "nav-link#{ params[:tab] == "comments" ? ' active' : ' text-secondary'}"
-    li.nav-item
-      = link_to "いいね", user_path(@user, tab: "likes"), class: "nav-link#{ params[:tab] == "likes" ? ' active' : ' text-secondary'}"
-
-  - if params[:tab] == "likes"
-    = render partial: 'tweets/list', locals: { tweets: @liked_tweets }
-  - elsif params[:tab] == "retweets"
-    = render partial: 'tweets/list', locals: { tweets: @retweets }
-  - elsif params[:tab] == "comments"
-    = render partial: 'tweets/list', locals: { tweets: @comments }
-  - else
-    = render partial: 'tweets/list', locals: { tweets: @tweets }
+        - if params[:tab] == "likes"
+          = render partial: 'tweets/list', locals: { tweets: @liked_tweets }
+        - elsif params[:tab] == "retweets"
+          = render partial: 'tweets/list', locals: { tweets: @retweets }
+        - elsif params[:tab] == "comments"
+          = render partial: 'tweets/list', locals: { tweets: @comments }
+        - else
+          = render partial: 'tweets/list', locals: { tweets: @tweets }
