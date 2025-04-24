@@ -1,0 +1,23 @@
+- form_with modle: @user, local :true do |f|
+  f.label :name, '名前'
+  f.text_filed :name, class: 'form-control'
+
+  f.label :avatar_image, 'アイコン画像'
+  f.file_field :avatar_iamge, class: 'form-control'
+
+  f.label :header_image, 'ヘッダー画像’
+  f.file_field :header_image, class: 'form-control'
+
+  f.label :bio , '自己紹介'
+  f.text_area :bio, class: 'form-control'
+
+  f.label :location, '場所'
+  f.text_filed :location, class: 'form-control'
+
+  f.label :website, 'webサイト'
+  f.text_filed :website, class: 'form-control'
+
+  f.label :birthdate, '生年月日'
+  f.date_select :birthdate, start_year: 1900, end_year: Date.today.year, class: "form-select"
+
+  f.submit '更新', class: 'btn btn-primary'

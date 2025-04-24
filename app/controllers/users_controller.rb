@@ -1,13 +1,18 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  before_action :authenticate_user!, only: %i[show edit update destroy] # rubocop:disable Rails/LexicallyScopedActionFilter
   def show
-    @user = User.find(params[:id])
+    @user = current_user
     @tweets = @user.tweets
     @liked_tweets = @user.liked_tweets.includes(:user)
     @followers = @user.followers
     @retweets = @user.retweet_tweets.includes(:user)
     @comments = @user.commented_tweets.includes(:user)
+  end
+
+  def edit
+    @user = current_user
   end
 
   private
