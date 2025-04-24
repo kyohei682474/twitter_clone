@@ -9,6 +9,10 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 require 'faker'
+require 'open-uri'
+
+AVATAR_IMAGE_URL = 'https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/avater_image.jpg'
+HEADER_IMAGE_URL = 'https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/header_image.jpg'
 
 JAPANESE_SENTENCES = [
   '今日はとてもいい天気ですね。',
@@ -25,21 +29,46 @@ User.destroy_all
 Tweet.destroy_all
 
 # ユーザーの作成
-10.times do |i|
+10.times do |i| # rubocop:disable Metrics/BlockLength
   user = User.create!(
+    name: "ユーザー#{i}",
     email: "user#{i}@example.com",
     password: 'password',
     password_confirmation: 'password',
+    location: Faker::Address.city,
+    # bio: Faker::Lorem.sentence(word_count: 10),
+    bio: "test#{i}test#{i}test#{i}test#{i}",
     phone_number: Faker::PhoneNumber.cell_phone,
     birthdate: Faker::Date.birthday(min_age: 18, max_age: 65),
+    website: "example#{i}.com",
     confirmed_at: Time.current
   )
 
-  3.times do
-    user.tweets.create!(
-      body: JAPANESE_SENTENCES.sample
-    )
-  end
+  # 3.times do
+  #   user.tweets.create!(
+  #     body: JAPANESE_SENTENCES.sample
+  #   )
+  # end
+
+  # ユーザーのアバター画像とヘッダー画像を添付
+
+  user.header_image.attach(
+    io: URI.open('https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/header_image.jpg'),
+    filename: 'header_image.jpg',
+    content_type: 'image/jpeg'
+  )
+  user.avatar_image.attach(
+    io: URI.open('https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/avater_image.jpg'),
+    filename: 'avatar_image.jpg',
+    content_type: 'image/jpeg'
+  )
+
+  tweet = user.tweets.create!(
+    body: JAPANESE_SENTENCES.sample
+  )
+  tweet.comments.create!(user: user, body: JAPANESE_SENTENCES.sample)
+  tweet.likes.create!(user: user)
+  tweet.retweets.create!(user: user)
 end
 # ユーザーのフォロー関係を作成
 User.all.find_each do |user|
@@ -49,4 +78,4 @@ User.all.find_each do |user|
     user.active_relationships.create(followed_id: followed_user.id)
   end
 end
-Rails.logger.debug ' ユーザーとツイートのデータを作成しました。'
+Rails.logger.debug ' データを作成した'
