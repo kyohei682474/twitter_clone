@@ -1,8 +1,14 @@
+- if @user.errors.any?
+  .alert.alert-danger
+    ul
+      - @user.errors.full_messages.each do |msg|
+        li = msg
+
 .container.min-vh-100.d-flex.justify-content-center.align-items-center
   .card.p-4.shadow-lg.rounded-4 style="width: 100%; max-width: 500px;"
     h2.text-center.mb-4 プロフィール編集
 
-    = form_with model: @user, local: true do |f|
+    = form_with model: @user, local: true do |f| 
       .mb-3
         = f.label :name, '名前'
         = f.text_field :name, class: 'form-control' 

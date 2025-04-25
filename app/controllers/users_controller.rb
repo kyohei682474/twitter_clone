@@ -20,7 +20,8 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to user_path(@user), notice: 'プロフィールを更新しました'
     else
-      render :edit
+      Rails.logger.debug @user.errors.full_messages
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -28,6 +29,6 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :birthdate, :phone_number,
-                                 :avatar_image, :profile_image, :bio, :location, :website)
+                                 :avatar_image, :profile_image, :header_image, :bio, :location, :website)
   end
 end
