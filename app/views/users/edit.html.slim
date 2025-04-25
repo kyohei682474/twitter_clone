@@ -5,13 +5,14 @@
     = form_with model: @user, local: true do |f|
       .mb-3
         = f.label :name, '名前'
-        = f.text_field :name, class: 'form-control'
-
+        = f.text_field :name, class: 'form-control' 
       .mb-3
+        = f.label :avatar_image, "現在のアイコン画像"
         = f.label :avatar_image, 'アイコン画像'
         = f.file_field :avatar_image, class: 'form-control'
 
       .mb-3
+        = f.label :header_image, "現在のヘッダー画像"
         = f.label :header_image, 'ヘッダー画像'
         = f.file_field :header_image, class: 'form-control'
 
