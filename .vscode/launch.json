@@ -16,7 +16,7 @@
       "type": "ruby_lsp",
       "name": "Debug test",
       "request": "launch",
-      "program": "ruby -Itest ${relativeFile}"
+      "program": "bin/rails server"
     },
     {
       "type": "ruby_lsp",
