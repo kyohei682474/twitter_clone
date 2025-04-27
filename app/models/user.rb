@@ -13,7 +13,7 @@ class User < ApplicationRecord
   validate :birthdate_cannot_be_in_the_future
   validates :name, length: { maximum: 50 }, allow_nil: true
   validates :email, presence: true, uniqueness: true, unless: :github_login?
-  validates :password, presence: true, length: { minimum: 6 }, unless: :github_login?
+  validates :password, presence: true, length: { minimum: 6 }, on: :create, unless: :github_login?
 
   # ユーザーのツイート
   # ツイートの削除時に関連する画像も削除する
