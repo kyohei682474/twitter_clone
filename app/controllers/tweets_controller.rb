@@ -11,6 +11,16 @@ class TweetsController < ApplicationController
     end
   end
 
+  def show
+    @tweet = Tweet.find(params[:id])
+    @user = @tweet.user
+    @comments = @tweet.comments.includes(:user)
+    @comment = Comment.new
+    @comment.tweet = @tweet
+    @comment.user = current_user
+    @comment.save
+  end
+
   private
 
   def tweet_params
