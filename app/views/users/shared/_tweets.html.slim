@@ -1,5 +1,16 @@
-- @tweets.each do |tweet|  
-           p = tweet.user.display_name
-           p = tweet.body 
-           p = tweet.created_at.strftime("%Y-%m-%d %H:%M")
+.container.mt-3
+  - @tweets.each do |tweet|  
+    .card.mb-3
+      .card-body
+        .d-flex.align-items-start
+           - if tweet.user.avatar_image.attached?
+            = image_tag(tweet.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid") 
+           .w-100.ms-2
+             h6.card-title.mb-1
+              = tweet.user.display_name
+             p.card-text.mb-1
+              = tweet.body 
+             - if tweet.image.attached?
+               = image_tag(tweet.image.variant(resize_to_limit: [600, 600]), class: 'img-fluid rounded') 
+             p = tweet.created_at.strftime("%Y-%m-%d %H:%M")
          
