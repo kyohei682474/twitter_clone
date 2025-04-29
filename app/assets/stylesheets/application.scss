@@ -1,7 +1,9 @@
-@import 'bootstrap/scss/bootstrap';
-@import 'bootstrap-icons/font/bootstrap-icons';
-@import "bootstrap";
-
+// @import "bootstrap";
+// @import "bootstrap-icons";
+// @import "font-awesome";
+// @import "bootstrap_custom"; 
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons";
 html,
 body {
   height: 100%;
@@ -26,4 +28,15 @@ body {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.nav-link.active {
+  color: #0d6efd !important;
+}
+
+.upload-icon {
+  cursor: pointer;
+  color: #007bff;
+  transition: color 0.3s;
+  display: inline-block;
 }
