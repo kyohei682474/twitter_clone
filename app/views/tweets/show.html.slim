@@ -1,0 +1,13 @@
+= @tweet.user.name
+= @tweet.body
+= @tweet.image
+= @tweet.updated_at
+
+- form_with model: @comment local: true do |f|
+  f.label :body
+  f.text_area :body, placeholder: "返信をツイート", class: "form-control"
+
+  f.submit, class: "btn btn-primary"
+
+- @tweet.comments each |comment| do
+  = comment.body
