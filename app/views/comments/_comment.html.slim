@@ -6,8 +6,9 @@
             - if comment.user.avatar_image.attached?
               = image_tag(comment.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid") 
             .w-100.ms-2
-              h6.card-title.mb-1
-                = comment.user.display_name
+              .d-flex.align-items-center.gap-2
+                .fw-bold = comment.user.display_name
+                = comment.created_at.strftime("%Y-%m-%d %H:%M")
               p.card-text.mb-1
                 = comment.body  
-              p = comment.created_at.strftime("%Y-%m-%d %H:%M")
+             
