@@ -1,7 +1,7 @@
 .container.mt-3 
   - @tweets.each do |tweet|
-    .card.mb-3
-      = link_to tweet_path(tweet), class: "text-decoration-none", local: true do  
+    = link_to tweet_path(tweet), class: "text-decoration-none text-dark", local: true do  
+      .card.mb-3
         .card-body
           .d-flex.align-items-start 
             = image_tag(tweet.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid") if tweet.user.avatar_image.attached?
