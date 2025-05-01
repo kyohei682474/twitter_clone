@@ -8,8 +8,9 @@
             .w-100.ms-2
               .d-flex.align-items-center.gap-2
                 = tweet.user.display_name
+                = time_ago_in_words(tweet.created_at)
               p.card-text.mb-1
                 = tweet.body 
               - if tweet.image.attached?
                 = image_tag(tweet.image.variant(resize_to_limit: [600, 600]), class: 'img-fluid rounded') 
-             
+               

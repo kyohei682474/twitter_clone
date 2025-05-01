@@ -15,10 +15,7 @@ class TweetsController < ApplicationController
     @tweet = Tweet.find(params[:id])
     @user = @tweet.user
     @comments = @tweet.comments.includes(:user)
-    @comment = Comment.new
-    @comment.tweet = @tweet
-    @comment.user = current_user
-    @comment.save
+    @comment = @tweet.comments.build(user: current_user)
   end
 
   private

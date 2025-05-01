@@ -1,14 +1,12 @@
-.container.mt-3 
-   = link_to comment_path(comment), class: "text-decoration-none text-dark", local: true do  
-    .card.mb-3 
-        .card-body
-          .d-flex.align-items-start
-            - if comment.user.avatar_image.attached?
-              = image_tag(comment.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid") 
-            .w-100.ms-2
-              .d-flex.align-items-center.gap-2
-                .fw-bold = comment.user.display_name
-                = comment.created_at.strftime("%Y-%m-%d %H:%M")
-              p.card-text.mb-1
-                = comment.body  
-             
+ .card.mb-3
+  .card-body
+    .d-flex.align-items-start
+      - if comment.user.avatar_image.attached?
+        = image_tag comment.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid"
+      .w-100.ms-2
+        .d-flex.align-items-center.gap-2
+          .fw-bold = comment.user.display_name
+          = time_ago_in_words(comment.created_at)
+        .card-text.mb-1
+          p = comment.body
+        
