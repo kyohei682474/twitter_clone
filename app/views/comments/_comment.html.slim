@@ -1,7 +1,7 @@
  .card.mb-3
   .card-body
     .d-flex.align-items-start
-      - if comment.user.avatar_image.attached?
+      - if comment&.user&.avatar_image&.attached?
         = image_tag comment.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid"
       .w-100.ms-2
         .d-flex.align-items-center.gap-2

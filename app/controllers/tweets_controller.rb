@@ -14,8 +14,8 @@ class TweetsController < ApplicationController
   def show
     @tweet = Tweet.find(params[:id])
     @user = @tweet.user
-    @comments = @tweet.comments.includes(:user)
-    @comment = @tweet.comments.build(user: current_user)
+    @comments = @tweet.comments.includes(:user) # user情報を含んでいるtweetのcomment
+    @comment = @tweet.comments.build(user: current_user) # Comment.new(user: current_user)のかわり
   end
 
   private
