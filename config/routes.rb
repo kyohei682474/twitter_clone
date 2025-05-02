@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   get 'following', to: 'home#following'
   resources :tweets, only: %i[new create show]
   resources :comments, only: %i[new create destroy]
+  resources :tweets do
+    resources :comments, only: %i[create destroy]
+  end
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',
