@@ -1,0 +1,6 @@
+- if @comment && @comment.errors.any?
+  .alert.alert-danger
+    h4.alert-heading 入力にエラーがあります:
+    ul
+      - @comment.errors.full_messages.each do |msg|
+        li= msg
