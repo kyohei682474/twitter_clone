@@ -1,0 +1,13 @@
+ .card.mb-3
+  .card-body
+    .d-flex.align-items-start
+      - if comment&.user&.avatar_image&.attached?
+        = image_tag comment.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid"
+      .w-100.ms-2
+        .d-flex.align-items-center.gap-2
+          - if comment.created_at.present?
+            .fw-bold = comment.user.display_name
+            small.text-muted = time_ago_in_words(comment.created_at)
+        .card-text.mb-1
+          p = comment.body
+        
