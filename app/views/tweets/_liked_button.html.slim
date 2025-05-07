@@ -1,0 +1,8 @@
+.d-flex.align-items-center.mt-2.gap-2
+  - if tweet.liked_by?(current_user)
+    = link_to tweet_like_path(tweet,tweet.liked_from(current_user)), data: { turbo_method: :delete }, local: true do
+      i.fas.fa-heart.text-danger.me-1
+  - else 
+    = link_to tweet_likes_path(tweet),data: { turbo_method: :post }, local: true do
+      i.far.fa-heart.text-muted.me-1
+  span = tweet.likes.count    

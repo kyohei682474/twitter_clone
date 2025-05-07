@@ -17,7 +17,7 @@
                 p = @tweet.body
                 = image_tag @tweet.image.variant(resize_to_limit: [100, 100]), class: "img-fluid" if @tweet.image.attached?
                 
-              = render 'likes/liked_buttun'
+              = render 'likes/liked_button'
 
       .d-flex.align-items-start     
         = image_tag @tweet.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid" if @tweet.user.avatar_image.attached?
