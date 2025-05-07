@@ -12,5 +12,6 @@
               p.card-text.mb-1
                 = tweet.body 
               - if tweet.image.attached?
-                = image_tag(tweet.image.variant(resize_to_limit: [600, 600]), class: 'img-fluid rounded') 
-               
+                = image_tag(tweet.image.variant(resize_to_limit: [600, 600]), class: 'img-fluid rounded')
+                 
+              = render partial: 'likes/like_button', locals: { tweet: tweet, current_user: current_user } 

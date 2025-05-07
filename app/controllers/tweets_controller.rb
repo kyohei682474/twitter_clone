@@ -4,11 +4,21 @@ class TweetsController < ApplicationController
   before_action :authenticate_user!, only: %i[create show]
   def create
     @tweet = current_user.tweets.build(tweet_params)
-    if @tweet.save
-      flash[:notice] = 'ツイートが作成されました'
-      redirect_to root_path
+    # if @tweet.save
+    #   flash[:notice] = 'ツイートが作成されました'
+    #   redirect_to root_path
+    # else
+    #   flash[:alert] = 'ツイートに失敗しました'
+    # end
+    #
+    if @like.save
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back fallback_location: root_path, notice: 'いいねしました' }
+      end
     else
-      flash[:alert] = 'ツイートに失敗しました'
+      flash[:alert] = 'いいねに失敗しました'
+      redirect_back fallback_location: root_path
     end
   end
 

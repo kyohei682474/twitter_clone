@@ -17,14 +17,8 @@
                 p = @tweet.body
                 = image_tag @tweet.image.variant(resize_to_limit: [100, 100]), class: "img-fluid" if @tweet.image.attached?
                 
-              # いいね機能
-              - if @tweet.liked_by?(current_user)
-                = link_to tweet_like_path(@tweet,@tweet.liked_from(current_user)), data: { turbo_method: :delete }, local: true do
-                  i.fas.fa-heart.text-danger.me-1s
-              - else 
-                = link_to tweet_likes_path(@tweet),data: { turbo_method: :post }, local: true do
-                  i.far.fa-heart.text-muted.me-1
-              span = @tweet.likes.count    
+              = render 'likes/liked_buttun'
+
       .d-flex.align-items-start     
         = image_tag @tweet.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid" if @tweet.user.avatar_image.attached?
             image_tag @commnet.user.avatar_image 

@@ -8,6 +8,15 @@ class LikesController < ApplicationController
     else
       flash[:alert] = 'いいねいに失敗しました'
     end
+    # if @like.save
+    #   respond_to do |format|
+    #     format.turbo_stream
+    #     format.html { redirect_back fallback_location: root_path, notice: 'いいねしました' }
+    #   end
+    # else
+    #   flash[:alert] = 'いいねに失敗しました'
+    #   redirect_back fallback_location: root_path
+    # end
   end
 
   def destroy
