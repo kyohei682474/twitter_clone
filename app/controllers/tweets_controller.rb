@@ -9,6 +9,7 @@ class TweetsController < ApplicationController
       redirect_to root_path
     else
       flash[:alert] = 'ツイートに失敗しました'
+      render 'home/index'
     end
   end
 

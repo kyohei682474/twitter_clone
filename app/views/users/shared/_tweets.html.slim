@@ -8,10 +8,10 @@
               = image_tag(tweet.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid") 
             .w-100.ms-2
               .d-flex.align-items-center.gap-2
-                = tweet.user.display_name
+                .fw-bold = tweet.user.display_name
                 = time_ago_in_words(tweet.created_at)
               p.card-text.mb-1
                 = tweet.body 
               - if tweet.image.attached?
                 = image_tag(tweet.image.variant(resize_to_fill: [600, 600]), class: 'img-fluid rounded') 
-          
+              = render partial: 'users/shared/liked_button', locals: { tweet: tweet, current_user: current_user }

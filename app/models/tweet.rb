@@ -11,4 +11,12 @@ class Tweet < ApplicationRecord
   validates :body, presence: true, length: { maximum: 140 }
 
   paginates_per 5
+
+  def liked_by?(user)
+    likes.exists?(user_id: user.id)
+  end
+
+  def liked_from(user)
+    likes.find_by(user_id: user.id)
+  end
 end
