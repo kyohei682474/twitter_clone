@@ -1,9 +1,9 @@
 .d-flex.align-items-center.mt-2.gap-2
     - if tweet.liked_by?(current_user)
-      = button_to tweet_like_path(tweet, tweet.liked_from(current_user)), data: { "turbo-method": "delete" } do
+      = link_to tweet_like_path(tweet, tweet.liked_from(current_user)), data: { "turbo-method": "delete" } do
         i.fas.fa-heart.text-danger.me-1
     - else
-      = button_to tweet_likes_path(tweet), method: :post do
+      = link_to tweet_likes_path(tweet), method: :post do
         i.far.fa-heart.text-muted.me-1
     span = tweet.likes.count 
     
