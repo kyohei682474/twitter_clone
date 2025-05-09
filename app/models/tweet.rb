@@ -2,11 +2,12 @@
 
 class Tweet < ApplicationRecord
   belongs_to :user
+  belongs_to :retweeted_from, class_name: 'Tweet', optional: true
   has_one_attached :image
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :liked_users, through: :likes, source: :user
-  has_many :retweets, dependent: :destroy
+  has_many :retweets, class_name: 'Tweet', foreign_key: 'retweeted_form_id'
   has_one_attached :image
   validates :body, presence: true, length: { maximum: 140 }
 
