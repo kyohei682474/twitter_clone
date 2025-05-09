@@ -78,4 +78,4 @@ User.all.find_each do |user|
     user.active_relationships.create(followed_id: followed_user.id)
   end
 end
-Rails.logger.debug ' データを作成した'
+puts ' データを作成した'
