@@ -7,5 +7,13 @@ class RetweetsController < ApplicationController
   end
 
   def destroy
+    # カレントユーザのリツイートした内容を削除する
+    @retweet = current_user.tweets.find_by(retweeted_from_id: params[:id])
+    if @retweet
+      @retweet.destroy
+      redirect_to root_path, notice: 'リツイートを解除しました'
+    else
+      redirect_to root_path, alert: 'リツイートが見つかりませんでした'
+    end
   end
 end

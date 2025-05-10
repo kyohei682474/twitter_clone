@@ -15,3 +15,4 @@
               - if tweet.image.attached?
                 = image_tag(tweet.image.variant(resize_to_fill: [600, 600]), class: 'img-fluid rounded') 
               = render partial: 'users/shared/liked_button', locals: { tweet: tweet, current_user: current_user }
+              = render partial: 'users/shared/retweets', locals: { tweet: tweet,  retweeted_from: tweet.retweeted_from }

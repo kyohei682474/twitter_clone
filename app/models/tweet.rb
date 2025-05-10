@@ -10,7 +10,7 @@ class Tweet < ApplicationRecord
   has_many :retweets, class_name: 'Tweet', foreign_key: 'retweeted_from_id', dependent: :destroy
   has_one_attached :image
   validates :body, presence: true, length: { maximum: 140 }
-  validates :user_id, uniquness: { scope: :retweeted_from_id }, if: -> { retweeted_from_id.present? }
+  validates :user_id, uniqueness: { scope: :retweeted_from_id }, if: -> { retweeted_from_id.present? }
 
   paginates_per 5
 
@@ -20,5 +20,9 @@ class Tweet < ApplicationRecord
 
   def liked_from(user)
     likes.find_by(user_id: user.id)
+  end
+
+  def retweeted?(tweet)
+    current_user.tweets.exists?(retweeted_from_id: tweet.id)
   end
 end
