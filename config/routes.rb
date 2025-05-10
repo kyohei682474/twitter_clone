@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'retweets/create'
+  get 'retweets/destroy'
   root 'home#index' # トップページに遷移させる
   get 'following', to: 'home#following'
   resources :tweets, only: %i[new create show]
