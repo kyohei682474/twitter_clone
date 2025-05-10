@@ -1,6 +1,8 @@
 - if current_user.tweets.exists?(retweeted_from_id: tweet.id)
-  = link_to retweets_destroy_path(tweet, tweet.retweeted_from), data: { turbo_method: :get }, local: true do
-    i.fas.fa-retweet.text-danger.me-1
+  = link_to tweet_retweet_path(tweet, tweet.retweeted_from), data: { turbo_method: :delete }, local: true do
+    i.fas.fa-retweet.text-success.me-1
+  = tweet.retweets.count
 - else
-  = link_to retweets_create_path(tweet), data: { turbo_method: :get }, local: true do
+  = link_to tweet_retweets_path(tweet), data: { turbo_method: :post }, local: true do
     i.fas.fa-retweet.text-muted.me-1
+  = tweet.retweets.count
