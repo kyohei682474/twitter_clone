@@ -1,3 +1,8 @@
+.container.mt-3
+  = turbo_frame_tag "flash" do
+    - flash.each do |key, message|
+      .alert.alert-#{key}
+        = message
 .container-fluid
   = render 'users/shared/flash'
   .row
