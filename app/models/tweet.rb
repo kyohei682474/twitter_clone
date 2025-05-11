@@ -9,7 +9,7 @@ class Tweet < ApplicationRecord
   has_many :liked_users, through: :likes, source: :user
   has_many :retweets, class_name: 'Tweet', foreign_key: 'retweeted_from_id', dependent: :destroy
   has_one_attached :image
-  validates :body, presence: true, length: { maximum: 140 }
+  validates :body, presence: true, length: { maximum: 140 }, unless: -> { retweeted_from_id.present? }
   validates :user_id, uniqueness: { scope: :retweeted_from_id }, if: -> { retweeted_from_id.present? }
 
   paginates_per 5

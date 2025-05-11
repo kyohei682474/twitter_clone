@@ -1,12 +1,17 @@
 class RetweetsController < ApplicationController
   before_action :authenticate_user!
   def create
-    original = Tweet.find(params[:tweet_id]) # リツイート元のツイートを取得
-    unless current_user.tweets.exists?(retweeted_from: original)
-      retweet = current_user.tweets.build(retweeted_from: original)
+    original = Tweet.find_by(id: params[:tweet_id])
+    return head :not_found unless original
+
+    @retweet = current_user.tweets.find_or_initialize_by(retweeted_from: original)
+    Rails.logger.info "Retweet save failed: #{@retweet.errors.full_messages}"
+    return head :unprocessable_entity if @retweet.new_record? && !@retweet.save
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to root_path, notice: 'リツイートしました' }
     end
-    retweet.save # リツイートを保存
-    redirect_to root_path, notice: 'リツイートしました'
   end
 
   def destroy
