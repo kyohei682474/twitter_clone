@@ -1,2 +1,4 @@
-= turbo_stream.replace "like_button_#{@tweet.id}" do
-  = render 'users/shared/liked_button', tweet: @tweet, current_user: current_user
+- target_tweet = @tweet.retweeted_from || @tweet
+
+= turbo_stream.replace dom_id(target_tweet, :like_button) do
+  = render 'likes/liked_button', tweet: target_tweet, current_user: current_user

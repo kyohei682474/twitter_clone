@@ -4,7 +4,7 @@
       .card.mb-3
         .card-body
 
-          / リツイート情報を表示
+          / リツイート情報表示
           - if tweet.retweeted_from.present?
             .text-muted.small.mb-1
               = "#{tweet.user.display_name} さんがリツイート"
@@ -16,7 +16,6 @@
 
             .w-100.ms-2
               .d-flex.align-items-center.gap-2
-                / 名前と投稿日は元ツイート優先
                 - display_user = tweet.retweeted_from&.user || tweet.user
                 .fw-bold = display_user.display_name
                 = time_ago_in_words(tweet.created_at)
@@ -26,8 +25,9 @@
 
               - if (tweet.retweeted_from&.image || tweet.image)&.attached?
                 = image_tag((tweet.retweeted_from&.image || tweet.image).variant(resize_to_fill: [600, 600]), class: 'img-fluid rounded')
-              .d-flex.align-items-center.gap-3.mt-2
-                .d-inline-flex.align-items-center
-                  = render partial: 'users/shared/liked_button', locals: { tweet: tweet, current_user: current_user } 
-                .d-inline-flex.align-items-center.mt-2
-                  = render partial: 'retweets/retweet_button', locals: { tweet: tweet, current_user: current_user }
+
+              .d-flex.align-items-center.mt-2.gap-2 id=dom_id(tweet, :like_button)
+                = render 'likes/liked_button', tweet: tweet, current_user: current_user
+              
+              .d-inline-flex.align-items-center.mt-2
+                = render partial: 'retweets/retweet_button', locals: { tweet: tweet, current_user: current_user }
