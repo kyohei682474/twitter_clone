@@ -1,10 +1,9 @@
 .container.mt-3
   - @tweets.each do |tweet|
-    = link_to tweet_path(tweet), class: "text-decoration-none text-dark", local: true do
-      .card.mb-3
-        .card-body
-
-          / リツイート情報表示
+    .card.mb-3
+      .card-body
+        = link_to tweet_path(tweet), class: "text-decoration-none text-dark d-block mb-2" do
+          / ヘッダーや本文リンク部分
           - if tweet.retweeted_from.present?
             .text-muted.small.mb-1
               = "#{tweet.user.display_name} さんがリツイート"
@@ -26,8 +25,9 @@
               - if (tweet.retweeted_from&.image || tweet.image)&.attached?
                 = image_tag((tweet.retweeted_from&.image || tweet.image).variant(resize_to_fill: [600, 600]), class: 'img-fluid rounded')
 
-              .d-flex.align-items-center.mt-2.gap-2 id=dom_id(tweet, :like_button)
-                = render 'likes/liked_button', tweet: tweet, current_user: current_user
-              
-              .d-inline-flex.align-items-center.mt-2
-                = render partial: 'retweets/retweet_button', locals: { tweet: tweet, current_user: current_user }
+        / リンク外の操作ボタン
+        .d-flex.align-items-center.mt-2.gap-2 id=dom_id(tweet, :like_button)
+          = render 'likes/liked_button', tweet: tweet, current_user: current_user
+
+        .d-inline-flex.align-items-center.mt-2
+          = render partial: 'retweets/retweet_button', locals: { tweet: tweet, current_user: current_user }

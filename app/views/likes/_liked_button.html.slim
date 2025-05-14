@@ -1,5 +1,4 @@
 - target_tweet = (defined?(tweet) ? tweet : @tweet)
-- target_tweet = target_tweet.retweeted_from || target_tweet
 .d-flex.align-items-center.mt-2.gap-2
   - if target_tweet.liked_by?(current_user)
     = link_to tweet_like_path(target_tweet, target_tweet.liked_from(current_user)), data: { turbo_method: :delete } do
