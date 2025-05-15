@@ -1,9 +1,9 @@
 - target_tweet = (defined?(tweet) ? tweet : @tweet)
-.d-flex.align-items-center.mt-2.gap-2
+.d-flex.align-items-center.mt-2.gap-2 id=dom_id(target_tweet, :like_button)
   - if target_tweet.liked_by?(current_user)
     = link_to tweet_like_path(target_tweet, target_tweet.liked_from(current_user)), data: { turbo_method: :delete } do
-      i.fas.fa-heart.text-danger.me-1
+      i.fas.fa-heart.text-danger.me-1.align-middle
   - else
     = link_to tweet_likes_path(target_tweet), data: { turbo_method: :post } do
-      i.far.fa-heart.text-muted.me-1
+      i.far.fa-heart.text-muted.me-1.align-middle
   span = target_tweet.likes.count
