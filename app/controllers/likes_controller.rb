@@ -29,10 +29,6 @@ class LikesController < ApplicationController
       end
     else
       flash.now[:alert] = 'いいねの解除に失敗しました'
-      respond_to do |format|
-        format.turbo_stream { render 'likes/destroy' }
-        format.html { redirect_to tweet_path(@tweet) }
-      end
     end
   end
 end
