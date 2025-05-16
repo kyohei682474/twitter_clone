@@ -1,2 +1,6 @@
-= turbo_stream.replace "like_button_#{@tweet.id}" do
-  = render 'users/shared/liked_button', tweet: @tweet, current_user: current_user
+turbo-stream[action="replace" target="flash"]
+  template
+    = render partial: "users/shared/flash", formats: [:html]
+turbo-stream[action="replace" target=dom_id(@tweet, :like_button)]
+  template
+    = render partial: "likes/liked_button", formats: [:html], locals: { tweet: @tweet, current_user: current_user }

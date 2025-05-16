@@ -68,7 +68,7 @@ Tweet.destroy_all
   )
   tweet.comments.create!(user: user, body: JAPANESE_SENTENCES.sample)
   tweet.likes.create!(user: user)
-  tweet.retweets.create!(user: user)
+  user.tweets.create!(body: tweet.body, retweeted_from: tweet)
 end
 # ユーザーのフォロー関係を作成
 User.all.find_each do |user|

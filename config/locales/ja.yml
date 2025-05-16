@@ -14,6 +14,7 @@ ja:
       signed_up: 'アカウント登録が完了しました。'
       updated: 'アカウント情報を変更しました。'
     failure:
+      already_authenticated: "すでにログインしています。"
       unauthenticated: "ログインしてください。"
       timeout: 'セッションの有効期限が切れました。'
       invalid: 'メールアドレスまたはパスワードが正しくありません。'
