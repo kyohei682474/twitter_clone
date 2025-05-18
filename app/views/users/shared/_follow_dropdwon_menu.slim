@@ -1,6 +1,0 @@
-.dropdown-menu
-  - if current_user.following?(tweet.user)
-    = link_to "フォローをする", follow_user_path, method: :post, class: 'dropdown-item'
-  - else 
-    = link_to "フォローを解除する", unfollow_user_path, method: :delete, class: 'dropdown-item'
-

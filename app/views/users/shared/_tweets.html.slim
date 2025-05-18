@@ -18,6 +18,8 @@
                 - display_user = tweet.retweeted_from&.user || tweet.user
                 .fw-bold = display_user.display_name
                 = time_ago_in_words(tweet.created_at)
+                
+              = render partial: 'users/shared/follow_dropdown_menu', locals: { tweet: tweet, current_user: current_user }
 
               p.card-text.mb-1
                 = tweet.retweeted_from&.body || tweet.body

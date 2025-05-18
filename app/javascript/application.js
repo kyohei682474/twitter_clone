@@ -1,6 +1,6 @@
 import "@hotwired/turbo-rails"
 import { Application } from "@hotwired/stimulus"
-
+import 'bootstrap'
 // Stimulusアプリケーションの開始
 const application = Application.start()
 
