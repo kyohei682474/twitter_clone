@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root 'home#index' # トップページに遷移させる
+  root 'home#index'
   get 'following', to: 'home#following'
   resources :tweets, only: %i[new create show]
   resources :comments, only: %i[new create destroy]
@@ -11,6 +11,10 @@ Rails.application.routes.draw do
     resources :retweets, only: %i[create destroy]
   end
 
+  resources :users, only: [] do
+    post 'follow', on: :member
+    delete 'unfollow', on: :member
+  end
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
