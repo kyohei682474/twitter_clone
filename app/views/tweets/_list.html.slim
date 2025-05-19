@@ -1,32 +1,36 @@
-.container.mt-3
+.container.mt-3(style="max-width: 1000px;")
   - @tweets.each do |tweet|
     .card.mb-3
       .card-body
-        = link_to tweet_path(tweet), class: "text-decoration-none text-dark d-block mb-2", local: true do
-          / リツイート表示
-          - if tweet.retweeted_from.present?
-            .text-muted.small.mb-1
-              = "#{tweet.user.display_name} さんがリツイート"
+        .d-flex.justify-content-between
+          / 左側（リンク全体）
+          = link_to tweet_path(tweet), class: "text-decoration-none text-dark d-block mb-2 w-100", local: true do
+            / リツイート表示
+            - if tweet.retweeted_from.present?
+              .text-muted.small.mb-1
+                = "#{tweet.user.display_name} さんがリツイート"
 
-          / ユーザー情報・本文・画像
-          .d-flex.align-items-start
-            - avatar_source = tweet.retweeted_from&.user&.avatar_image&.attached? ? tweet.retweeted_from.user.avatar_image : tweet.user.avatar_image
-            - if avatar_source&.attached?
-              = image_tag(avatar_source.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid")
+            / ユーザー情報・本文・画像
+            .d-flex.align-items-start
+              - avatar_source = tweet.retweeted_from&.user&.avatar_image&.attached? ? tweet.retweeted_from.user.avatar_image : tweet.user.avatar_image
+              - if avatar_source&.attached?
+                = image_tag(avatar_source.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid")
+            
+            / ユーザー名と作成時間
+              .w-100.ms-2
+                .d-flex.align-items-center.gap-2
+                  - display_user = tweet.retweeted_from&.user || tweet.user
+                  .fw-bold = display_user.display_name
+                  text-muted.small= time_ago_in_words(tweet.created_at)
+            / ツイートの内容と添付画像
+                p.card-text.mb-1
+                  = tweet.retweeted_from&.body || tweet.body
+                - if (tweet.retweeted_from&.image || tweet.image)&.attached?
+                  = image_tag((tweet.retweeted_from&.image || tweet.image).variant(resize_to_limit: [600, 600]), class: 'img-fluid rounded')
 
-            .w-100.ms-2
-              .d-flex.align-items-center.gap-2
-                - display_user = tweet.retweeted_from&.user || tweet.user
-                .fw-bold = display_user.display_name
-                = time_ago_in_words(tweet.created_at)
-
-              p.card-text.mb-1
-                = tweet.retweeted_from&.body || tweet.body
-
-              - if (tweet.retweeted_from&.image || tweet.image)&.attached?
-                = image_tag((tweet.retweeted_from&.image || tweet.image).variant(resize_to_limit: [600, 600]), class: 'img-fluid rounded')
-        .d-flex.align-items-center.justify-content-between
-          = render partial: 'users/shared/follow_dropdown_menu', locals: {tweet: tweet, current_user: current_user }
+          / 右上（メニュー）
+          .ms-auto
+            = render partial: 'users/shared/follow_dropdown_menu', locals: { tweet: tweet, current_user: current_user }
 
         / 操作ボタン（リンク外）
         .d-flex.justify-content-start.mt-2.gap-4.align-items-center style="min-height: 30px;"

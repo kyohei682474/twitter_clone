@@ -1,7 +1,11 @@
 .container.mt-3
   - @tweets.each do |tweet|
-    .card.mb-3
+    .card.mb-3.position-relative
       .card-body
+        / --- 右上にドロップダウンメニュー固定 ---
+        .position-absolute.top-0.end-0.p-2
+          = render partial: 'users/shared/follow_dropdown_menu', locals: { tweet: tweet, current_user: current_user }
+
         / --- ここからツイート本文リンク化部分 ---
         = link_to tweet_path(tweet), class: "text-decoration-none text-dark d-block mb-2" do
           - if tweet.retweeted_from.present?
@@ -14,20 +18,17 @@
               = image_tag(avatar_source.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid")
 
             .w-100.ms-2
-              .fw-bold = (tweet.retweeted_from&.user || tweet.user).display_name
-              = time_ago_in_words(tweet.created_at)
+              .d-flex.align-items-center.gap-2
+                .fw-bold = (tweet.retweeted_from&.user || tweet.user).display_name
+                span.text-muted.small = time_ago_in_words(tweet.created_at)
 
               p.card-text.mb-1
                 = tweet.retweeted_from&.body || tweet.body
 
               - if (tweet.retweeted_from&.image || tweet.image)&.attached?
                 = image_tag((tweet.retweeted_from&.image || tweet.image).variant(resize_to_fill: [600, 600]), class: 'img-fluid rounded')
-        / --- ここまでリンク化部分 ---
 
         / --- 操作ボタン類（リンク外） ---
-        .d-flex.align-items-center.justify-content-between
-          = render partial: 'users/shared/follow_dropdown_menu', locals: { tweet: tweet, current_user: current_user }
-
         .d-flex.justify-content-start.mt-2.gap-4.align-items-center style="min-height: 30px;"
           .d-flex.align-items-center.mt-2.gap-2.mt-2 id=dom_id(tweet, :like_button)
             = render 'likes/liked_button', tweet: tweet, current_user: current_user
