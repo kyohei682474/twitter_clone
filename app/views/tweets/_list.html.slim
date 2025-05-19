@@ -25,6 +25,8 @@
 
               - if (tweet.retweeted_from&.image || tweet.image)&.attached?
                 = image_tag((tweet.retweeted_from&.image || tweet.image).variant(resize_to_limit: [600, 600]), class: 'img-fluid rounded')
+        .d-flex.align-items-center.justify-content-between
+          = render partial: 'users/shared/follow_dropdown_menu', locals: {tweet: tweet, current_user: current_user }
 
         / 操作ボタン（リンク外）
         .d-flex.justify-content-start.mt-2.gap-4.align-items-center style="min-height: 30px;"
