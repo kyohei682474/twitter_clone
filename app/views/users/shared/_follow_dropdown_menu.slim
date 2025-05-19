@@ -1,19 +1,13 @@
-
 .dropdown
-  button.btn.btn-link.text-muted.dropdown-toggle type="button" data-bs-toggle="dropdown" aria-expanded="false"
+  button.btn.btn-link.text-muted.dropdown-toggle type="button" data-turbo="false" data-bs-toggle="dropdown" aria-expanded="false"
     i.bi.bi-three-dots
 
   ul.dropdown-menu
     li
-      - target_user = tweet.retweeted_from&.user || tweet.user
-
-      - if target_user
-        - if user_signed_in?
-          - if current_user.following?(target_user)
-            = link_to "フォローを解除する", unfollow_user_path(target_user), method: :delete, class: 'dropdown-item'
-          - else
-            = link_to "フォローをする", follow_user_path(target_user), method: :post, class: 'dropdown-item'
-        - else
-          = link_to "ログインしてフォロー", new_user_session_path, class: 'dropdown-item'
+      - if user_signed_in? && tweet.user != current_user
+        - if current_user.following?(tweet.user)
+          = link_to "フォローを解除する", unfollow_user_path(tweet.user), method: :delete, class: 'dropdown-item'
+        - else 
+          = link_to "フォローをする", follow_user_path(tweet.user), method: :post, class: 'dropdown-item'
       - else
         = link_to "ログインしてフォロー", new_user_session_path, class: 'dropdown-item'
