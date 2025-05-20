@@ -1,10 +1,10 @@
-.container-fluid
+.container
+  = render "users/shared/flash"
   .row
     .col-auto
       = render "users/shared/sidebar"
     .col
       = render "users/shared/tabs"
       = render "tweets/form"
-      .container
-        = render "tweets/list", tweets: @tweets
+      = render "tweets/list", tweets: @tweets
       = paginate @tweets

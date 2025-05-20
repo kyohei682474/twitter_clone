@@ -26,8 +26,7 @@ class User < ApplicationRecord
   has_many :commented_tweets, through: :comments, source: :tweet
   has_many :likes, dependent: :destroy
   has_many :liked_tweets, through: :likes, source: :tweet
-  has_many :retweets, dependent: :destroy
-  has_many :retweet_tweets, through: :retweets, source: :tweet
+
   # フォローしている人
   has_many :active_relationships, foreign_key: :follower_id, class_name: 'Relationship', dependent: :destroy,
                                   inverse_of: :follower
@@ -38,6 +37,19 @@ class User < ApplicationRecord
   has_many :followers, through: :reverse_relationships, source: :follower
   # Githubユーザー情報をもとに既存のユーザーを検索または新規作成を行う。以前にもGitHubを使用して認証したことがあるか、初めてログインした人かを判別
   # あくまでGitHubを使用して認証した場合の処理なのでbirthdateやphone_numberは記述しない
+  # リツイートだけを取得するアソシエーション。あるユーザーがリツイートしてツイートを一覧表示するために使用する。
+  has_many :retweet_tweets, -> { where.not(retweeted_from_id: nil) }, class_name: 'Tweet', dependent: :destroy,
+                                                                      foreign_key: 'retweeted_from_id',
+                                                                      inverse_of: :retweeted_from
+  # ユーザーのリツイートを取得するためのアソシエーション。あるユーザーがリツイートしたツイートを一覧表示するために使用する。
+  has_many :retweets, class_name: 'Tweet', foreign_key: 'retweeted_from_id', dependent: :destroy,
+                      inverse_of: :retweeted_from
+
+  # ユーザーのいいねを取得するためのアソシエーション。あるユーザーがいいねしたツイートを一覧表示するために使用する。
+  has_many :liked_tweets, through: :likes, source: :tweet
+
+  # Omniauthからの情報をもとにユーザーを作成または更新
+
   def self.from_omniauth(auth)
     user = where(provider: auth.provider, uid: auth.uid).first_or_initialize
 

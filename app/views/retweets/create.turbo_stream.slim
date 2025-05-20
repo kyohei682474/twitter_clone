@@ -1,0 +1,5 @@
+= turbo_stream.replace "flash" do
+  = render partial: "users/shared/flash"
+- tweet = @retweet.retweeted_from
+= turbo_stream.replace "retweet_button_#{tweet.id}" do
+  = render partial: "retweet_button", locals: { tweet: tweet, current_user: current_user }

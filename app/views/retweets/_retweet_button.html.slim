@@ -1,0 +1,10 @@
+= turbo_frame_tag "retweet_button_#{tweet.id}" do
+  .d-flex.align-items-center.gap-2
+    - if current_user.tweets.exists?(retweeted_from_id: tweet.id)
+      = link_to tweet_retweet_path(tweet, tweet), data: { turbo_method: :delete } do
+        i.fas.fa-retweet.text-success.me-1
+      = tweet.retweets.count
+    - else
+      = link_to tweet_retweets_path(tweet), data: { turbo_method: :post } do
+        i.fas.fa-retweet.text-muted.me-1
+      = tweet.retweets.count
