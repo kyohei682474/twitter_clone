@@ -1,4 +1,5 @@
-/ - unless tweet.user == current_user
+- user_to_follow = tweet.retweeted_from&.user || tweet.user
+- unless user_to_follow == current_user
 
   .dropdown
     button.btn.btn-link.text-muted.dropdown-toggle type="button" data-turbo="false" data-bs-toggle="dropdown" aria-expanded="false"
@@ -7,13 +8,13 @@
     ul.dropdown-menu
       li
         - if user_signed_in?
-          - relationship = current_user.active_relationships.find_by(followed_id: tweet.user.id)
+          - relationship = current_user.active_relationships.find_by(followed_id: user_to_follow.id)
           - if relationship
             = link_to relationship_path(relationship), data: { turbo_method: :delete }, class: 'dropdown-item text-decoration-none' do
               i.bi.bi-person-dash.me-1
               | フォローを解除する
           - else
-            = link_to relationships_path(user_id: tweet.user.id), data: { turbo_method: :post }, class: 'dropdown-item text-decoration-none' do
+            = link_to relationships_path(user_id: user_to_follow.id), data: { turbo_method: :post }, class: 'dropdown-item text-decoration-none' do
               i.bi.bi-person-plus.me-1
               | フォローをする
         - else
