@@ -11,10 +11,8 @@ Rails.application.routes.draw do
     resources :retweets, only: %i[create destroy]
   end
 
-  resources :users, only: %i[show edit update] do
-    post 'follow', on: :member
-    delete 'unfollow', on: :member
-  end
+  resources :relationships, only: %i[create destroy]
+
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
@@ -23,6 +21,11 @@ Rails.application.routes.draw do
     unlocks: 'users/unlocks',
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
+
+  resources :users, only: %i[show edit update]
+  # post 'follow', on: :member
+  # delete 'unfollow', on: :member
+  # end
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 

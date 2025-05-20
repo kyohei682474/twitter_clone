@@ -25,17 +25,17 @@ class UsersController < ApplicationController
     end
   end
 
-  def follow
-    @user = User.find(params[:id])
-    current_user.followings << @user if !(user == current_user) && !current_user.following?(@user)
-    redirect_to request.referer || root_path, notice: "#{@user.display_name}をフォローしました"
-  end
+  # def follow
+  #   @user = User.find(params[:id])
+  #   current_user.followings << @user if user != current_user && !current_user.following?(@user)
+  #   redirect_to request.referer || root_path, notice: "#{@user.display_name}をフォローしました"
+  # end
 
-  def unfollow
-    @user = User.find(params[:id])
-    current_user.followings.delete(@user) if current_user.following?(@user)
-    redirect_to request.referer || root_path, notice: "#{@user.display_name}のフォローを解除しました"
-  end
+  # def unfollow
+  #   @user = User.find(params[:id])
+  #   current_user.followings.delete(@user) if current_user.following?(@user)
+  #   redirect_to request.referer || root_path, notice: "#{@user.display_name}のフォローを解除しました"
+  # end
 
   private
 
