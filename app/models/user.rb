@@ -70,6 +70,10 @@ class User < ApplicationRecord
     name.presence || email.split('@').first
   end
 
+  def following?(other_user)
+    followings.include?(other_user)
+  end
+
   private
 
   def birthdate_cannot_be_in_the_future

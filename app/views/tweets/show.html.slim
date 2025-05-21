@@ -16,12 +16,32 @@
               .card-text.mb-1
                 p = @tweet.body
                 = image_tag @tweet.image.variant(resize_to_limit: [100, 100]), class: "img-fluid" if @tweet.image.attached?
-                
-              = render 'likes/liked_button'
 
+              = render 'likes/liked_button'
+              .container
+  = render 'tweets/error_messages'
+  = render 'tweets/flash'
+  .row
+    .col-auto
+      = render 'tweets/sidebar' 
+    .col
+      .card.mb-3
+        .card-body
+          .d-flex.align-items-start 
+            p = image_tag @tweet.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid" if @tweet.user.avatar_image.attached?
+            .w-100.ms-2
+              .d-flex.align-items-center.gap-2
+                .fw-bold = @tweet.user.name
+                = time_ago_in_words(@tweet.updated_at)
+              .card-text.mb-1
+                p = @tweet.body
+                = image_tag @tweet.image.variant(resize_to_limit: [100, 100]), class: "img-fluid" if @tweet.image.attached?
+
+              = render 'likes/liked_button'
+              = render partial: 'users/shared/follow_dropdown_menu', locals: { tweet: @tweet, current_user: current_user }
+      / コメントフォームとコメント一覧
       .d-flex.align-items-start     
         = image_tag @tweet.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid" if @tweet.user.avatar_image.attached?
-            image_tag @commnet.user.avatar_image 
         .w-100.ms-2
           = form_with model: [@tweet, @comment], local: true do |f|
             .row.mb-4
@@ -32,4 +52,19 @@
 
       - @tweet.comments.each do |comment|
         - next if comment.user.nil? || comment.body.blank?
-        = render 'comments/comment', comment: comment   
+        = render 'comments/comment', comment: comment
+
+      / コメントフォームとコメント一覧
+      .d-flex.align-items-start     
+        = image_tag @tweet.user.avatar_image.variant(resize_to_fill: [60, 60]), class: "rounded-circle img-fluid" if @tweet.user.avatar_image.attached?
+        .w-100.ms-2
+          = form_with model: [@tweet, @comment], local: true do |f|
+            .row.mb-4
+              .col-8
+                = f.text_area :body, placeholder: "返信をツイート", class: "form-control"
+              .col-4.align-items-end
+                = f.submit "返信", class: "btn btn-primary mt-2"
+
+      - @tweet.comments.each do |comment|
+        - next if comment.user.nil? || comment.body.blank?
+        = render 'comments/comment', comment: comment
