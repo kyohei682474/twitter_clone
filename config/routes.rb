@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   # post 'follow', on: :member
   # delete 'unfollow', on: :member
   # end
+  #
+  resources :bookmarks, only: %i[index create destroy]
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
