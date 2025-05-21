@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'bookmarks/create'
+  get 'bookmarks/destroy'
+  get 'bookmarks/index'
   root 'home#index'
   get 'following', to: 'home#following'
   resources :tweets, only: %i[new create show]

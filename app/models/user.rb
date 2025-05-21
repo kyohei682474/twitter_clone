@@ -26,7 +26,9 @@ class User < ApplicationRecord
   has_many :commented_tweets, through: :comments, source: :tweet
   has_many :likes, dependent: :destroy
   has_many :liked_tweets, through: :likes, source: :tweet
-
+  # ブックマーク機能
+  has_many :bookmarks, dependent: :destroy
+  has_many :bookmarked_tweets, through: :bookmarks, source: :tweet
   # フォローしている人
   has_many :active_relationships, foreign_key: :follower_id, class_name: 'Relationship', dependent: :destroy,
                                   inverse_of: :follower
