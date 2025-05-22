@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :comments, only: %i[create destroy]
     resources :likes, only: %i[create destroy]
     resources :retweets, only: %i[create destroy]
+    resources :bookmarks, only: %i[create destroy]
   end
 
   resources :relationships, only: %i[create destroy]
@@ -30,6 +31,7 @@ Rails.application.routes.draw do
   # delete 'unfollow', on: :member
   # end
   #
+
   resources :bookmarks, only: %i[index create destroy]
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
