@@ -1,18 +1,15 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'bookmarks/create'
-  get 'bookmarks/destroy'
-  get 'bookmarks/index'
   root 'home#index'
   get 'following', to: 'home#following'
   resources :tweets, only: %i[new create show]
   resources :comments, only: %i[new create destroy]
   resources :tweets do
+    resource :bookmark, only: %i[create destroy]
     resources :comments, only: %i[create destroy]
     resources :likes, only: %i[create destroy]
     resources :retweets, only: %i[create destroy]
-    resources :bookmarks, only: %i[create destroy]
   end
 
   resources :relationships, only: %i[create destroy]
@@ -32,7 +29,7 @@ Rails.application.routes.draw do
   # end
   #
 
-  resources :bookmarks, only: %i[index create destroy]
+  resources :bookmarks, only: %i[index]
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
