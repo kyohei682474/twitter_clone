@@ -3,7 +3,7 @@ class BookmarksController < ApplicationController
 
   def create
     @tweet = Tweet.find(params[:tweet_id])
-    current_user.bookmarked_tweets << tweet unless current_user.bookmarked_tweets.include?(@tweet)
+    current_user.bookmarked_tweets << @tweet unless current_user.bookmarked_tweets.include?(@tweet)
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to tweet_path(tweet) }
@@ -11,9 +11,9 @@ class BookmarksController < ApplicationController
   end
 
   def destroy
-    tweet = Tweet.find(params[:tweet_id])
-    current_user.bookmarked_tweets.destroy(tweet)
-    respeon_to do |format|
+    @tweet = Tweet.find(params[:tweet_id])
+    current_user.bookmarked_tweets.destroy(@tweet)
+    respond_to do |format|
       format.turbo_stream
       format.html { redirect_to tweet_path(tweet) }
     end
