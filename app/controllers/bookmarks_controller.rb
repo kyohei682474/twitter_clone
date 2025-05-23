@@ -21,5 +21,6 @@ class BookmarksController < ApplicationController
 
   def index
     @bookmarkes = current_user.bookmarked_tweets.includes(:user)
+    @tweets = current_user.bookmarked_tweets.includes(:user) # 明確な理由がわかっていなので調べる
   end
 end

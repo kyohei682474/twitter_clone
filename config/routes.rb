@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :likes, only: %i[create destroy]
     resources :retweets, only: %i[create destroy]
   end
-
+  resources :bookmarks, only: %i[index]
   resources :relationships, only: %i[create destroy]
 
   devise_for :users, controllers: {
@@ -28,8 +28,6 @@ Rails.application.routes.draw do
   # delete 'unfollow', on: :member
   # end
   #
-
-  resources :bookmarks, only: %i[index]
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
