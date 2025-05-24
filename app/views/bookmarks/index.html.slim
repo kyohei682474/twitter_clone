@@ -1,0 +1,8 @@
+.container
+  = render 'users/shared/flash'
+  .row
+    .col-auto
+      = render "users/shared/sidebar"
+    .col
+      - @tweets.each do |tweet|
+         = render "users/shared/tweets"

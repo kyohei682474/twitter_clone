@@ -1,0 +1,5 @@
+= turbo_stream.replace "flash" do
+  = render "users/shared/flash"
+= turbo_stream.replace "bookmark_button_#{@tweet.id}" do
+  = render "tweets/bookmark_button", tweet: @tweet
+

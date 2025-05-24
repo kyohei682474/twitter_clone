@@ -34,3 +34,6 @@
             = render 'likes/liked_button', tweet: tweet, current_user: current_user
           .d-inline-flex.align-items-center.mt-3
             = render partial: 'retweets/retweet_button', locals: { tweet: tweet, current_user: current_user }
+          .d-inline-flex.align-items-center.mt-3
+            = render partial: 'tweets/bookmark_button', locals: { tweet: tweet, current_user: current_user }
+            

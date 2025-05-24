@@ -1,0 +1,7 @@
+turbo-frame id="bookmark_button_#{tweet.id}"
+  - if current_user.bookmarked_tweets.include?(tweet)
+    = link_to tweet_bookmark_path(tweet), data: { turbo_method: :delete }, class: "text-warning" do
+      i.fas.fa-bookmark
+  - else
+    = link_to tweet_bookmark_path(tweet), data: { turbo_method: :post }, class: "text-muted" do
+      i.far.fa-bookmark

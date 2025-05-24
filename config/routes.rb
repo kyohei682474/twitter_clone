@@ -6,11 +6,12 @@ Rails.application.routes.draw do
   resources :tweets, only: %i[new create show]
   resources :comments, only: %i[new create destroy]
   resources :tweets do
+    resource :bookmark, only: %i[create destroy]
     resources :comments, only: %i[create destroy]
     resources :likes, only: %i[create destroy]
     resources :retweets, only: %i[create destroy]
   end
-
+  resources :bookmarks, only: %i[index]
   resources :relationships, only: %i[create destroy]
 
   devise_for :users, controllers: {
@@ -26,6 +27,7 @@ Rails.application.routes.draw do
   # post 'follow', on: :member
   # delete 'unfollow', on: :member
   # end
+  #
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
