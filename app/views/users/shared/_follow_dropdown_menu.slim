@@ -17,5 +17,10 @@
             = link_to relationships_path(user_id: user_to_follow.id), data: { turbo_method: :post }, class: 'dropdown-item text-decoration-none' do
               i.bi.bi-person-plus.me-1
               | フォローをする
+
+            
         - else
           = link_to "ログインしてフォロー", new_user_session_path, class: 'dropdown-item'
+        
+        = link_to "ダイレクトメッセージ", rooms_path(user_id: tweet.user.id), method: : class: 'dropdown-item'
+
