@@ -2,12 +2,19 @@ class ChatsController < ApplicationController
   before_atction :authenticate_user!
 
   def create
-    @chat = currenst_user.chats.new(chat_params)
-    @chat.room_id = params[:room_id]
+    @room = Room.find(params[:room_id])
+    @chat = @romm.chats.build(chat_params)
+    @chat.user = current_user
     if @chat.save
-      redirect_to room_path(@chat.room), notice: 'Chat was successfully created.'
+      redirect_to room_path(@room), notice: 'メッセージを送信しました'
     else
-      redirect_to room_path(@chat.room), alert: 'Error creating chat.'
+      redirect_to room_path(@room), alert: 'メッセージの送信に失敗しました'
     end
+  end
+
+  private
+
+  def chat_params
+    params.require(:chat).permit(:content)
   end
 end
