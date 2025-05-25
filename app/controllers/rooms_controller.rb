@@ -1,14 +1,14 @@
 class RoomsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @rooms = currnen_user.rooms.includes(:chats)
+    @rooms = current_user.rooms.includes(:chats)
   end
 
   def show
-    @room = Room.find(pramas[:id])
-    redirect_to rooms_path, alert: 'アクセス権がありません' unless @room.users.includes?(current_user)
+    @room = Room.find(params[:id])
+    redirect_to rooms_path, alert: 'アクセス権がありません' unless @room.users.include?(current_user)
     @chats = @room.chats.includes(:user).order(created_at: :asc)
-    @chat = Chats.new
+    @chat = Chat.new
   end
 
   # drpdownアイコンからダイレクトメッセージをクリックする際に遷移するアクション
