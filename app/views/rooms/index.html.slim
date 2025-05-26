@@ -1,13 +1,18 @@
 h1 メッセージルーム一覧
+
 - if @rooms.any?
-   ul.list-group
+  ul.list-group
     - @rooms.each do |room|
-      - other_user = room.users.where.not(id: current_user.id ).first
+      - other_user = room.other_user_for(current_user)
       li.list-group-item
-        = link_to room_path(room), class: "text-decoration-none text-dark" do
+        = link_to room_path(room), class: "text-decoration-none text-dark d-block" do
           i.fas.fa-user.me-2
           = other_user&.display_name || "相手不明"
-          - room.chats.each do |chat|
-            = chat.content
+          - if room.chats.any?
+            ul.mt-2
+            = room.chats.last.content
+          - else
+            p.texy-muted まだチャットは生成されていません。
+                
 - else
-  p まだチャットルームは作成されていません
+  p.text-muted まだチャットルームは作成されていません
