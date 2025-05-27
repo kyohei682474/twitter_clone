@@ -2,6 +2,10 @@ class RoomsController < ApplicationController
   before_action :authenticate_user!
   def index
     @rooms = current_user.rooms.includes(:chats, :users)
+    @room_user_pairs = current_user.rooms.includes(:users, :chats).map do |room|
+      other_user = room.other_user_for(current_user)
+      [room, other_user]
+    end.uniq { |_, other_user| other_user.id }
   end
 
   def show
@@ -17,8 +21,8 @@ class RoomsController < ApplicationController
     # 自分と相手ユーザーの２人が参加しているルームを探す
     @room = Room.joins(:entries)
                 .where(entries: { user_id: [current_user.id, reception_user.id] })
-                .group(':room.id')
-                .having('COUNT(DISTINCT entries.user.id) = 2')
+                .group('rooms.id')
+                .having('COUNT(DISTINCT entries.user_id) = 2')
                 .first
     # ルームが見つからなければ新規作成
     unless @room
