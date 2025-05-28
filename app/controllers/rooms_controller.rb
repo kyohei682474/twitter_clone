@@ -17,6 +17,8 @@ class RoomsController < ApplicationController
     redirect_to rooms_path, alert: 'アクセス権がありません' unless @room.users.include?(current_user)
     mapped_pairs = current_user.rooms.includes(:users, :chats).map do |room|
       other_user = room.other_user_for(current_user)
+      next unless other_user
+
       [room, other_user]
     end
     @room_user_pairs = mapped_pairs.uniq { |_, other_user| other_user.id }
@@ -38,6 +40,7 @@ class RoomsController < ApplicationController
       @room = Room.create
       @room.entries.create!(user: current_user)
       @room.entries.create!(user: reception_user)
+      @room.reload # ルームの最新情報を取得
     end
 
     redirect_to room_path(@room)
