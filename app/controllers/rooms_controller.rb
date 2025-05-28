@@ -8,7 +8,7 @@ class RoomsController < ApplicationController
       other_user = room.other_user_for(current_user)
       [room, other_user]
     end
-    @room_user_pairs = mapped_pairs.uniq { |_, other_user| other_user.id }
+    @room_user_pairs = mapped_pairs.compact.uniq { |_, other_user| other_user.id }
   end
 
   def show
@@ -21,7 +21,7 @@ class RoomsController < ApplicationController
 
       [room, other_user]
     end
-    @room_user_pairs = mapped_pairs.uniq { |_, other_user| other_user.id }
+    @room_user_pairs = mapped_pairs.compact.uniq { |_, other_user| other_user.id }
     @chats = @room.chats.includes(:user).order(created_at: :asc)
     @chat = @room.chats.build
   end
