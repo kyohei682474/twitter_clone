@@ -1,21 +1,25 @@
+# frozen_string_literal: true
+
 class RoomsController < ApplicationController
   before_action :authenticate_user!
   def index
     @rooms = current_user.rooms.includes(:chats, :users)
-    @room_user_pairs = current_user.rooms.includes(:users, :chats).map do |room|
+    mapped_pairs = current_user.rooms.includes(:users, :chats).map do |room|
       other_user = room.other_user_for(current_user)
       [room, other_user]
-    end.uniq { |_, other_user| other_user.id }
+    end
+    @room_user_pairs = mapped_pairs.uniq { |_, other_user| other_user.id }
   end
 
   def show
     @rooms = current_user.rooms.includes(:chats, :users)
     @room = Room.find(params[:id])
     redirect_to rooms_path, alert: 'アクセス権がありません' unless @room.users.include?(current_user)
-    @room_user_pairs = current_user.rooms.includes(:users, :chats).map do |room|
+    mapped_pairs = current_user.rooms.includes(:users, :chats).map do |room|
       other_user = room.other_user_for(current_user)
       [room, other_user]
-    end.uniq { |_, other_user| other_user.id }
+    end
+    @room_user_pairs = mapped_pairs.uniq { |_, other_user| other_user.id }
     @chats = @room.chats.includes(:user).order(created_at: :asc)
     @chat = @room.chats.build
   end
