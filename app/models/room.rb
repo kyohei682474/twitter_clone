@@ -6,6 +6,6 @@ class Room < ApplicationRecord
   has_many :users, through: :entries
 
   def other_user_for(current_user)
-    users.where.not(id: current_user.id).first
+    users.where.not(id: current_user.id).first || users.first
   end
 end
