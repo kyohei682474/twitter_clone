@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'English'
 class RoomsController < ApplicationController
   before_action :authenticate_user!
   def index
@@ -43,7 +44,7 @@ class RoomsController < ApplicationController
       begin
         @room.entries.create!(user: reception_user)
       rescue StandardError
-        logger.error($!.message)
+        logger.error($ERROR_INFO.message)
       end
       @room.reload # ルームの最新情報を取得
     end
