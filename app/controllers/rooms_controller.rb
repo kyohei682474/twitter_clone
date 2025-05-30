@@ -5,14 +5,14 @@ class RoomsController < ApplicationController
   before_action :authenticate_user!
   def index
     @rooms = current_user.rooms.includes(:chats, :users)
-    @room_user_pairs = current_user.room_user_pairs(current_user).uniq { |_, other_user| other_user.id }
+    @room_user_pairs = current_user.room_user_pairs.uniq { |_, other_user| other_user.id }
   end
 
   def show
     @rooms = current_user.rooms.includes(:chats, :users)
     @room = Room.find(params[:id])
     redirect_to rooms_path, alert: 'アクセス権がありません' unless @room.users.include?(current_user)
-    @room_user_pairs = current_user.room_user_pairs(current_user).uniq { |_, other_user| other_user.id }
+    @room_user_pairs = current_user.room_user_pairs.uniq { |_, other_user| other_user.id }
     @chats = @room.chats.includes(:user).order(created_at: :asc)
     @chat = @room.chats.build
   end
