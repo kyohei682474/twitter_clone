@@ -80,7 +80,7 @@ class User < ApplicationRecord
   end
 
   def room_user_pairs
-    rooms.includes(:suer, :chats).map do |room|
+    rooms.includes(:users, :chats).map do |room|
       other_user = room.other_user_for(self)
       next unless other_user
 
