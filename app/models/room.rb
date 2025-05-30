@@ -5,7 +5,16 @@ class Room < ApplicationRecord
   has_many :chats, dependent: :destroy
   has_many :users, through: :entries
 
-  def other_user_for(current_user)
-    users.where.not(id: current_user.id).first || users.first
+  def other_user_for(user)
+    users.where.not(id: user.id).first || users.first
+  end
+
+  def self.room_user_pairs(user)
+    user.rooms.includes(:users, :chats).map do |room|
+      other_user = room.other_user_for(user)
+      next unless other_user
+
+      [room, other_user]
+    end.to_h
   end
 end

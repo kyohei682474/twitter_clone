@@ -79,6 +79,15 @@ class User < ApplicationRecord
     followings.include?(other_user)
   end
 
+  def room_user_pairs
+    rooms.includes(:suer, :chats).map do |room|
+      other_user = room.other_user_for(self)
+      next unless other_user
+
+      [room, other_user]
+    end
+  end
+
   private
 
   def birthdate_cannot_be_in_the_future
