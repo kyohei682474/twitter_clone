@@ -26,15 +26,10 @@ class RoomsController < ApplicationController
                 .having('COUNT(DISTINCT entries.user_id) = 2')
                 .first
     # ルームが見つからなければ新規作成
-    logger.debug reception_user.inspect
     unless @room
       @room = Room.create
       @room.entries.create!(user: current_user)
-      begin
-        @room.entries.create!(user: reception_user)
-      rescue StandardError
-        logger.error($!.message)
-      end
+      @room.entries.create!(user: reception_user)
       @room.reload # ルームの最新情報を取得
     end
 

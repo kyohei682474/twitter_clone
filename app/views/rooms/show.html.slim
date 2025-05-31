@@ -17,11 +17,11 @@
       - other_user = @room.other_user_for(current_user)
       .container.mt-4.text-center.bg-light.p-3.rounded
         .header-image
-          = image_tag other_user&.header_image if other_user&.header_image.attached?
+          = image_tag other_user.header_image if other_user.header_image.attached?
 
         .d-flex.align-items-center.justify-content-center.mt-3.mb-3
           - if other_user.avatar_image.attached?
-            = image_tag other_user&.avatar_image, class: "rounded-circle", size: "60x60" 
+            = image_tag other_user.avatar_image, class: "rounded-circle", size: "60x60" 
           .ms-3.d-flex.align-items-center
             h3 = other_user.name   
         = other_user.bio 
