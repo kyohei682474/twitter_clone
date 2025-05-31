@@ -1,10 +1,9 @@
 .container.mt-3
-  
+  h1 メッセージルーム一覧
   .row
     .col-auto
       = render 'users/shared/sidebar'
     .col
-      h4.fw-bold メッセージルーム一覧
       - if @rooms.any?
         ul.list-group
           - @room_user_pairs.each do |room, other_user|
