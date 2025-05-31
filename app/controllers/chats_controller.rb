@@ -1,15 +1,14 @@
 class ChatsController < ApplicationController
-  before_action :authenticate_user!
+  before_atction :authenticate_user!
 
   def create
     @room = Room.find(params[:room_id])
-    @chat = @room.chats.build(chat_params)
+    @chat = @romm.chats.build(chat_params)
     @chat.user = current_user
     if @chat.save
       redirect_to room_path(@room), notice: 'メッセージを送信しました'
     else
-      @chats = @room.chats.includes(:user)
-      render 'rooms/show', staus: :unprocessable_entity
+      redirect_to room_path(@room), alert: 'メッセージの送信に失敗しました'
     end
   end
 

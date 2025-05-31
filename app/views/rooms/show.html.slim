@@ -1,24 +1,2 @@
-h2 チャットルーム
-/ 相手の名前取得
-- other_user = @room.users.where.not(id: current_user.id).first
-
-p.text-muted
-  | あなた
-  b = other_user&.display_name || "相手不明"
-  | さんとのチャット
-
-hr
-
-/ メッセージ一覧
-- @chats.each do |chat|
-  .mb-2
-    b = chat.user.display_name
-    span = ": #{chat.content}"
-
-/ 投稿フォーム
-= form_with model: [@room, @chat], local: true do |f|
-  .mb-2
-    = f.text_area :content, rows: 2, class: "form-control"
-  = f.submit "送信", class: "btn btn-primary"
-
- 
+h1 Rooms#show
+p Find me in app/views/rooms/show.html.slim

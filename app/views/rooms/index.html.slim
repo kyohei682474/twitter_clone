@@ -1,15 +1,6 @@
 h1 メッセージルーム一覧
-
 - if @rooms.any?
-  - @rooms.each do |room|
-    h2 = "Room ##{room.id}"
-  
-
-    - if room.chats.any?
-      ul
-        - room.chats.each do |chat|
-          li = chat.content
-    - else
-      p このルームにはまだチャットがありません
+  @rooms.each |room| do
+    room.chats.content
 - else
-  p まだチャットルームは作成されていません
+  まだチャットルームは作成されていません
