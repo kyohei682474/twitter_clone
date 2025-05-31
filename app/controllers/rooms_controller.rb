@@ -2,8 +2,6 @@ class RoomsController < ApplicationController
   before_action :authenticate_user!
   def index
     @rooms = current_user.rooms.includes(:chats)
-    #
-    @other_users = User.where.not(id: current_user.id)
   end
 
   def show

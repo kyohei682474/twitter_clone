@@ -1,13 +1,15 @@
 h1 メッセージルーム一覧
+
 - if @rooms.any?
-   ul.list-group
-    - @rooms.each do |room|
-      - other_user = room.users.where.not(id: current_user.id ).first
-      li.list-group-item
-        = link_to room_path(room), class: "text-decoration-none text-dark" do
-          i.fas.fa-user.me-2
-          = other_user&.display_name || "相手不明"
-          - room.chats.each do |chat|
-            = chat.content
+  - @rooms.each do |room|
+    h2 = "Room ##{room.id}"
+  
+
+    - if room.chats.any?
+      ul
+        - room.chats.each do |chat|
+          li = chat.content
+    - else
+      p このルームにはまだチャットがありません
 - else
   p まだチャットルームは作成されていません
