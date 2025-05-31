@@ -1,6 +1,6 @@
 h2 チャットルーム
 / 相手の名前取得
-- other_user = @room.other_user_for(current_user)
+- other_user = @room.users.where.not(id: current_user.id).first
 
 p.text-muted
   | あなたと
