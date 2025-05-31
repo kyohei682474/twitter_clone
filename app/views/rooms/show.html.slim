@@ -36,20 +36,11 @@
 
         / メッセージ一覧
         - @chats.each do |chat|
-          - if chat.user == current_user
-            .d-flex.justify-content-end.mb-3
-              .bg-primary.text-white.p-3.rounded.d-inline-block
-                b = chat.user.display_name
-                span = ": #{chat.content}"
-            .d-flex.justify-content-end.mb-2 
-              p.text-muted = chat.created_at.strftime("%m月%d日 %H:%M")
-          - else 
-            .d-flex.flex-column.align-items-start.mb-3
-              .bg-light.p-3.rounded
-                b = chat.user.display_name
-                span = ": #{chat.content}"
-            .d-flex.justify-content-end.mt-2 
-              p.text-muted = chat.created_at.strftime("%m月%d日 %H:%M")
+          .mb-2.bg-light.p-3.rounded
+            b = chat.user.display_name
+            span = ": #{chat.content}"
+          .d-flex.justify-content-end.mb-2.  
+            p.text-muted = chat.created_at.strftime("%m月%d日 %H:%M")
 
         / 投稿フォーム
         = form_with model: [@room, @chat], local: true do |f|
