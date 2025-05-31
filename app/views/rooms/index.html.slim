@@ -1,25 +1,18 @@
-.container.mt-3
-  h1 メッセージルーム一覧
-  .row
-    .col-auto
-      = render 'users/shared/sidebar'
-    .col
-      - if @rooms.any?
-        ul.list-group
-          - @room_user_pairs.each do |room, other_user|
-            li.list-group-item
-              = link_to room_path(room), class: "text-decoration-none text-dark d-block" do
-                .d-flex.align-items-start
-                  - if other_user.avatar_image&.attached?
-                    = image_tag other_user.avatar_image.variant(resize_to_fill: [50, 50]), class: "rounded-circle me-3"
+h1 メッセージルーム一覧
 
-                  .d-flex.align-items-center.gap-2
-                    .fw-bold = other_user&.display_name || "相手不明"
-                    .text-muted.small = room.chats.last&.created_at&.strftime("%m月%d日") || ""
-                - if room.chats.any?
-                  p.mt-2 = room.chats.last.content
-                - else
-                  p.text-muted まだチャットは生成されていません。
-                       
-      - else
-        p.text-muted まだチャットルームは作成されていません
+- if @rooms.any?
+  ul.list-group
+    - @rooms.each do |room|
+      - other_user = room.other_user_for(current_user)
+      li.list-group-item
+        = link_to room_path(room), class: "text-decoration-none text-dark d-block" do
+          i.fas.fa-user.me-2
+          = other_user&.display_name || "相手不明"
+          - if room.chats.any?
+            ul.mt-2
+            = room.chats.last.content
+          - else
+            p.texy-muted まだチャットは生成されていません。
+                
+- else
+  p.text-muted まだチャットルームは作成されていません
