@@ -49,10 +49,7 @@ class User < ApplicationRecord
 
   # ユーザーのいいねを取得するためのアソシエーション。あるユーザーがいいねしたツイートを一覧表示するために使用する。
   has_many :liked_tweets, through: :likes, source: :tweet
-  # メッセージ機能に必要なアソシエーション
-  has_many :chats, dependent: :destroy
-  has_many :entries, dependent: :destroy
-  has_many :rooms, through: :entries
+
   # Omniauthからの情報をもとにユーザーを作成または更新
 
   def self.from_omniauth(auth)

@@ -11,10 +11,6 @@ Rails.application.routes.draw do
     resources :likes, only: %i[create destroy]
     resources :retweets, only: %i[create destroy]
   end
-
-  resources :rooms, only: %i[index show create] do
-    resources :chats, only: %i[create]
-  end
   resources :bookmarks, only: %i[index]
   resources :relationships, only: %i[create destroy]
 
