@@ -1,0 +1,60 @@
+.container.mt-3
+  .row
+    .col-auto
+      = render 'users/shared/sidebar'
+    .col.border-end
+      h4.fw-bold メッセージ一覧
+      - if @rooms.any?
+        ul.list-group
+          - @room_user_pairs.each do |room, other_user|
+            li.list-group-item
+              = render 'rooms/room_list_item', room: room, other_user: other_user
+                       
+      - else
+        p.text-muted まだチャットルームは作成されていません
+    .col
+      / 相手の名前取得
+      - other_user = @room.other_user_for(current_user)
+      .container.mt-4.text-center.bg-light.p-3.rounded
+        .header-image
+          = image_tag other_user.header_image if other_user&.header_image&.attached?
+
+        .d-flex.align-items-center.justify-content-center.mt-3.mb-3
+          - if other_user.avatar_image.attached?
+            = image_tag other_user&.avatar_image, class: "rounded-circle", size: "60x60" 
+          .ms-3.d-flex.align-items-center
+            h3 = other_user.name   
+        = other_user.bio 
+      .col
+       .d-flex.align-items-center.justify-content-center.mt-3 
+         p.text-muted
+           | あなたと
+           b = other_user&.display_name || "相手不明"
+           | さんとのチャット
+          
+      hr
+
+        / メッセージ一覧
+        - @chats.each do |chat|
+          - if chat.user == current_user
+            .d-flex.justify-content-end.mb-3
+              .bg-primary.text-white.p-3.rounded.d-inline-block
+                b = chat.user.display_name
+                span = ": #{chat.content}"
+            .d-flex.justify-content-end.mb-2 
+              p.text-muted = chat.created_at.strftime("%m月%d日 %H:%M")
+          - else 
+            .d-flex.flex-column.align-items-start.mb-3
+              .bg-light.p-3.rounded
+                b = chat.user.display_name
+                span = ": #{chat.content}"
+            .d-flex.justify-content-end.mt-2 
+              p.text-muted = chat.created_at.strftime("%m月%d日 %H:%M")
+
+        / 投稿フォーム
+        = form_with model: [@room, @chat], local: true do |f|
+          .mb-2
+            = f.text_area :content, rows: 2, class: "form-control"
+          = f.submit "送信", class: "btn btn-primary"
+
+    
