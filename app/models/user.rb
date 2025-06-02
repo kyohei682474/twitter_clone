@@ -53,6 +53,10 @@ class User < ApplicationRecord
   has_many :chats, dependent: :destroy
   has_many :entries, dependent: :destroy
   has_many :rooms, through: :entries
+
+  # 通知機能に関するアソシエーション
+  has_many :sent_notifications, class_name: 'Notifications', foreign_key: 'actor_id', dependent: :destroy # actor_idは通知を送信したユーザーのid
+  has_many :received_notifications, class_name: 'Notifications', foreign_key: 'recipient_id', dependent: :destroy # recipient_idは通知を受信したユーザーのid
   # Omniauthからの情報をもとにユーザーを作成または更新
 
   def self.from_omniauth(auth)
