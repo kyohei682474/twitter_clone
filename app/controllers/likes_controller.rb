@@ -6,11 +6,21 @@ class LikesController < ApplicationController
     @like = current_user.likes.build(tweet: @tweet)
 
     if @like.save
+      # 通知の作成
+      if current_user != @tweet.user
+        Notification.create(
+          actor: current_user,
+          recipient: @tweet.user,
+          notifiable: @like,
+          action_type: 'like'
+        )
+      end
       flash.now[:notice] = 'いいねしました'
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to tweet_path(@tweet) }
       end
+
     else
       flash[:alert] = 'いいねに失敗しました'
       redirect_back fallback_location: root_path

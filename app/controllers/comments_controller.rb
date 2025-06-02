@@ -10,7 +10,19 @@ class CommentsController < ApplicationController
     @comment = @tweet.comments.build(comment_params)
     @comment.user = current_user
     if @comment.save
+      # 通知の作成
+      if current_user != @tweet.user
+        Notification.create(
+          actor: current_user,
+          reciptient: @tweet.user,
+          notifiable: @comment,
+          action_type: 'comment'
+        )
+
+      end
+
       redirect_to tweet_path(@tweet), notice: 'コメントが投稿されました'
+
     else
       redirect_to tweet_path(@tweet), alert: 'コメントの投稿に失敗しました'
     end

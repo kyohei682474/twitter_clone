@@ -9,6 +9,16 @@ class RetweetsController < ApplicationController
     @retweet = current_user.tweets.find_or_initialize_by(retweeted_from: original)
     return head :unprocessable_entity if @retweet.new_record? && !@retweet.save
 
+    # 通知の作成
+    return unless current_user != original.user
+
+    Notification.create(
+      actor: current_user,
+      recipient: original.user,
+      notifiable: @retweet,
+      action_type: 'retweet'
+    )
+
     flash.now[:notice] = 'リツイートしました'
     respond_to do |format|
       format.turbo_stream
