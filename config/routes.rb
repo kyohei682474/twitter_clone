@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'notifications/index'
   root 'home#index'
   get 'following', to: 'home#following'
   resources :tweets, only: %i[new create show]
   resources :comments, only: %i[new create destroy]
+  resources :notifications, only: %i[index]
   resources :tweets do
     resource :bookmark, only: %i[create destroy]
     resources :comments, only: %i[create destroy]
@@ -28,6 +30,7 @@ Rails.application.routes.draw do
   }
 
   resources :users, only: %i[show edit update]
+
   # post 'follow', on: :member
   # delete 'unfollow', on: :member
   # end

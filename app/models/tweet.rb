@@ -17,7 +17,7 @@ class Tweet < ApplicationRecord
   validates :user_id, uniqueness: { scope: :retweeted_from_id }, if: -> { retweeted_from_id.present? }
 
   # 通知機能
-  has_many :notifications, as: :notifiable, dependent: :desroy
+  has_many :notifications, as: :notifiable, dependent: :destroy
 
   paginates_per 5
 
