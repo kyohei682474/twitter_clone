@@ -16,6 +16,9 @@ class Tweet < ApplicationRecord
   validates :body, presence: true, length: { maximum: 140 }, unless: -> { retweeted_from_id.present? }
   validates :user_id, uniqueness: { scope: :retweeted_from_id }, if: -> { retweeted_from_id.present? }
 
+  # 通知機能
+  has_many :notifications, as: :notifiable, dependent: :desroy
+
   paginates_per 5
 
   def liked_by?(user)

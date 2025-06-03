@@ -18,7 +18,12 @@ class CommentsController < ApplicationController
           notifiable: @comment,
           action_type: 'comment'
         )
-
+        NotificationMailer.with(
+          recipient: notification.recipient,
+          actor: notification.actor,
+          notifiable: notification.notifiable,
+          action_type: notification.action_type
+        ).notify.deliver_later
       end
 
       redirect_to tweet_path(@tweet), notice: 'コメントが投稿されました'

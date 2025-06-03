@@ -5,7 +5,7 @@ class CreateNotifications < ActiveRecord::Migration[7.0]
       t.references :actor, null: false, foreign_key: { to_table: :users }
       t.references :notifiable, polymorphic: true, null: false
       t.string :action_type, null: false
-      t.boolean :read, dafault: false, null: false
+      t.boolean :read, default: false, null: false
 
       t.timestamps
     end

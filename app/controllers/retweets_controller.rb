@@ -18,6 +18,14 @@ class RetweetsController < ApplicationController
       notifiable: @retweet,
       action_type: 'retweet'
     )
+    # メールの通知を送信する
+
+    NotificationMailer.with(
+      recipient: notification.recipient,
+      actor: notification.actor,
+      notifiable: notification.notifiable,
+      action_type: notification.action_type
+    ).notify.deliver_later
 
     flash.now[:notice] = 'リツイートしました'
     respond_to do |format|

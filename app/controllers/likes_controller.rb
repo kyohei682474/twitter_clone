@@ -15,6 +15,14 @@ class LikesController < ApplicationController
           action_type: 'like'
         )
       end
+      # メール通知の送信
+      NotificationMailer.with(
+        recipient: notification.recipient,
+        actor: notification.actor,
+        notifiable: notification.notifiable,
+        action_type: notification.action_type
+      ).notify.deliver_later
+
       flash.now[:notice] = 'いいねしました'
       respond_to do |format|
         format.turbo_stream
