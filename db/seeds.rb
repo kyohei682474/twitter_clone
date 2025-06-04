@@ -28,9 +28,9 @@ JAPANESE_SENTENCES = [
 User.destroy_all
 Tweet.destroy_all
 tweets = []
-users = []
+
 # ユーザーの作成
-10.times do |i| # rubocop:disable Metrics/BlockLength
+users = 10.times.map do |i| # rubocop:disable Metrics/BlockLength
   user = User.create!(
     name: "ユーザー#{i}",
     email: "user#{i}@example.com",
@@ -43,30 +43,27 @@ users = []
     birthdate: Faker::Date.birthday(min_age: 18, max_age: 65),
     website: "example#{i}.com",
     confirmed_at: Time.current
-  )
+  ).tap do |user|
+    user.header_image.attach(
+      io: URI.open('https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/header_image.jpg'),
+      filename: 'header_image.jpg',
+      content_type: 'image/jpeg'
+    )
+    user.avatar_image.attach(
+      io: URI.open('https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/avater_image.jpg'),
+      filename: 'avatar_image.jpg',
+      content_type: 'image/jpeg'
+    )
 
-  user.header_image.attach(
-    io: URI.open('https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/header_image.jpg'),
-    filename: 'header_image.jpg',
-    content_type: 'image/jpeg'
-  )
-  user.avatar_image.attach(
-    io: URI.open('https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/avater_image.jpg'),
-    filename: 'avatar_image.jpg',
-    content_type: 'image/jpeg'
-  )
-  # usersに作成したuserを格納
-  users << user
+    tweet = user.tweets.create!(
+      body: JAPANESE_SENTENCES.sample
+    )
 
-  tweet = user.tweets.create!(
-    body: JAPANESE_SENTENCES.sample
-  )
-
-  tweets << tweet
-  tweet.comments.create!(user: user, body: JAPANESE_SENTENCES.sample)
-  tweet.likes.create!(user: user)
-  user.tweets.create!(body: tweet.body, retweeted_from: tweet)
-  user
+    tweets << tweet
+    tweet.comments.create!(user: user, body: JAPANESE_SENTENCES.sample)
+    tweet.likes.create!(user: user)
+    user.tweets.create!(body: tweet.body, retweeted_from: tweet)
+  end
 end
 # ユーザーのフォロー関係を作成
 User.all.find_each do |user|
