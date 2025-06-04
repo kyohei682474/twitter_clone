@@ -27,9 +27,10 @@ JAPANESE_SENTENCES = [
 
 User.destroy_all
 Tweet.destroy_all
+tweets = []
 
 # ユーザーの作成
-10.times do |i| # rubocop:disable Metrics/BlockLength
+users = 10.times.map do |i| # rubocop:disable Metrics/BlockLength
   user = User.create!(
     name: "ユーザー#{i}",
     email: "user#{i}@example.com",
@@ -43,14 +44,6 @@ Tweet.destroy_all
     website: "example#{i}.com",
     confirmed_at: Time.current
   )
-
-  # 3.times do
-  #   user.tweets.create!(
-  #     body: JAPANESE_SENTENCES.sample
-  #   )
-  # end
-
-  # ユーザーのアバター画像とヘッダー画像を添付
 
   user.header_image.attach(
     io: URI.open('https://twitter-clone-images-for-kyohei.s3.ap-northeast-1.amazonaws.com/header_image.jpg'),
@@ -66,9 +59,12 @@ Tweet.destroy_all
   tweet = user.tweets.create!(
     body: JAPANESE_SENTENCES.sample
   )
+
+  tweets << tweet
   tweet.comments.create!(user: user, body: JAPANESE_SENTENCES.sample)
   tweet.likes.create!(user: user)
   user.tweets.create!(body: tweet.body, retweeted_from: tweet)
+  user
 end
 # ユーザーのフォロー関係を作成
 User.all.find_each do |user|
@@ -78,4 +74,44 @@ User.all.find_each do |user|
     user.active_relationships.create(followed_id: followed_user.id)
   end
 end
-Rails.logger.debug ' データを作成した'
+
+users.first(3).each do |liked_user|
+  tweet = tweets.sample
+  next if tweet.user == liked_user
+
+  like = Like.create!(user: liked_user, tweet: tweet)
+  Notification.create!(
+    recipient: tweet.user,
+    actor: liked_user,
+    notifiable: like,
+    action_type: 'like'
+  )
+end
+
+users.last(3).each do |comment_user|
+  tweet = tweets.sample
+  next if tweet.user == comment_user
+
+  puts comment_user.class
+  comment = tweet.comments.create!(user: comment_user, body: JAPANESE_SENTENCES.sample)
+  Notification.create!(
+    recipient: tweet.user,
+    actor: comment_user,
+    notifiable: comment,
+    action_type: 'comment'
+  )
+end
+
+users.last(3).each do |retweet_user|
+  tweet = tweets.sample
+  next if tweet.user == retweet_user
+
+  retweet = retweet_user.tweets.create!(body: tweet.body, retweeted_from: tweet)
+  Notification.create!(
+    recipient: tweet.user,
+    actor: retweet_user,
+    notifiable: retweet,
+    action_type: 'retweet'
+  )
+end
+puts 'ユーザーとツイートを作成しました'
