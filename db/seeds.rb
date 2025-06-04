@@ -28,9 +28,9 @@ JAPANESE_SENTENCES = [
 User.destroy_all
 Tweet.destroy_all
 tweets = []
-
+users = []
 # ユーザーの作成
-users = 10.times.map do |i| # rubocop:disable Metrics/BlockLength
+10.times do |i| # rubocop:disable Metrics/BlockLength
   user = User.create!(
     name: "ユーザー#{i}",
     email: "user#{i}@example.com",
@@ -55,6 +55,8 @@ users = 10.times.map do |i| # rubocop:disable Metrics/BlockLength
     filename: 'avatar_image.jpg',
     content_type: 'image/jpeg'
   )
+  # usersに作成したuserを格納
+  users << user
 
   tweet = user.tweets.create!(
     body: JAPANESE_SENTENCES.sample
@@ -114,4 +116,4 @@ users.last(3).each do |retweet_user|
     action_type: 'retweet'
   )
 end
-puts 'ユーザーとツイートを作成しました'
+puts 'seedファイルを作成しました'
