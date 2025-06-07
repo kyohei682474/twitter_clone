@@ -1,8 +1,22 @@
+.container.mt-3 
+  .row
+    .col-auto
+      = render 'users/shared/sidebar'
+    .col
+      - if @notifications.any?
+        - grouped = @notifications.group_by { |n| n.notifiable }
+        ul.list-group
+          - grouped.each do |notifiable, group|
+            - group.each do |notification|
+                li.list-group-item
+                  .d-flex.align-item-center
+                    = image_tag notification.actor.avatar_image.variant(resize_to_fill: [50, 50]), class: "rounded-circle me-3"
+                  .d-flex.align-items-start.flex-column
+                    span = "#{notification.actor.name}さんがあなたの投稿に#{action_name_jp(notification.action_type)}しました。"
+                    .d-flex.align-items-center.gap-2
+                      = notification.notifiable.body
+      - else
+        p.text-muted 通知はありません。
 
-h2 通知一覧
-- if @notifications.any?
-  - @notifications.each do |notification|
-    = notification.actor.name
-    = "#{notification.actor.name}さんがあなたの投稿に#{action_name_jp(notification.action_type)}しました。"
-- else
-  p.text-muted 通知はありません。
+
+  

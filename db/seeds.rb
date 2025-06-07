@@ -30,7 +30,7 @@ Tweet.destroy_all
 tweets = []
 
 # ユーザーの作成
-users = 10.times.map do |i| # rubocop:disable Metrics/BlockLength
+users = 20.times.map do |i| # rubocop:disable Metrics/BlockLength
   user = User.create!(
     name: "ユーザー#{i}",
     email: "user#{i}@example.com",
@@ -74,7 +74,7 @@ User.all.find_each do |user|
   end
 end
 
-users.first(3).each do |liked_user|
+users.each do |liked_user|
   tweet = tweets.sample
   next if tweet.user == liked_user
 
@@ -87,11 +87,10 @@ users.first(3).each do |liked_user|
   )
 end
 
-users.last(3).each do |comment_user|
+users.each do |comment_user|
   tweet = tweets.sample
   next if tweet.user == comment_user
 
-  puts comment_user.class
   comment = tweet.comments.create!(user: comment_user, body: JAPANESE_SENTENCES.sample)
   Notification.create!(
     recipient: tweet.user,
@@ -101,7 +100,7 @@ users.last(3).each do |comment_user|
   )
 end
 
-users.last(3).each do |retweet_user|
+users.each do |retweet_user|
   tweet = tweets.sample
   next if tweet.user == retweet_user
 

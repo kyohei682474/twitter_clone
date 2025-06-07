@@ -12,18 +12,22 @@ class CommentsController < ApplicationController
     if @comment.save
       # 通知の作成
       if current_user != @tweet.user
-        Notification.create(
+        notification = Notification.create(
           actor: current_user,
-          reciptient: @tweet.user,
+          recipient: @tweet.user,
           notifiable: @comment,
           action_type: 'comment'
         )
-        NotificationMailer.with(
-          recipient: notification.recipient,
-          actor: notification.actor,
-          notifiable: notification.notifiable,
-          action_type: notification.action_type
-        ).notify.deliver_later
+
+        if notification.persisted?
+
+          NotificationMailer.with(
+            recipient: notification.recipient,
+            actor: notification.actor,
+            notifiable: notification.notifiable,
+            action_type: notification.action_type
+          ).notify.deliver_now
+        end
       end
 
       redirect_to tweet_path(@tweet), notice: 'コメントが投稿されました'

@@ -8,7 +8,7 @@ class LikesController < ApplicationController
     if @like.save
       # 通知の作成
       if current_user != @tweet.user
-        Notification.create(
+        notification = Notification.create(
           actor: current_user,
           recipient: @tweet.user,
           notifiable: @like,
@@ -21,7 +21,7 @@ class LikesController < ApplicationController
         actor: notification.actor,
         notifiable: notification.notifiable,
         action_type: notification.action_type
-      ).notify.deliver_later
+      ).notify.deliver_now
 
       flash.now[:notice] = 'いいねしました'
       respond_to do |format|
