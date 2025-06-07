@@ -75,41 +75,41 @@ User.all.find_each do |user|
 end
 
 users.each do |liked_user|
-  tweet = tweets.sample
-  next if tweet.user == liked_user
-
-  like = Like.create!(user: liked_user, tweet: tweet)
-  Notification.create!(
-    recipient: tweet.user,
-    actor: liked_user,
-    notifiable: like,
-    action_type: 'like'
-  )
+  target_tweets = tweets.reject { |n| n.user == liked_user }.sample(rand(5...10))
+  target_tweets.each do |tweet|
+    like = Like.create!(user: liked_user, tweet: tweet)
+    Notification.create!(
+      recipient: tweet.user,
+      actor: liked_user,
+      notifiable: like,
+      action_type: 'like'
+    )
+  end
 end
 
 users.each do |comment_user|
-  tweet = tweets.sample
-  next if tweet.user == comment_user
-
-  comment = tweet.comments.create!(user: comment_user, body: JAPANESE_SENTENCES.sample)
-  Notification.create!(
-    recipient: tweet.user,
-    actor: comment_user,
-    notifiable: comment,
-    action_type: 'comment'
-  )
+  target_tweets = tweets.reject { |n| n.user == comment_user }.sample(rand(5...10))
+  target_tweets.each do |tweet|
+    comment = tweet.comments.create!(user: comment_user, body: JAPANESE_SENTENCES.sample)
+    Notification.create!(
+      recipient: tweet.user,
+      actor: comment_user,
+      notifiable: comment,
+      action_type: 'comment'
+    )
+  end
 end
 
 users.each do |retweet_user|
-  tweet = tweets.sample
-  next if tweet.user == retweet_user
-
-  retweet = retweet_user.tweets.create!(body: tweet.body, retweeted_from: tweet)
-  Notification.create!(
-    recipient: tweet.user,
-    actor: retweet_user,
-    notifiable: retweet,
-    action_type: 'retweet'
-  )
+  target_tweets = tweets.reject { |n| n.user == retweet_user }.sample(rand(5...10))
+  target_tweets.each do |tweet|
+    retweet = retweet_user.tweets.create!(body: tweet.body, retweeted_from: tweet)
+    Notification.create!(
+      recipient: tweet.user,
+      actor: retweet_user,
+      notifiable: retweet,
+      action_type: 'retweet'
+    )
+  end
 end
 puts 'seedファイルを作成しました'

@@ -1,0 +1,18 @@
+tweet/showページのいいね、リツート、ブックマークを表示させるようにした。
+さらにドロップダウンのアイコンを他のツイート同様に右端に移動させた
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch notification_function
+# Changes to be committed:
+#	modified:   app/controllers/comments_controller.rb
+#	modified:   app/controllers/likes_controller.rb
+#	modified:   app/controllers/retweets_controller.rb
+#	modified:   app/mailers/notification_mailer.rb
+#	new file:   app/views/notification_mailer/notify.html.slim
+#	modified:   app/views/notifications/index.html.slim
+#	modified:   app/views/rooms/index.html.slim
+#	deleted:    app/views/tweets/_flash.html.slim
+#	modified:   app/views/tweets/show.html.slim
+#	modified:   db/seeds.rb
+#

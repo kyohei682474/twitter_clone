@@ -4,19 +4,26 @@
       = render 'users/shared/sidebar'
     .col
       - if @notifications.any?
-        - grouped = @notifications.group_by { |n| n.notifiable }
+        - grouped = @notifications.group_by do |n|
+          - tweet_id = n.notifiable_type == 'Tweet' ? n.notifiable.retweeted_from&.id : n.notifiable.try(:tweet)&.id
+          - [n.action_type, tweet_id]
+        end
+
         ul.list-group
-          - grouped.each do |notifiable, group|
-            - group.each do |notification|
-                li.list-group-item
-                  .d-flex.align-item-center
-                    = image_tag notification.actor.avatar_image.variant(resize_to_fill: [50, 50]), class: "rounded-circle me-3"
-                  .d-flex.align-items-start.flex-column
-                    span = "#{notification.actor.name}さんがあなたの投稿に#{action_name_jp(notification.action_type)}しました。"
-                    .d-flex.align-items-center.gap-2
-                      = notification.notifiable.body
+          - grouped.each do |(action_type, tweet_id), group|
+            - tweet = Tweet.find_by(id: tweet_id)
+            - next unless tweet
+
+            li.list-group-item
+              .d-flex.align-items-center
+                // アバターを横並びで表示
+                - group.each do |notification|
+                  = image_tag notification.actor.avatar_image.variant(resize_to_fill: [30, 30]), class: "rounded-circle me-1"
+
+              .ms-3
+                // 名前とアクション
+                span = "#{group.map { |n| n.actor.name }.to_sentence}さんがあなたの投稿に#{action_type}しました。"
+                br
+                = link_to tweet.body.truncate(50), tweet_path(tweet), class: "text-muted text-decoration-none small"
       - else
         p.text-muted 通知はありません。
-
-
-  
