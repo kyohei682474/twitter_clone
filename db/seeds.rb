@@ -31,7 +31,7 @@ tweets = []
 
 # ユーザーの作成
 users = 20.times.map do |i| # rubocop:disable Metrics/BlockLength
-  user = User.create!(
+  User.create!(
     name: "ユーザー#{i}",
     email: "user#{i}@example.com",
     password: 'password',
@@ -74,42 +74,33 @@ User.all.find_each do |user|
   end
 end
 
-users.each do |liked_user|
-  target_tweets = tweets.reject { |n| n.user == liked_user }.sample(rand(5...10))
-  target_tweets.each do |tweet|
-    like = Like.create!(user: liked_user, tweet: tweet)
+users.each do |user|
+  sampled = tweets.reject { |n| n.user == user }.sample(10)
+
+  sampled.sample(6).each do |tweet|
+    like = Like.create!(user: user, tweet: tweet)
     Notification.create!(
       recipient: tweet.user,
-      actor: liked_user,
+      actor: user,
       notifiable: like,
       action_type: 'like'
     )
-  end
-end
 
-users.each do |comment_user|
-  target_tweets = tweets.reject { |n| n.user == comment_user }.sample(rand(5...10))
-  target_tweets.each do |tweet|
-    comment = tweet.comments.create!(user: comment_user, body: JAPANESE_SENTENCES.sample)
+    comment = tweet.comments.create!(user: user, body: JAPANESE_SENTENCES.sample)
     Notification.create!(
       recipient: tweet.user,
-      actor: comment_user,
+      actor: user,
       notifiable: comment,
       action_type: 'comment'
     )
-  end
-end
-
-users.each do |retweet_user|
-  target_tweets = tweets.reject { |n| n.user == retweet_user }.sample(rand(5...10))
-  target_tweets.each do |tweet|
-    retweet = retweet_user.tweets.create!(body: tweet.body, retweeted_from: tweet)
+    retweet = user.tweets.create!(body: tweet.body, retweeted_from: tweet)
     Notification.create!(
       recipient: tweet.user,
-      actor: retweet_user,
+      actor: user,
       notifiable: retweet,
       action_type: 'retweet'
     )
   end
 end
-puts 'seedファイルを作成しました'
+
+Rails.logger.debug 'seedファイルを作成しました'

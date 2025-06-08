@@ -49,8 +49,8 @@ gem 'bootsnap', require: false
 
 # Use Sass to process CSS
 gem 'faker'
+gem 'rdoc', '~> 6.14.0'
 gem 'sassc-rails'
-
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem 'aws-sdk-s3', '~> 1.136', require: false
 gem 'bootstrap', '~> 5.3.0'

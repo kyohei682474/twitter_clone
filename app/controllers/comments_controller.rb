@@ -10,25 +10,13 @@ class CommentsController < ApplicationController
     @comment = @tweet.comments.build(comment_params)
     @comment.user = current_user
     if @comment.save
-      # 通知の作成
-      if current_user != @tweet.user
-        notification = Notification.create(
-          actor: current_user,
-          recipient: @tweet.user,
-          notifiable: @comment,
-          action_type: 'comment'
-        )
-
-        if notification.persisted?
-
-          NotificationMailer.with(
-            recipient: notification.recipient,
-            actor: notification.actor,
-            notifiable: notification.notifiable,
-            action_type: notification.action_type
-          ).notify.deliver_now
-        end
-      end
+      # 通知の作成のメールの送信をサービスクラスで行う。
+      NotifyUserService.call(
+        actor: current_user,
+        recipient: @tweet.user,
+        notifiable: @comment,
+        action_type: 'comment'
+      )
 
       redirect_to tweet_path(@tweet), notice: 'コメントが投稿されました'
 

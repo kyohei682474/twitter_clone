@@ -6,22 +6,13 @@ class LikesController < ApplicationController
     @like = current_user.likes.build(tweet: @tweet)
 
     if @like.save
-      # 通知の作成
-      if current_user != @tweet.user
-        notification = Notification.create(
-          actor: current_user,
-          recipient: @tweet.user,
-          notifiable: @like,
-          action_type: 'like'
-        )
-      end
-      # メール通知の送信
-      NotificationMailer.with(
-        recipient: notification.recipient,
-        actor: notification.actor,
-        notifiable: notification.notifiable,
-        action_type: notification.action_type
-      ).notify.deliver_now
+      # サービスクラスを使用して通知の作成とメールの送信まで行う
+      NotifyUserService.call(
+        actor: current_user,
+        recipient: @tweet.user,
+        notifiable: @like,
+        action_type: 'like'
+      )
 
       flash.now[:notice] = 'いいねしました'
       respond_to do |format|

@@ -8,11 +8,12 @@
           - tweet_id = n.notifiable_type == 'Tweet' ? n.notifiable.retweeted_from&.id : n.notifiable.try(:tweet)&.id
           - [n.action_type, tweet_id]
         end
-
+  
         ul.list-group
           - grouped.each do |(action_type, tweet_id), group|
             - tweet = Tweet.find_by(id: tweet_id)
             - next unless tweet
+            
 
             li.list-group-item
               .d-flex.align-items-center
@@ -22,7 +23,9 @@
 
               .ms-3
                 // 名前とアクション
-                span = "#{group.map { |n| n.actor.name }.to_sentence}さんがあなたの投稿に#{action_type}しました。"
+                span = "#{group.map { |n| n.actor.name }.to_sentence}さんがあなたの投稿に"
+                strong = action_type_jp(action_type)
+                = "しました。"
                 br
                 = link_to tweet.body.truncate(50), tweet_path(tweet), class: "text-muted text-decoration-none small"
       - else

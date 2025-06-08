@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'notifications/index'
   root 'home#index'
   get 'following', to: 'home#following'
   resources :tweets, only: %i[new create show]

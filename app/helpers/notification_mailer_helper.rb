@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module NotificationMailerHelper
   def action_name_jp(action_type)
     case action_type
