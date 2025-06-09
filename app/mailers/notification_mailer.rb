@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class NotificationMailer < ApplicationMailer
+  helper :application
+
   def notify
     @recipient = params[:recipient]
     @actor = params[:actor]
