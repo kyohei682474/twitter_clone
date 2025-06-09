@@ -9,7 +9,7 @@ class NotificationMailer < ApplicationMailer
 
     mail(
       to: @recipient.email,
-      from: '18kyohei@9014563.brevosend.com', 
+      from: ENV['DEFAULT_FROM_EMAIL'],
       subject: '新しい通知が届いています'
     )
   end
