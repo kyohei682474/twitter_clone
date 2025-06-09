@@ -10,7 +10,7 @@ class NotifyUserService
       notifiable: notifiable,
       action_type: action_type
     )
-    
+
     return unless notification.persisted?
 
     NotificationMailer.with(
