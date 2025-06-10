@@ -5,8 +5,8 @@ module ApplicationHelper
     raise 'Happiness chainではhidden_field_tagの使用を禁止しています'
   end
 
-  def action_name_jp(action_type)
-    case action_type
+  def action_type_jp(type)
+    case type
     when 'like' then 'いいね'
     when 'comment' then 'コメント'
     when 'retweet' then 'リツイート'
