@@ -5,19 +5,53 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  #名前、メールアドレス、パスワード、電話番号、誕生日があれば有効のユーザー
-  it "is valid with a name, email, password, phone_number and birthday " do
-    user = User.new( name: "Test", 
-                         email: "users123@exapmple.com",
-                         password: "password",
-                         phone_number: "012343333",
-                         birthdate: Date.new(1989, 11, 11)
-                        )
-    expect(user).to be_valid
+  context 'ユーザーログインの時' do
+    # 名前、メールアドレス、パスワード、電話番号、誕生日があれば有効のユーザー
+    it 'is valid with a name, email, password, phone_number and birthday' do
+      user = FactoryBot.build(:user)
+      expect(user).to be_valid
+    end
+
+    # 名前が無くても有効のユーザー
+    it 'is valid with a nil name' do
+      user = User.new(name: nil,
+                      email: 'users123@exapmple.com',
+                      password: 'password',
+                      phone_number: '012343333',
+                      birthdate: Date.new(1989, 11, 11))
+      expect(user).to be_valid
+    end
+
+    # 同じ電話番号のユーザーは無効
+    it 'is invalid with the same phone number' do
+      user = FactoryBot.create(:user)
+      other_user = User.new(name: 'test1',
+                            email: 'users1234@exapmple.com',
+                            password: 'password',
+                            phone_number: '012343333',
+                            birthdate: Date.new(1989, 11, 11))
+      expect(other_user).to be_invalid
+    end
+
+    # 同じメールアドレスのユーザーは無効
+    it 'is invalid with the same email' do
+      user = FactoryBot.create(:user)
+      other_user = User.new(name: 'test1',
+                            email: 'users123@exapmple.com',
+                            password: 'password',
+                            phone_number: '012343337',
+                            birthdate: Date.new(1989, 11, 11))
+      expect(other_user).to be_invalid
+    end
+
+    # パスワードが5文字以下のユーザーが無効
+    it 'is invalid with a password shorter than 6 characters' do
+      user = User.create(name: 'Test2',
+                         email: 'users123@exapmple.com',
+                         password: 'passw',
+                         phone_number: '012333333',
+                         birthdate: Date.new(1989, 11, 11))
+      expect(user).to be_invalid
+    end
   end
-   
-  # 名前が無ければ無効なユーザー
-  # 同じ電話番号のユーザーは無効
-  # 名前が51文字を超えるユーザーは無効
-  # パスワードが5文字のユーザーが無効
 end
