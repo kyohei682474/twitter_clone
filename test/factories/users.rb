@@ -4,6 +4,6 @@ FactoryBot.define do
     email { 'users123@exapmple.com' }
     password { 'password' }
     phone_number { '012343333' }
-    birthdate { Date.new(1989, 11, 11) }
+    birthdate { Date.new(1989, 10, 17) }
   end
 end
