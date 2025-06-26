@@ -6,9 +6,18 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   context 'ユーザーログインの時' do
+    let(:valid_attirbutes) do
+      { name: 'Test',
+        email: 'user123@example.com',
+        password: 'password',
+        phone_number: '012345678',
+        birthdate: Date.new(1989, 11, 11) }
+    end
+
+    let(:user) { User.new(valid_attirbutes) }
+
     # 名前、メールアドレス、パスワード、電話番号、誕生日があれば有効のユーザー
     it 'is valid with a name, email, password, phone_number and birthday' do
-      user = FactoryBot.build(:user)
       expect(user).to be_valid
     end
 
@@ -51,6 +60,16 @@ RSpec.describe User, type: :model do
                          password: 'passw',
                          phone_number: '012333333',
                          birthdate: Date.new(1989, 11, 11))
+      expect(user).to be_invalid
+    end
+
+    # 誕生日が未記入のユーザーは無効
+    it 'is invalid with a nil birthdate' do
+      user = User.create(name: 'Test2',
+                         email: 'users123@exapmple.com',
+                         password: 'password',
+                         phone_number: '012333333',
+                         birthdate: nil)
       expect(user).to be_invalid
     end
   end
