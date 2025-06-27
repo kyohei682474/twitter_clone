@@ -13,6 +13,7 @@ html
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
     script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer=true
 
-  body
-    = render 'users/shared/header'
+  body.mt-3
+    - unless '/users/sign_up'
+      = render 'users/shared/header'
     = yield

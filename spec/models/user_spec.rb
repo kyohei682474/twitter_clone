@@ -5,7 +5,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  context 'ユーザーログインの時' do
+  context 'when user log in' do
     let(:valid_attributes) do
       { name: 'Test User',
         email: 'user1234@example.com',
@@ -14,7 +14,7 @@ RSpec.describe User, type: :model do
         birthdate: Date.new(1999, 11, 12) }
     end
 
-    let(:user) { User.new(valid_attributes) }
+    let(:user) { described_class.new(valid_attributes) }
 
     # 名前、メールアドレス、パスワード、電話番号、誕生日があれば有効のユーザー
     it 'is valid with a name, email, password, phone_number and birthday' do
@@ -29,15 +29,15 @@ RSpec.describe User, type: :model do
 
     # 同じ電話番号のユーザーは無効
     it 'is invalid with the same phone number' do
-      user = FactoryBot.create(:user, phone_number: valid_attributes[:phone_number])
-      other_user = User.new(valid_attributes.merge(email: 'something@.uniquremailcom'))
+      FactoryBot.create(:user, phone_number: valid_attributes[:phone_number])
+      other_user = described_class.new(valid_attributes.merge(email: 'something@.uniquremailcom'))
       expect(other_user).to be_invalid
     end
 
     # 同じメールアドレスのユーザーは無効
     it 'is invalid with the same email' do
-      user = FactoryBot.create(:user, email: valid_attributes[:email])
-      other_user = User.new(valid_attributes.merge(phone_number: '999999999'))
+      FactoryBot.create(:user, email: valid_attributes[:email])
+      other_user = described_class.new(valid_attributes.merge(phone_number: '999999999'))
       expect(other_user).to be_invalid
     end
 
