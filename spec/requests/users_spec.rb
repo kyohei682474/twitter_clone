@@ -78,7 +78,7 @@ RSpec.describe 'Users', type: :request do
       end
     end
 
-    # 同じメールアドレスが登録されているとき
+    # 同じメールアドレスを登録するとき
     context 'when register the same email' do
       let(:valid_attributes) do
         { name: 'Test User',
