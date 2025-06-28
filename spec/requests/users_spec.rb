@@ -126,4 +126,72 @@ RSpec.describe 'Users', type: :request do
       end
     end
   end
+
+  # GitHubを使用してサインアップ
+  describe 'GET /users/auth/github/callback' do
+    context 'when GitHub returns valid user info' do
+      before do
+        OmniAuth.config.test_mode = true
+        OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
+          provider: 'github',
+          uid: '1234',
+          info: {
+            name: 'GitHub User',
+            email: 'github@example.com'
+          }
+        )
+      end
+
+      # githubでログインしてなければ、githubでログインできる
+      it 'create a user if not exsits' do
+        expect do
+          get user_github_omniauth_callback_path
+        end.to change(User, :count).by(1)
+      end
+
+      it 'redirect to root path' do
+        get user_github_omniauth_callback_path
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'displays success message after sign up' do
+        get user_github_omniauth_callback_path
+        follow_redirect!
+        expect(response.body).to include('ログインしました')
+      end
+
+      # もしgitubユーザー存存在していると新しいユーザー作成されない。
+      it 'does not create user if already exists' do
+        FactoryBot.create(:user, email: 'github@example.com', provider: 'github', uid: '123456')
+        expect do
+          get user_github_omniauth_callback_path
+        end.not_to change(User, :count)
+      end
+
+      it 'redirect to new_user_registration_path' do
+        FactoryBot.create(:user, email: 'github@example.com', provider: 'github', uid: '123456')
+        get user_github_omniauth_callback_path
+        expect(response).to redirect_to(new_user_registration_path)
+      end
+    end
+
+    # 不正なクレデンシャルを持つGitHubアカウンを持つとき
+    context 'when GitHub returns invalid credential' do
+      before do
+        OmniAuth.config.test_mode = true
+        OmniAuth.config.mock_auth[:github] = :invaild_credentials
+      end
+
+      it 'redirects to the sign up page with alert' do
+        get user_github_omniauth_callback_path
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+      it 'displays faild message after sign in' do
+        get user_github_omniauth_callback_path
+        follow_redirect!
+        expect(response.body).to include('認証に失敗しました')
+      end
+    end
+  end
 end
