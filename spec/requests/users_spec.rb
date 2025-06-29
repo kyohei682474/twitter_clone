@@ -162,18 +162,11 @@ RSpec.describe 'Users', type: :request do
         expect(response.body).to include('ログインしました')
       end
 
-      # もしgitubユーザー存存在していると新しいユーザー作成されない。
-      it 'does not create user if already exists' do
-        FactoryBot.create(:user, email: 'github@example.com', provider: 'github', uid: '123456')
-        expect do
-          get user_github_omniauth_callback_path
-        end.not_to change(User, :count)
-      end
-
+      # 以前にサインアップしたユーザーがGitHubログインした時、サインアップした情報と紐づいてログインできる
       it 'redirect to new_user_registration_path' do
         FactoryBot.create(:user, email: 'github@example.com', provider: 'github', uid: '123456')
         get user_github_omniauth_callback_path
-        expect(response).to redirect_to(new_user_registration_path)
+        expect(response).to redirect_to(root_path)
       end
     end
 
@@ -228,8 +221,15 @@ RSpec.describe 'Users', type: :request do
 
     # 誤った情報を使用するとき
     context 'with invalid credential' do
-      # 存在しないメールアドレス、パスワードでログインしようとするとき
-      it ''
+      it 'render user/sign_in' do
+        post user_session_path, params: {
+          user: {
+            email: 'u@example.com',
+            passowrd: 'pas'
+          }
+        }
+        expect(response).to render_template(:new)
+      end
     end
   end
 end

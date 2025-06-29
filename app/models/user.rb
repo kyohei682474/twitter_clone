@@ -74,7 +74,7 @@ class User < ApplicationRecord
 
     user.email = auth.info.email.presence || "#{auth.uid}@github.com"
     user.name = auth.info.name if user.name.blank?
-    user.github_login = true
+
     user.password ||= Devise.friendly_token[0, 20]
 
     if user.save
