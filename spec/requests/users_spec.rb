@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
+require 'spec_helper'
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
   let(:valid_attributes) do
     {
       name: 'Test User',
-      email: 'user@example.com',
+      email: '1user@example.com',
       password: 'password',
       password_confirmation: 'password',
-      phone_number: '01234567890',
+      phone_number: '0123456789000000',
       birthdate: Date.new(1990, 1, 1)
     }
   end
@@ -26,9 +27,10 @@ RSpec.describe 'Users', type: :request do
 
       # メールが送信されているかを確認
       it 'sends confirmation mail' do
+        ActionMailer::Base.deliveries.clear
         post user_registration_path, params: { user: valid_attributes }
         mail = ActionMailer::Base.deliveries.last
-        expect(mail.to).to include('user@example.com')
+        expect(mail.to).to include('1user@example.com')
       end
     end
 
@@ -65,19 +67,19 @@ RSpec.describe 'Users', type: :request do
     # 同じメールアドレスを送信するとき
     context 'when register the same email' do
       before do
-        @user = FactoryBot.create(:user)
+        @user = FactoryBot.create(:user, email: '2user@example.com')
       end
 
       # ユーザーを追加することができない
       it 'does not create user' do
         expect do
-          post user_registration_path, params: { user: valid_attributes.merge(email: 'users123@exapmple.com') }
+          post user_registration_path, params: { user: valid_attributes.merge(email: '2user@example.com') }
         end.not_to change(User, :count)
       end
 
       # 同じemailが含まれているとエラーメッセージが得られる
       it 'shows error when email is already taken' do
-        post user_registration_path, params: { user: valid_attributes.merge(email: 'users123@exapmple.com') }
+        post user_registration_path, params: { user: valid_attributes.merge(email: '2user@example.com') }
         expect(response.body).to include('メールアドレスはすでに存在します')
       end
     end
@@ -192,6 +194,42 @@ RSpec.describe 'Users', type: :request do
         follow_redirect!
         expect(response.body).to include('認証に失敗しました')
       end
+    end
+  end
+
+  describe 'POST/users/sign_in' do
+    before do
+      FactoryBot.create(:user, email: 'user9999@example.com', password: 'password')
+    end
+
+    context 'with valid credential' do
+      # ログインしてルートページにリダイレクトする
+      it 'logs in and redirects to root_path' do
+        post user_session_path, params: {
+          user: {
+            email: 'user9999@example.com',
+            password: 'password'
+          }
+        }
+        expect(response).to redirect_to(root_path)
+      end
+
+      # 302のステータスコードを返す
+      it 'response status 302' do
+        post user_session_path, params: {
+          user: {
+            email: 'user9999@example.com',
+            password: 'password'
+          }
+        }
+        expect(response).to have_http_status(302)
+      end
+    end
+
+    # 誤った情報を使用するとき
+    context 'with invalid credential' do
+      # 存在しないメールアドレス、パスワードでログインしようとするとき
+      it ''
     end
   end
 end

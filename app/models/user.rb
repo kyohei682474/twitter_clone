@@ -63,13 +63,27 @@ class User < ApplicationRecord
 
   def self.from_omniauth(auth)
     user = where(provider: auth.provider, uid: auth.uid).first_or_initialize
+    # 既存のメールアドレスと紐付ける.
+    if user.new_record? && (existing_user = User.find_by(email: auth.info.email))
+      return existing_user if existing_user.update(provider: auth.provider, uid: auth.uid)
+
+      Rails.logger.error("GitHub連携に失敗: #{existing_user.errors.full_messages}")
+      return nil
+
+    end
 
     user.email = auth.info.email.presence || "#{auth.uid}@github.com"
+    user.name = auth.info.name if user.name.blank?
+    user.github_login = true
     user.password ||= Devise.friendly_token[0, 20]
 
-    user.confirm if user.save && user.respond_to?(:confirm) && user.confirmed_at.blank?
-
-    user
+    if user.save
+      user.confirm if user.respond_to?(:confirm) && user.confirmed_at.blank?
+      user
+    else
+      Rails.logger.error("GitHubログインでユーザー保存に失敗: #{user.errors.full_messages}")
+      nil
+    end
   end
 
   # Gitjubでログインしたときのみバリデーションをスキップ

@@ -3,9 +3,10 @@
 FactoryBot.define do
   factory :user do
     name { 'Test' }
-    email { 'users123@exapmple.com' }
+    email { Faker::Internet.unique.email }
     password { 'password' }
-    phone_number { '012343333' }
+    phone_number { Faker::Number.unique.number(digits: 11).to_s }
     birthdate { Date.new(1989, 10, 17) }
+    confirmed_at { Time.current }
   end
 end
