@@ -5,6 +5,7 @@ FactoryBot.define do
     name { 'Test' }
     email { Faker::Internet.unique.email }
     password { 'password' }
+    password_confirmation { 'password' }
     phone_number { Faker::Number.unique.number(digits: 11).to_s }
     birthdate { Date.new(1989, 10, 17) }
     confirmed_at { Time.current }

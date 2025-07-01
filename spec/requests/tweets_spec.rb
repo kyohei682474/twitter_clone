@@ -5,9 +5,10 @@ require 'rails_helper'
 
 RSpec.describe 'Tweets', type: :request do
   describe 'POST / tweets' do
+    let(:user) { FactoryBot.create(:user) }
+
     # 正常系
     context 'when the valid value post' do
-      let(:user) { FactoryBot.create(:user) }
       let(:tweet_params) { { tweet: { body: 'おはよう' } } }
 
       before do
@@ -19,7 +20,6 @@ RSpec.describe 'Tweets', type: :request do
         expect do
           post tweets_path, params: tweet_params
         end.to change(Tweet, :count).by(1)
-        puts response
       end
 
       # ステータスコード302を返す。
@@ -43,7 +43,6 @@ RSpec.describe 'Tweets', type: :request do
 
     # 異常系
     context 'when invalid value post' do
-      let(:user) { FactoryBot.create(:user) }
       let(:tweet_params) { { tweet: { body: '' } } }
 
       before do
