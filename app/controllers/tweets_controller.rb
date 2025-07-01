@@ -3,13 +3,15 @@
 class TweetsController < ApplicationController
   before_action :authenticate_user!, only: %i[create show]
   def create
+    @user = current_user
+    @tweets = Tweet.all.includes(:user).order(created_at: :desc).page(params[:page])
     @tweet = current_user.tweets.build(tweet_params)
     if @tweet.save
       flash[:notice] = 'ツイートが作成されました'
       redirect_to root_path
     else
-      flash[:alert] = 'ツイートに失敗しました'
-      render 'home/index'
+      flash.now[:alert] = 'ツイートに失敗しました'
+      render 'home/index', status: :unprocessable_entity # 明示的い失敗したとステータス示すことによりエラーメッセージを表示
     end
   end
 

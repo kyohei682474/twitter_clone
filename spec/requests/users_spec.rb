@@ -195,6 +195,8 @@ RSpec.describe 'Users', type: :request do
       FactoryBot.create(:user, email: 'user9999@example.com', password: 'password')
     end
 
+    # 正常系のテスト
+    # 正しい情報を使用するる時
     context 'with valid credential' do
       # ログインしてルートページにリダイレクトする
       it 'logs in and redirects to root_path' do
@@ -219,8 +221,10 @@ RSpec.describe 'Users', type: :request do
       end
     end
 
+    # 異常系のテスト
     # 誤った情報を使用するとき
     context 'with invalid credential' do
+      # メールアドレス、パスワードとも誤った情報を送信する
       it 'render user/sign_in' do
         post user_session_path, params: {
           user: {
@@ -229,6 +233,102 @@ RSpec.describe 'Users', type: :request do
           }
         }
         expect(response).to render_template(:new)
+      end
+
+      # 適切なエラーメッセージが返る
+      it 'displays faild message after sign in' do
+        post user_session_path, params: {
+          user: {
+            email: 'u@example.com',
+            password: 'pas'
+          }
+        }
+        expect(response.body).to include('メールアドレスまたはパスワードが正しくありません')
+      end
+
+      # 過ったメールアドレスを送信する
+      it 'render user/sign_in' do
+        post user_session_path, params: {
+          user: {
+            email: 'u@example.com',
+            password: 'password'
+          }
+        }
+        expect(response).to render_template(:new)
+      end
+
+      it 'displays faild message after sign in' do
+        post user_session_path, params: {
+          user: {
+            email: 'u@example.com',
+            password: 'password'
+          }
+        }
+        expect(response.body).to include('メールアドレスまたはパスワードが正しくありません')
+      end
+
+      # メールアドレスがnilの時
+      it 'render user/sign_in' do
+        post user_session_path, params: {
+          user: {
+            email: nil,
+            password: 'password'
+          }
+        }
+        expect(response).to render_template(:new)
+      end
+
+      it 'displays error message after sign_in' do
+        post user_session_path, params: {
+          user: {
+            email: nil,
+            password: 'passowrd'
+          }
+        }
+        expect(response.body).to include('メールアドレスまたはパスワードが正しくありません')
+      end
+
+      # メールアドレスは正しいが、パスワードに誤りがある場合
+      # パスワードに誤りがある場合
+      it 'render user/sign_in' do
+        post user_session_path, params: {
+          user: {
+            email: 'user9999@example.com',
+            password: 'pass'
+          }
+        }
+        expect(response).to render_template(:new)
+      end
+
+      it 'display error message after sign_in' do
+        post user_session_path, params: {
+          user: {
+            email: 'user9999@example.com',
+            password: 'pass'
+          }
+        }
+        expect(response.body).to include('メールアドレスまたはパスワードが正しくありません')
+      end
+
+      # パスワードがnilの時
+      it 'render user_sign in' do
+        post user_session_path, params: {
+          user: {
+            email: 'user9999example.com',
+            password: nil
+          }
+        }
+        expect(response).to render_template(:new)
+      end
+
+      it 'display error message after sign in' do
+        post user_session_path, params: {
+          user: {
+            email: 'user9999example.com',
+            password: nil
+          }
+        }
+        expect(response.body).to include('メールアドレスまたはパスワードが正しくありません')
       end
     end
   end

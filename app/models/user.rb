@@ -46,9 +46,6 @@ class User < ApplicationRecord
   # ユーザーのリツイートを取得するためのアソシエーション。あるユーザーがリツイートしたツイートを一覧表示するために使用する。
   has_many :retweets, class_name: 'Tweet', foreign_key: 'retweeted_from_id', dependent: :destroy,
                       inverse_of: :retweeted_from
-
-  # ユーザーのいいねを取得するためのアソシエーション。あるユーザーがいいねしたツイートを一覧表示するために使用する。
-  has_many :liked_tweets, through: :likes, source: :tweet
   # メッセージ機能に必要なアソシエーション
   has_many :chats, dependent: :destroy
   has_many :entries, dependent: :destroy
@@ -60,25 +57,18 @@ class User < ApplicationRecord
   has_many :received_notifications, class_name: 'Notification', foreign_key: 'recipient_id',
                                     inverse_of: :recipient, dependent: :destroy # recipient_idは通知を受信したユーザーのid
   # Omniauthからの情報をもとにユーザーを作成または更新
-
+  # ユーザーを探して保存するという責務
   def self.from_omniauth(auth)
-    user = where(provider: auth.provider, uid: auth.uid).first_or_initialize
+    user = first_or_initialize(auth)
     # 既存のメールアドレスと紐付ける.
-    if user.new_record? && (existing_user = User.find_by(email: auth.info.email))
-      return existing_user if existing_user.update(provider: auth.provider, uid: auth.uid)
-
-      Rails.logger.error("GitHub連携に失敗: #{existing_user.errors.full_messages}")
-      return nil
-
+    if user.new_record? && (existing_user = link_with_existing_user(auth))
+      return existing_user
     end
 
-    user.email = auth.info.email.presence || "#{auth.uid}@github.com"
-    user.name = auth.info.name if user.name.blank?
-
-    user.password ||= Devise.friendly_token[0, 20]
+    set_user_attribute(user, auth)
 
     if user.save
-      user.confirm if user.respond_to?(:confirm) && user.confirmed_at.blank?
+      user.self_confirm(user)
       user
     else
       Rails.logger.error("GitHubログインでユーザー保存に失敗: #{user.errors.full_messages}")
@@ -115,5 +105,32 @@ class User < ApplicationRecord
 
     Rails.logger.debug I18n.t('activerecord.errors.models.user.attributes.birthdate.in_the_future', default: 'デフォルト')
     errors.add(:birthdate, :in_the_future)
+  end
+
+  private_class_method :first_or_initialize, :link_with_existing_user, :set_user_attribute, :self_confirm
+
+  def self.first_or_initialize(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_initialize
+  end
+
+  # すでに登録しているユーザーとgithub登登録しているユーザーの紐付け
+  def self.link_with_existing_user(auth)
+    existing_user = User.find_by(email: auth.info.email)
+    if existing_user.update(provider: auth.provider, uid: auth.uid)
+      existing_user
+    else
+      Rails.logger.error("GitHub連携に失敗: #{existing_user.errors.full_messages}")
+      nil
+    end
+  end
+
+  def self.set_user_attribute(user, auth)
+    user.email = auth.info.email.presence || "#{auth.uid}@github.com"
+    user.name = auth.info.name if user.name.blank?
+    user.password ||= Devise.friendly_token[0, 20]
+  end
+
+  def self.self_confirm(user)
+    user.confirm if user.respond_to?(:confirm) && user.confirmed_at.blank?
   end
 end
