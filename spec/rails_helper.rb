@@ -25,7 +25,8 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
+Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -39,10 +40,11 @@ RSpec.configure do |config|
   config.fixture_path = Rails.root.join('spec/fixtures')
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ActiveJob::TestHelper
+  config.include SystemHelpers, type: :system
   config.before do
     Rails.application.routes.default_url_options[:host] = 'http://test.host'
   end
-  Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
