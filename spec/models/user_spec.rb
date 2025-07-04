@@ -52,5 +52,28 @@ RSpec.describe User, type: :model do
       user.birthdate = nil
       expect(user).to be_invalid
     end
+
+    context 'when GitHub login' do
+      let(:auth) do
+        OmniAuth::AuthHash.new(
+          provider: 'github',
+          uid: '1234',
+          info: { email: '1111@example.com',
+                  name: 'GitHub User' }
+        )
+      end
+
+      it 'create a user' do
+        expect do
+          described_class.from_omniauth(auth)
+        end.to change(described_class, :count).by(1)
+      end
+
+      it 'returns the existing user if already linked' do
+        existing_user = FactoryBot.create(:user, email: '1111@example.com')
+        user = described_class.from_omniauth(auth)
+        expect(user).to eq(existing_user)
+      end
+    end
   end
 end

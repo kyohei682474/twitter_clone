@@ -121,10 +121,62 @@ RSpec.describe 'Users', type: :system do
     end
   end
 
+  # ログインに関するテスト
   describe 'User login' do
+    # 正常系
     context 'with valid credentials' do
-      scenario 'logs in successfully' do
-        visit
+      scenario 'expects that the current URL is the root path' do
+        user = FactoryBot.create(:user, password: 'password')
+        log_in_as(user)
+        expect(page).to have_current_path(root_path)
+      end
+
+      scenario 'shows a success message' do
+        user = FactoryBot.create(:user, password: 'password')
+        log_in_as(user)
+        expect(page).to have_content('ログインしました。')
+      end
+    end
+
+    # 異常系
+    context 'with invalid credentials' do
+      # メールアドレスの間違いによるテスト
+      scenario 'fails to log in with an invalid email and stays on the sign-in page' do
+        user = FactoryBot.create(:user)
+        log_in_as(user, email: 'invalidexpample.com')
+        expect(page).to have_current_path('/users/sign_in')
+      end
+
+      scenario 'fails to login and shows error message with an invalid email' do
+        user = FactoryBot.create(:user)
+        log_in_as(user, email: 'invalidexpample.com')
+        expect(page).to have_content('メールアドレスまたはパスワードが正しくありません。')
+      end
+
+      # パスワードのミスによるテスト
+      scenario 'fails to log in with an invalid password and stays on the sign-in page' do
+        user = FactoryBot.create(:user)
+        log_in_as(user, password: 'pass')
+        expect(page).to have_current_path('/users/sign_in')
+      end
+
+      scenario 'fails to login and shows error message with an invalid password' do
+        user = FactoryBot.create(:user)
+        log_in_as(user, password: 'pass')
+        expect(page).to have_content('メールアドレスまたはパスワードが正しくありません。')
+      end
+
+      # メールアドレスとパスワードの両方のミスによるテスト
+      scenario 'fails to log in with an invalid email and invalid password and stays on the sign-in page' do
+        user = FactoryBot.create(:user)
+        log_in_as(user, email: 'invaild.com', password: 'pass')
+        expect(page).to have_current_path('/users/sign_in')
+      end
+
+      scenario 'fails to login and shows error message with an email and invalid password' do
+        user = FactoryBot.create(:user)
+        log_in_as(user, email: 'invaild.com', password: 'pass')
+        expect(page).to have_content('メールアドレスまたはパスワードが正しくありません。')
       end
     end
   end

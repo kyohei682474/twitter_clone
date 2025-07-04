@@ -22,4 +22,18 @@ module SystemHelpers
     fill_sign_up_form(user, **overrides)
     click_button 'Sign up'
   end
+
+  def fill_log_in_form(user, overrides = {})
+    email = overrides[:email] || user.email
+    password = overrides[:password] || user.password
+
+    fill_in 'メールアドレス', with: email
+    fill_in 'パスワード', with: password
+  end
+
+  def log_in_as(user, overrides = {})
+    visit user_session_path
+    fill_log_in_form(user, **overrides)
+    click_button 'ログイン'
+  end
 end
