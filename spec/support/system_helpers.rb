@@ -36,4 +36,9 @@ module SystemHelpers
     fill_log_in_form(user, **overrides)
     click_button 'ログイン'
   end
+
+  # def fill_tweet_form(user, overriders = {})
+  #   body = overriders[:body] || user.body
+  #   fill_in 'tweet_body', with: body
+  # end
 end
