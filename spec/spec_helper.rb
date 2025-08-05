@@ -29,7 +29,7 @@ RSpec.configure do |config|
     #     # => "be bigger than 2"
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
-
+  config.filter_run_when_matching :focus
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
   config.mock_with :rspec do |mocks|
@@ -62,7 +62,7 @@ RSpec.configure do |config|
   #
   #   # Limits the available syntax to the non-monkey patched syntax that is
   #   # recommended. For more details, see:
-  #   # https://relishapp.com/rspec/rspec-core/docs/configuration/zero-monkey-patching-mode
+  #   # https://rspec.info/features/3-12/rspec-core/configuration/zero-monkey-patching-mode/
   #   config.disable_monkey_patching!
   #
   #   # Many RSpec users commonly either run the entire suite or an individual

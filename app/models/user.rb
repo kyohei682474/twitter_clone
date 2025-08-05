@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include UserOmniauthable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -46,9 +47,6 @@ class User < ApplicationRecord
   # ユーザーのリツイートを取得するためのアソシエーション。あるユーザーがリツイートしたツイートを一覧表示するために使用する。
   has_many :retweets, class_name: 'Tweet', foreign_key: 'retweeted_from_id', dependent: :destroy,
                       inverse_of: :retweeted_from
-
-  # ユーザーのいいねを取得するためのアソシエーション。あるユーザーがいいねしたツイートを一覧表示するために使用する。
-  has_many :liked_tweets, through: :likes, source: :tweet
   # メッセージ機能に必要なアソシエーション
   has_many :chats, dependent: :destroy
   has_many :entries, dependent: :destroy
@@ -59,19 +57,6 @@ class User < ApplicationRecord
                                 inverse_of: :actor, dependent: :destroy # actor_idは通知を送信したユーザーのid
   has_many :received_notifications, class_name: 'Notification', foreign_key: 'recipient_id',
                                     inverse_of: :recipient, dependent: :destroy # recipient_idは通知を受信したユーザーのid
-  # Omniauthからの情報をもとにユーザーを作成または更新
-
-  def self.from_omniauth(auth)
-    user = where(provider: auth.provider, uid: auth.uid).first_or_initialize
-
-    user.email = auth.info.email.presence || "#{auth.uid}@github.com"
-    user.password ||= Devise.friendly_token[0, 20]
-
-    user.confirm if user.save && user.respond_to?(:confirm) && user.confirmed_at.blank?
-
-    user
-  end
-
   # Gitjubでログインしたときのみバリデーションをスキップ
   def github_login?
     provider == 'github'
@@ -92,6 +77,10 @@ class User < ApplicationRecord
 
       [room, other_user]
     end
+  end
+
+  def self.self_confirm(user)
+    user.confirm if user.respond_to?(:confirm) && user.confirmed_at.blank?
   end
 
   private

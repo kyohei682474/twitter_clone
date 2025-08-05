@@ -6,6 +6,9 @@ ja:
           カウント情報を変更する"
           sign_up:"サインアップ"
   devise:
+    omniauth_callbacks:
+      success: "%{kind}アカウントでログインしました。"
+      failure: "%{kind}での認証に失敗しました。理由: %{reason}"
     sessions:
       signed_in: 'ログインしました。'
       signed_out: 'ログアウトしました。'

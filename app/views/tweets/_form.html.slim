@@ -1,6 +1,6 @@
 .d-flex
   .p-2
-    - if @user.avatar_image.attached? 
+    - if @user&.avatar_image&.attached? 
       = link_to user_path(@user)
         = image_tag @user.avatar_image, class: "rounded-circle", size: "60x60" if @user.avatar_image.attached?
   .p-2.w-50
